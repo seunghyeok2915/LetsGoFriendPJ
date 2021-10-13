@@ -9,13 +9,13 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        playerTrm = GameManager.Instance.player.transform;
+        playerTrm = GameManager.Instance.GetPlayer().transform;
     }
 
     private void Update()
     {
         Vector3 camPos = playerTrm.position;
-        camPos.x = 0;
+        //camPos.x = 0;
         camPos += camOffSet;
 
         transform.position = camPos;

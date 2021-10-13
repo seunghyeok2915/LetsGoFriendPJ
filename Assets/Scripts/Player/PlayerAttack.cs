@@ -17,12 +17,22 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float shurikenSpeed;
 
     private GameObject nowTarget;
+    private Transform targetTrm;
     private float tempAttackTimer;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
+    }
+
+    private void Start()
+    {
+        if (attackDelay != 1)
+        {
+            var attackSpeed = 1 / attackDelay;
+            playerAnimationController.SetAttackAnimSpeed(attackSpeed);
+        }
     }
 
     private void Update()
@@ -32,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
         if (AttackCheck())
         {
             PlayerAttackAnimation(); //어택
-            transform.LookAt(nowTarget.transform);
+            transform.LookAt(targetTrm);
             tempAttackTimer = 0;
         }
     }
@@ -41,13 +51,15 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!playerInput.IsMoving)
         {
-            if (GameManager.Instance.enemyListInStage.Count > 0)
+            var enemyList = GameManager.Instance.GetEnemyListInStage();
+            if (enemyList.Count > 0)
             {
-                nowTarget = GameManager.Instance.enemyListInStage.OrderBy(x => transform.position - x.transform.position)
+                nowTarget = enemyList.OrderBy(x => transform.position - x.transform.position)
                     .FirstOrDefault(x => (transform.position - x.transform.position).sqrMagnitude < attackRange * attackRange);
 
                 if (nowTarget != null)
                 {
+                    targetTrm = nowTarget.transform;
                     if (tempAttackTimer > attackDelay)
                     {
                         return true;
@@ -66,9 +78,10 @@ public class PlayerAttack : MonoBehaviour
 
     public void ThrowShuriken()
     {
+        if (playerInput.IsMoving) return;
         Shuriken shuriken = PoolManager.GetItem<Shuriken>("Shuriken1");
 
-        shuriken.ShurikenMoveInit(throwPos, nowTarget.transform.position - transform.position, shurikenSpeed);
+        shuriken.ShurikenMoveInit(throwPos, targetTrm.position - transform.position, shurikenSpeed);
         shuriken.ShurikenAttackInit(attackDamage);
     }
 }

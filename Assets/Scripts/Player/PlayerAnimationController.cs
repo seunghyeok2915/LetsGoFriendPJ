@@ -23,4 +23,9 @@ public class PlayerAnimationController : MonoBehaviour
     {
         animator.SetTrigger("Attack");
     }
+
+    public void SetAttackAnimSpeed(float speed)
+    {
+        animator.SetFloat("AttackSpeed", speed);
+    }
 }

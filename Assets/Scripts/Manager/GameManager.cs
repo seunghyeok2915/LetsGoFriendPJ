@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-    public static GameManager Instance { get { return _instance; } }
+    public static GameManager Instance => _instance;
 
     protected virtual void Awake()
     {
@@ -17,9 +17,8 @@ public class GameManager : MonoBehaviour
         {
             _instance = this as GameManager;
         }
-
-        player = GameObject.FindWithTag("Player");
         GetEnemyInStage();
+        FindPlayer();
     }
 
     protected virtual void OnDestroy()
@@ -27,8 +26,8 @@ public class GameManager : MonoBehaviour
         _instance = default;
     }
 
-    public GameObject player;
-    public List<GameObject> enemyListInStage = new List<GameObject>();
+    private List<GameObject> enemyListInStage = new List<GameObject>();
+    private GameObject player;
 
     private void Start()
     {
@@ -41,5 +40,13 @@ public class GameManager : MonoBehaviour
         {
             enemyListInStage.Add(item);
         }
+    }
+
+    public GameObject GetPlayer() => player;
+    public List<GameObject> GetEnemyListInStage() => enemyListInStage;
+
+    private void FindPlayer()
+    {
+        player = GameObject.FindWithTag("Player");
     }
 }
