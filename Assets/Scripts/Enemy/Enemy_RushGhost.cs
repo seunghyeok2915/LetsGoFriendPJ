@@ -13,6 +13,9 @@ public class Enemy_RushGhost : MonoBehaviour
 
     private Vector3 dashDir; // 대시할 방향
     private bool isDashing; // 대시 하고있는지 
+    private float totalDamage;
+
+    private Animator animator;
 
     private float dashTimeCount;
 
@@ -23,6 +26,8 @@ public class Enemy_RushGhost : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponentInChildren<Animator>();
+        GameManager.Instance.AddEnemyInList(this.gameObject);
         StartCoroutine(DashCoroutine());
     }
 
@@ -33,6 +38,9 @@ public class Enemy_RushGhost : MonoBehaviour
             dashTimeCount = 0;
             dashDir = GetRandomDir();
             transform.LookAt(transform.position + dashDir);
+
+            animator.SetTrigger("Rush");
+
             while (true)
             {
                 isDashing = true;
@@ -53,8 +61,15 @@ public class Enemy_RushGhost : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            var totalDamage = isDashing ? normalDamage : normalDamage + normalDamage * (dashAdditionalDamage * 0.01f); // 데미지 계산
-            other.gameObject.GetComponent<Health>().OnDamage(totalDamage);
+            Health health = other.gameObject.GetComponent<Health>();
+            if (health != null)
+                health.OnDamage(GetTotalDamage());
         }
+    }
+
+    private float GetTotalDamage()
+    {
+        totalDamage = isDashing ? normalDamage + normalDamage * (dashAdditionalDamage * 0.01f) : normalDamage; // 데미지 계산
+        return totalDamage;
     }
 }

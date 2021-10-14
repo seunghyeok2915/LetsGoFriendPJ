@@ -6,14 +6,11 @@ using UnityEngine.UI;
 public class PlayerHPBar : MonoBehaviour
 {
     public Transform player;
+
     public Slider hpBar;
     public GameObject HpLineFolder;
     public Text playerHpText;
 
-    public float test;
-
-    public float maxHp;
-    public float currentHp;
     public float unitHp = 200f; // 박스 한칸당 hp
 
     private HorizontalLayoutGroup hpHorizontalLayoutGroup;
@@ -28,16 +25,17 @@ public class PlayerHPBar : MonoBehaviour
     void Update()
     {
         transform.position = player.position;
-        SetHPBar();
     }
 
-    public void SetHPBar()
+    public void SetHPBar(float maxHp, float currentHp)
     {
         hpBar.value = currentHp / maxHp;
         playerHpText.text = "" + currentHp;
 
         float scaleX = (5 * unitHp) / (maxHp);
-        Debug.Log(scaleX);
+
+        if (hpHorizontalLayoutGroup == null)
+            hpHorizontalLayoutGroup = HpLineFolder.GetComponent<HorizontalLayoutGroup>();
 
         hpHorizontalLayoutGroup.gameObject.SetActive(false);
 

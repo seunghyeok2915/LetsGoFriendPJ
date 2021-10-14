@@ -9,15 +9,16 @@ public class Health : MonoBehaviour
     public float currentHp;
 
     public bool isDead = false;
+
     public UnityEvent onDead;
     public UnityEvent onDamage;
 
-    private void Start()
+    public virtual void Start()
     {
         currentHp = maxHp;
     }
 
-    public void OnDamage(float damage)
+    public virtual void OnDamage(float damage)
     {
         if (isDead) return;
 
@@ -31,7 +32,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void Die()
+    protected virtual void Die()
     {
         if (isDead) return;
         onDead?.Invoke();

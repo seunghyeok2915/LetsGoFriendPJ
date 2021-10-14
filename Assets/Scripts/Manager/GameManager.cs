@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
         {
             _instance = this as GameManager;
         }
-        GetEnemyInStage();
         FindPlayer();
     }
 
@@ -40,6 +39,11 @@ public class GameManager : MonoBehaviour
         {
             enemyListInStage.Add(item);
         }
+    }
+
+    public void AddEnemyInList(GameObject enemy)
+    {
+        enemyListInStage.Add(enemy);
     }
 
     public GameObject GetPlayer() => player;

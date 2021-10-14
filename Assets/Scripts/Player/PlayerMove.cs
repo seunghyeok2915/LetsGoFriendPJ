@@ -7,23 +7,27 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed;
     public float rotateSpeed;
 
-    [SerializeField] private CharacterController characterController;
+    [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private PlayerInput playerInput;
 
     private Vector3 moveDir;
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
+        rigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
     }
 
     private void Update()
     {
-        if (playerInput.GetMoveInput() == Vector3.zero) return;
+        if (playerInput.GetMoveInput() == Vector3.zero)
+        {
+            rigidbody.velocity = Vector3.zero;
+            return;
+        }
 
         Rotate();
-        characterController.Move(transform.forward * moveSpeed * Time.deltaTime);
+        rigidbody.velocity = transform.forward * moveSpeed;
     }
 
     private void Rotate()
@@ -39,6 +43,6 @@ public class PlayerMove : MonoBehaviour
 
     public float GetMagnitude()
     {
-        return characterController.velocity.sqrMagnitude * characterController.velocity.sqrMagnitude;
+        return rigidbody.velocity.sqrMagnitude * rigidbody.velocity.sqrMagnitude;
     }
 }

@@ -54,8 +54,7 @@ public class PlayerAttack : MonoBehaviour
             var enemyList = GameManager.Instance.GetEnemyListInStage();
             if (enemyList.Count > 0)
             {
-                nowTarget = enemyList.OrderBy(x => transform.position - x.transform.position)
-                    .FirstOrDefault(x => (transform.position - x.transform.position).sqrMagnitude < attackRange * attackRange);
+                nowTarget = FindNearestEnemy();
 
                 if (nowTarget != null)
                 {
@@ -69,6 +68,21 @@ public class PlayerAttack : MonoBehaviour
         }
 
         return false;
+    }
+
+    private GameObject FindNearestEnemy()
+    {
+        // 탐색할 오브젝트 목록을 List 로 저장합니다.
+        var enemys = GameManager.Instance.GetEnemyListInStage();
+
+        var neareastObject = enemys // LINQ 메소드를 이용해 가장 가까운 적을 찾습니다.
+            .OrderBy(obj =>
+        {
+            return Vector3.Distance(transform.position, obj.transform.position);
+        })
+        .FirstOrDefault(x => (transform.position - x.transform.position).sqrMagnitude < attackRange * attackRange);
+
+        return neareastObject;
     }
 
     private void PlayerAttackAnimation()
