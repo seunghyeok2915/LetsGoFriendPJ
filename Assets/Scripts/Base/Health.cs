@@ -10,9 +10,6 @@ public class Health : MonoBehaviour
 
     public bool isDead = false;
 
-    public UnityEvent onDead;
-    public UnityEvent onDamage;
-
     public virtual void Start()
     {
         currentHp = maxHp;
@@ -23,7 +20,6 @@ public class Health : MonoBehaviour
         if (isDead) return;
 
         currentHp -= damage;
-        onDamage?.Invoke();
         Debug.Log(gameObject.name + " 이 " + damage + " 만큼 피해를 입었습니다");
 
         if (currentHp <= 0)
@@ -35,8 +31,6 @@ public class Health : MonoBehaviour
     protected virtual void Die()
     {
         if (isDead) return;
-        onDead?.Invoke();
-
         isDead = true;
     }
 }

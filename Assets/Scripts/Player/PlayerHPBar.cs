@@ -5,26 +5,25 @@ using UnityEngine.UI;
 
 public class PlayerHPBar : MonoBehaviour
 {
-    public Transform player;
+    public Vector3 offset;
 
     public Slider hpBar;
     public GameObject HpLineFolder;
     public Text playerHpText;
 
-    public float unitHp = 200f; // 박스 한칸당 hp
+    public float unitHp; // 박스 한칸당 hp
 
+    private Transform playerTrm;
     private HorizontalLayoutGroup hpHorizontalLayoutGroup;
-
-    // Update is called once per frame
-
-    private void Start()
-    {
-        hpHorizontalLayoutGroup = HpLineFolder.GetComponent<HorizontalLayoutGroup>();
-    }
 
     void Update()
     {
-        transform.position = player.position;
+        transform.position = playerTrm.position + offset; // 플레이어 따라다니는 스크립트
+    }
+
+    public void Init(Transform player)
+    {
+        playerTrm = player;
     }
 
     public void SetHPBar(float maxHp, float currentHp)

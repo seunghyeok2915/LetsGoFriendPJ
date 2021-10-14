@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class PlayerHealth : Health
 {
-    public PlayerHPBar playerHPBar;
+    public GameObject barCanvas;
+    public GameObject playerHPBarObj;
+
+    private PlayerHPBar playerHPBar;
 
     public override void Start()
     {
         base.Start();
+
+        playerHPBar = Instantiate(playerHPBarObj, transform.position, Quaternion.identity, barCanvas.transform).GetComponent<PlayerHPBar>();
+        //playerHPBar.transform.parent = barCanvas.transform;
+        playerHPBar.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        playerHPBar.Init(gameObject.transform);
+
         playerHPBar.SetHPBar(maxHp, currentHp);
     }
 
