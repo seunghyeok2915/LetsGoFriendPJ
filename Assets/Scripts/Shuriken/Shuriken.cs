@@ -23,6 +23,14 @@ public class Shuriken : MonoBehaviour, IPoolable
         shurikenAttack.ShurikenAttackInit(damage);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Wall"))
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     public void OnPool()
     {
 

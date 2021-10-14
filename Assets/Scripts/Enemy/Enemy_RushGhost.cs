@@ -34,6 +34,11 @@ public class Enemy_RushGhost : Health
         health = GetComponent<Health>();
         materials = GetComponentsInChildren<SkinnedMeshRenderer>();
 
+        if (barCanvas == null)
+        {
+            barCanvas = GameObject.Find("HPBarCanvas");
+        }
+
         GameManager.Instance.AddEnemyInList(this.gameObject);
 
         enemyHPBar = Instantiate(hpBarObj, transform.position, Quaternion.identity, barCanvas.transform).GetComponent<EnemyHPBar>();
