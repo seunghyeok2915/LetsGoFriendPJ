@@ -46,6 +46,11 @@ public class GameManager : MonoBehaviour
         enemyListInStage.Add(enemy);
     }
 
+    public void RemoveEnemyInList(GameObject enemy)
+    {
+        enemyListInStage.Remove(enemy);
+    }
+
     public GameObject GetPlayer() => player;
     public List<GameObject> GetEnemyListInStage() => enemyListInStage;
 

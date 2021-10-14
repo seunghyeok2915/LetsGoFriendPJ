@@ -5,6 +5,9 @@ using DG.Tweening;
 
 public class Enemy_RushGhost : Health
 {
+    public GameObject barCanvas;
+    public GameObject hpBarObj;
+
     public float dashDelay; // 몇초마다 대시할건지
     public float dashSpeed; // 대시할때의 속도
     public float dashTime; // 몇초동안 대시할건지
@@ -20,15 +23,25 @@ public class Enemy_RushGhost : Health
     private Health health;
     private SkinnedMeshRenderer[] materials;
 
+    private EnemyHPBar enemyHPBar;
+
     private float dashTimeCount;
 
     public override void Start()
     {
+        base.Start();
         animator = GetComponentInChildren<Animator>();
         health = GetComponent<Health>();
         materials = GetComponentsInChildren<SkinnedMeshRenderer>();
 
         GameManager.Instance.AddEnemyInList(this.gameObject);
+
+        enemyHPBar = Instantiate(hpBarObj, transform.position, Quaternion.identity, barCanvas.transform).GetComponent<EnemyHPBar>();
+
+        enemyHPBar.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        enemyHPBar.Init(gameObject.transform);
+
+        enemyHPBar.SetHPBar(maxHp, currentHp);
 
         StartCoroutine(DashCoroutine());
     }
@@ -91,11 +104,19 @@ public class Enemy_RushGhost : Health
     public override void OnDamage(float damage)
     {
         base.OnDamage(damage);
-        ShowDamagedEffect();
+
+        ShowDamagedEffect(); //피격 이펙트
+        enemyHPBar.SetHPBar(maxHp, currentHp); //HP바 업데이트
     }
 
     protected override void Die()
     {
         base.Die();
+        animator.SetTrigger("Die");
+
+        StopAllCoroutines();
+
+        enemyHPBar.gameObject.SetActive(false);
+        GameManager.Instance.RemoveEnemyInList(this.gameObject);
     }
 }

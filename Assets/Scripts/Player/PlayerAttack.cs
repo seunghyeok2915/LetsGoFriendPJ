@@ -42,7 +42,6 @@ public class PlayerAttack : MonoBehaviour
         if (AttackCheck())
         {
             PlayerAttackAnimation(); //어택
-            transform.LookAt(targetTrm);
             tempAttackTimer = 0;
         }
     }
@@ -88,6 +87,7 @@ public class PlayerAttack : MonoBehaviour
     private void PlayerAttackAnimation()
     {
         playerAnimationController.PlayAttackAnimation();
+        transform.LookAt(targetTrm);
     }
 
     public void ThrowShuriken()
