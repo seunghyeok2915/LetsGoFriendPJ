@@ -46,8 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc70f5ae2fd4db94fb69f36ca6704eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHp: 100
+  currentHp: 0
+  isDead: 0
+  barCanvas: {fileID: 0}
+  hpBarObj: {fileID: 8782974719655469989, guid: 4b24f7538169aa34193b77b0bde8a880,
+    type: 3}
   dashDelay: 3
-  dashSpeed: 8
+  dashSpeed: 15
   dashTime: 0.6
   dashAdditionalDamage: 30
   normalDamage: 10
