@@ -21,7 +21,7 @@ public class Enemy_RushGhost : Health
 
     private Animator animator;
     private Health health;
-    private SkinnedMeshRenderer[] materials; //테스트
+    private SkinnedMeshRenderer[] materials;
 
     private EnemyHPBar enemyHPBar;
 
