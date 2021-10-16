@@ -9,6 +9,7 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private PlayerHealth playerHealth;
 
     private Vector3 moveDir;
 
@@ -16,17 +17,29 @@ public class PlayerMove : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     private void Update()
     {
-        if (playerInput.GetMoveInput() == Vector3.zero)
+        if (playerHealth.isDead)
+        {
+            rigidbody.velocity = Vector3.zero;
+            return;//죽었을땐 움직이지못함  
+        }
+
+        Rotate();
+        Move();
+    }
+
+    private void Move()
+    {
+        if (playerInput.GetMoveInput() == Vector3.zero) //인풋이 없을땐 안움직임
         {
             rigidbody.velocity = Vector3.zero;
             return;
         }
 
-        Rotate();
         rigidbody.velocity = transform.forward * moveSpeed;
     }
 

@@ -28,4 +28,14 @@ public class PlayerAnimationController : MonoBehaviour
     {
         animator.SetFloat("AttackSpeed", speed);
     }
+
+    public void PlayDeathAnimation()
+    {
+        animator.SetTrigger("Die");
+    }
+
+    public void OnRevivePlayer()
+    {
+        animator.SetTrigger("Revive");
+    }
 }
