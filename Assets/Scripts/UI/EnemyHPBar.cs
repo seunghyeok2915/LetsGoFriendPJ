@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class EnemyHPBar : MonoBehaviour
 {
@@ -15,19 +13,25 @@ public class EnemyHPBar : MonoBehaviour
 
     void Update()
     {
-        transform.position = targetTrm.position + offset; // 플레이어 따라다니는 스크립트
+        transform.position = targetTrm.position + offset; // 따라다니는 스크립트
     }
 
-    public void Init(Transform player)
+    public void Init(Transform target)
     {
-        targetTrm = player;
+        targetTrm = target;
     }
 
     public void SetHPBar(float maxHp, float currentHp)
     {
-        DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, currentHp / maxHp, 0.3f).OnComplete(() =>
+        gameObject.SetActive(true);
+
+        float fillAmount = currentHp / maxHp;
+        if (fillAmount == 0)
+            gameObject.SetActive(false);
+
+        DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, fillAmount, 0.3f).OnComplete(() =>
         {
-            DOTween.To(() => hpBackBar.fillAmount, x => hpBackBar.fillAmount = x, currentHp / maxHp, 0.8f);
+            DOTween.To(() => hpBackBar.fillAmount, x => hpBackBar.fillAmount = x, fillAmount, 0.8f);
         });
     }
 }

@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using System.Collections;
+using UnityEngine;
 
 public class Enemy_RushGhost : Health
 {
@@ -9,6 +8,7 @@ public class Enemy_RushGhost : Health
     public GameObject hpBarObj;
 
     public float dashDelay; // 몇초마다 대시할건지
+    public float dashDelayRandom; // 랜덤추가
     public float dashSpeed; // 대시할때의 속도
     public float dashTime; // 몇초동안 대시할건지
 
@@ -20,46 +20,54 @@ public class Enemy_RushGhost : Health
     private float totalDamage;
 
     private Animator animator;
-    private Health health;
     private SkinnedMeshRenderer[] materials;
 
-    private EnemyHPBar enemyHPBar;
+    private EnemyHPBar enemyHpBar;
 
     private float dashTimeCount;
+    private static readonly int Rush = Animator.StringToHash("Rush");
+    private static readonly int DieName = Animator.StringToHash("Die");
 
     public override void Start()
     {
         base.Start();
         animator = GetComponentInChildren<Animator>();
-        health = GetComponent<Health>();
         materials = GetComponentsInChildren<SkinnedMeshRenderer>();
 
+        StartEnemy();
+        SetHpBar();
+    }
+    public void StartEnemy() //적행동 시작
+    {
+        GameManager.Instance.AddEnemyInList(this.gameObject); //자신을 리스트에 추가함
+        StartCoroutine(DashCoroutine());
+    }
+
+    public void SetHpBar() //HP 바 생성, 초기화
+    {
         if (barCanvas == null)
         {
             barCanvas = GameObject.Find("HPBarCanvas");
         }
 
-        GameManager.Instance.AddEnemyInList(this.gameObject);
+        enemyHpBar = Instantiate(hpBarObj, transform.position, Quaternion.identity, barCanvas.transform).GetComponent<EnemyHPBar>();
 
-        enemyHPBar = Instantiate(hpBarObj, transform.position, Quaternion.identity, barCanvas.transform).GetComponent<EnemyHPBar>();
+        enemyHpBar.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        enemyHpBar.Init(gameObject.transform);
 
-        enemyHPBar.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        enemyHPBar.Init(gameObject.transform);
-
-        enemyHPBar.SetHPBar(maxHp, currentHp);
-
-        StartCoroutine(DashCoroutine());
+        enemyHpBar.SetHPBar(MaxHealth, CurrentHealth);
     }
 
     private IEnumerator DashCoroutine()
     {
         while (true)
         {
+            yield return new WaitForSeconds(dashDelay + Random.Range(0, dashDelayRandom));
             dashTimeCount = 0;
             dashDir = GetRandomDir();
             transform.LookAt(transform.position + dashDir);
 
-            animator.SetTrigger("Rush");
+            animator.SetTrigger(Rush);
 
             while (true)
             {
@@ -73,7 +81,7 @@ public class Enemy_RushGhost : Health
                 }
                 yield return new WaitForFixedUpdate();
             }
-            yield return new WaitForSeconds(dashDelay);
+
         }
     }
 
@@ -81,15 +89,30 @@ public class Enemy_RushGhost : Health
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            if (isDead)
+            {
+                return; // 죽으면 공격안함
+            }
+
             Health health = other.gameObject.GetComponent<Health>();
             if (health != null)
+            {
                 health.OnDamage(GetTotalDamage());
+            }
         }
     }
 
     private Vector3 GetRandomDir() // 랜덤 방향 가져오기
     {
-        return new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+        Vector3 randDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+        if (Physics.Raycast(transform.position, randDir, 2f)) //앞이 막혀있다면 반대로
+        {
+            return -randDir;
+        }
+        else
+        {
+            return randDir;
+        }
     }
 
     private float GetTotalDamage()
@@ -100,7 +123,7 @@ public class Enemy_RushGhost : Health
 
     private void ShowDamagedEffect()
     {
-        foreach (var item in materials)
+        foreach (SkinnedMeshRenderer item in materials)
         {
             item.material.DOColor(Color.red, 0.2f).OnComplete(() => item.material.DOColor(Color.white, 0.2f));
         }
@@ -111,17 +134,36 @@ public class Enemy_RushGhost : Health
         base.OnDamage(damage);
 
         ShowDamagedEffect(); //피격 이펙트
-        enemyHPBar.SetHPBar(maxHp, currentHp); //HP바 업데이트
+        enemyHpBar.SetHPBar(MaxHealth, CurrentHealth); //HP바 업데이트
+    }
+
+    [ContextMenu("Revive")]
+    public override void Revive()
+    {
+        if (!isDead)
+        {
+            return; //죽지않았다면 리턴
+        }
+
+        base.Revive();
+
+        StartEnemy();
+
+        animator.SetTrigger("Revive");
+        enemyHpBar.SetHPBar(MaxHealth, CurrentHealth);
+
+        gameObject.SetActive(true);
     }
 
     protected override void Die()
     {
         base.Die();
-        animator.SetTrigger("Die");
+
+        animator.SetTrigger(DieName);
 
         StopAllCoroutines();
 
-        enemyHPBar.gameObject.SetActive(false);
         GameManager.Instance.RemoveEnemyInList(this.gameObject);
+        enemyHpBar.gameObject.SetActive(false);
     }
 }

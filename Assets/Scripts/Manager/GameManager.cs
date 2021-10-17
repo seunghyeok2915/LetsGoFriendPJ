@@ -33,14 +33,6 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
     }
 
-    private void GetEnemyInStage()
-    {
-        foreach (var item in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            enemyListInStage.Add(item);
-        }
-    }
-
     public void AddEnemyInList(GameObject enemy)
     {
         enemyListInStage.Add(enemy);
