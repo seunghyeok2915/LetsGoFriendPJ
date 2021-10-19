@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
+        PoolManager.CreatePool<TurretBullet>("TurretBullet", this.gameObject, 5);
+        PoolManager.CreatePool<BulletHitGroundEffect>("BulletHitGroundEffect", this.gameObject, 5);
+
+        
     }
 
     public void AddEnemyInList(GameObject enemy)

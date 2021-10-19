@@ -15,7 +15,7 @@ public class PlayerHitEffect : MonoBehaviour
     {
         hitImage = GetComponent<Image>();
         sq = DOTween.Sequence()
-            .Append(hitImage.DOFade(0.15f, fadeInTime))
+            .Append(hitImage.DOFade(0.50f, fadeInTime))
             .Append(hitImage.DOFade(0, fadeOutTime))
             .OnStart(() => hitImage.color = new Color(1, 1, 1, 0))
             .SetAutoKill(false)
