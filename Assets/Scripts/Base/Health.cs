@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public abstract class Health : MonoBehaviour
 {
     public float MaxHealth;
     public float CurrentHealth { get; set; }
@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
 
     public bool isDead = false;
 
-    public virtual void Start()
+    public void SetHP()
     {
         CurrentHealth = MaxHealth;
     }
@@ -63,7 +63,7 @@ public class Health : MonoBehaviour
         OnDamage(1);
     }
 
-    protected virtual void Die()
+    public virtual void Die()
     {
         if (isDead)
         {

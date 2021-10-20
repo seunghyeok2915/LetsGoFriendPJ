@@ -6,15 +6,18 @@ public class TurretBullet : MonoBehaviour, IPoolable
 {
     private Vector3 startPos;
     private Vector3 targetPos; // µµÂøÇÒ°÷  
-    private float moveSpeed;
+    private float firingAngle = 30.0f;
+    private float gravity = 9.8f;
 
-    public float firingAngle = 60.0f;
-    public float gravity = 9.8f;
-    public void SetTurretBullet(Vector3 startPos, Vector3 targetPos, float moveSpeed)
+    private float damage;
+
+    public void SetTurretBullet(Vector3 startPos, Vector3 targetPos, float gravity,float firingAngle,float damage)
     {
         this.startPos = startPos;
         this.targetPos = targetPos;
-        this.moveSpeed = moveSpeed;
+        this.gravity = gravity;
+        this.firingAngle = firingAngle;
+        this.damage = damage;
 
         StartCoroutine(SimulateProjectile());
     }
@@ -50,9 +53,23 @@ public class TurretBullet : MonoBehaviour, IPoolable
 
             yield return null;
         }
+
         BulletHitGroundEffect bullet = PoolManager.GetItem<BulletHitGroundEffect>("BulletHitGroundEffect");
         bullet.transform.position = transform.position;
         gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Health health = other.gameObject.GetComponent<Health>();
+            if (health != null)
+            {
+                health.OnDamage(damage);
+            }
+                gameObject.SetActive(false);
+        }
     }
 
     public void OnPool()
