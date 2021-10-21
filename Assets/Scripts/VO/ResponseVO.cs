@@ -5,4 +5,5 @@ public class ResponseVO
 {
     public bool result;
     public string payload;
+    public string msg;
 }

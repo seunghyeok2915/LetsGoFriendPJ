@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -13,33 +14,40 @@ public class NetworkManager : MonoBehaviour
 
     private string token = "";
 
-    public Button logoutBtn;
-
     public void SetToken(string token)
     {
         this.token = token;
         PlayerPrefs.SetString("token", token); //토큰을 저장
+        SceneManager.LoadScene("MainLobby");
         //UIManager.instance.ShowBox1();
     }
 
     private void Awake()
     {
-
         if (instance != null)
         {
             Debug.LogError("다수의 NetworkManager가 돌아가고 있습니다.");
+            Destroy(this);
         }
         instance = this;
         token = PlayerPrefs.GetString("token", ""); //없으면 null나옴
-        //logoutBtn.onClick.AddListener(Logout);
+        DontDestroyOnLoad(this);
     }
 
     private void Start()
     {
-        if (!token.Equals(""))
+        if(SceneManager.GetActiveScene().name == "LoginScene")
         {
-            //UIManager.instance.ShowBox2();
+            if (HasToken())
+            {
+                SceneManager.LoadScene("MainLobby");
+            }
         }
+    }
+
+    public bool HasToken()
+    {
+        return !token.Equals("");
     }
 
     public void Logout()
@@ -47,6 +55,8 @@ public class NetworkManager : MonoBehaviour
         //토큰을 null로 변경하고 PlayerPrefabs에서 token을 지워주고
         token = "";
         PlayerPrefs.DeleteKey("token");
+        SceneManager.LoadScene("LoginScene");
+        Destroy(gameObject);
         //UIManager.instance.ShowBox1();
         // showBox1을 하면 된다.
     }

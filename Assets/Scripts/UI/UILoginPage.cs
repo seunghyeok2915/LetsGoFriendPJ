@@ -9,6 +9,10 @@ public class UILoginPage : MonoBehaviour
     public InputField loginInputField;
     public InputField passwordInputField;
 
+    public Button findIDButton;
+    public Button resetPasswordButton;
+    public Button registerButton;
+
     private void Start()
     {
         loginButton.onClick.AddListener(() =>
@@ -23,16 +27,25 @@ public class UILoginPage : MonoBehaviour
                 ResponseVO vo = JsonUtility.FromJson<ResponseVO>(res);
                 if (vo.result)
                 {
-                    //PopUpManager.instance.OpenPopUp("alert", "로그인 성공", 2);
+                    PopUpManager.instance.OpenPopUp("alert", "로그인 성공", 2);
+                    NetworkManager.instance.SetToken(vo.payload); //토큰 저장
                     print("로그인 성공");
-                    //NetworkManager.instance.SetToken(vo.payload); //토큰 저장
                 }
                 else
                 {
+                    if(!string.IsNullOrEmpty(vo.msg))
+                    {
+                        PopUpManager.instance.OpenPopUp("alert", vo.msg, 1);
+                        return;
+                    }
+                    PopUpManager.instance.OpenPopUp("alert", vo.payload, 1);
+
                     print("로그인 실패");
-                    //PopUpManager.instance.OpenPopUp("alert", vo.payload, 1);
                 }
             });
         });
+        registerButton.onClick.AddListener(() => PopUpManager.instance.OpenPopUp("register"));
+        findIDButton.onClick.AddListener(() => PopUpManager.instance.OpenPopUp("alert","관리자에게 문의하세요."));
+        resetPasswordButton.onClick.AddListener(() => PopUpManager.instance.OpenPopUp("alert", "관리자에게 문의하세요."));
     }
 }

@@ -6,10 +6,7 @@ using UnityEngine.UI;
 
 public class PopUpManager : MonoBehaviour
 {
-    public Button registerPopupBtn;
-    public Button loginPopupBtn;
     public Transform popupParent;
-
     private CanvasGroup popupCanvasGroup;
 
     public UIRegisterPage registerPopupPrefab;
@@ -42,9 +39,6 @@ public class PopUpManager : MonoBehaviour
 
         popupDic.Add("register", Instantiate(registerPopupPrefab, popupParent));
         popupDic.Add("alert", Instantiate(alertPopupPrefab, popupParent));
-
-        registerPopupBtn.onClick.AddListener(() => OpenPopUp("register"));
-        //loginPopupBtn.onClick.AddListener(() => OpenPopUp("login"));
     }
 
     public void OpenPopUp(string name, object data = null, int closeCount = 1)
