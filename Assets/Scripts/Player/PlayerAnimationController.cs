@@ -19,23 +19,13 @@ public class PlayerAnimationController : MonoBehaviour
 
     }
 
-    public void PlayAttackAnimation()
-    {
-        animator.SetTrigger("Attack");
-    }
-
     public void SetAttackAnimSpeed(float speed)
     {
         animator.SetFloat("AttackSpeed", speed);
     }
 
-    public void PlayDeathAnimation()
+    public void SetTrigger(string name)
     {
-        animator.SetTrigger("Die");
-    }
-
-    public void OnRevivePlayer()
-    {
-        animator.SetTrigger("Revive");
+        animator.SetTrigger(name);
     }
 }

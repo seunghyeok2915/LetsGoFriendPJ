@@ -151,9 +151,8 @@ MonoBehaviour:
   maxHp: 100
   currentHp: 0
   isDead: 0
-  barCanvas: {fileID: 0}
-  playerHPBarObj: {fileID: 3998100216869085176, guid: 8f135d216f012c54e9cf6445fd23dbaa,
-    type: 3}
+  playerAnimationController: {fileID: 0}
+  playerHPBar: {fileID: 0}
 --- !u!114 &4015836148304599705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +169,7 @@ MonoBehaviour:
   rotateSpeed: 100
   rigidbody: {fileID: 0}
   playerInput: {fileID: 0}
+  playerHealth: {fileID: 0}
 --- !u!114 &4015836148304599706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 0}
   playerAnimationController: {fileID: 0}
+  playerHealth: {fileID: 0}
   throwPos: {fileID: 4015836148548055165}
   enemyLayer:
     serializedVersion: 2
@@ -281,11 +282,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4015836148548055162}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.30398676, y: -0.3886938, z: 0.7943109, w: 0.35437167}
+  m_LocalPosition: {x: -0.18, y: 0.298, z: -0.796}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2568195926575531269}
+  m_Father: {fileID: 2031558732196956166}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4015836149354980196
@@ -607,9 +608,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4015836147513408839}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2568195926575531269 stripped
+--- !u!4 &2031558732196956166 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1449892060111206466, guid: a6e1b293f7ed5584fa548ddde966e03e,
+  m_CorrespondingSourceObject: {fileID: -6085886658039450303, guid: a6e1b293f7ed5584fa548ddde966e03e,
     type: 3}
   m_PrefabInstance: {fileID: 4015836147513408839}
   m_PrefabAsset: {fileID: 0}

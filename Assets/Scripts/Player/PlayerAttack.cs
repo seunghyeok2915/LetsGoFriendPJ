@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -10,7 +9,6 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private PlayerAnimationController playerAnimationController; //플레이어 애니메이션 관리
     [SerializeField] private PlayerHealth playerHealth; //플레이어 체력관리
     [SerializeField] private Transform throwPos; // 표창 나갈곳
-    [SerializeField] private LayerMask enemyLayer; //적 구분 레이어
     [Header("플레이어 세팅")]
     [SerializeField] private float attackDamage; //공격 데미지
     [SerializeField] private float attackDelay; // 몇초마다 공격할건지
@@ -37,14 +35,17 @@ public class PlayerAttack : MonoBehaviour
     {
         if (attackDelay != 1)
         {
-            var attackSpeed = 1 / attackDelay;
+            float attackSpeed = 1 / attackDelay;
             playerAnimationController.SetAttackAnimSpeed(attackSpeed);
         }
     }
 
     private void Update()
     {
-        if (playerHealth.isDead) return;//죽었을땐 공격안함
+        if (playerHealth.isDead)
+        {
+            return;//죽었을땐 공격안함
+        }
 
         tempAttackTimer += Time.deltaTime;
         if (AttackCheck())
@@ -58,7 +59,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!playerInput.IsMoving)
         {
-            var enemyList = GameManager.Instance.GetEnemyListInStage();
+            List<GameObject> enemyList = GameManager.Instance.GetEnemyListInStage();
             if (enemyList.Count > 0)
             {
                 nowTarget = FindNearestEnemy();
@@ -80,9 +81,9 @@ public class PlayerAttack : MonoBehaviour
     private GameObject FindNearestEnemy() //가까운 적 찾기
     {
         // 탐색할 오브젝트 목록을 List 로 저장합니다.
-        var enemys = GameManager.Instance.GetEnemyListInStage();
+        List<GameObject> enemys = GameManager.Instance.GetEnemyListInStage();
 
-        var neareastObject = enemys // LINQ 메소드를 이용해 가장 가까운 적을 찾습니다.
+        GameObject neareastObject = enemys // LINQ 메소드를 이용해 가장 가까운 적을 찾습니다.
             .OrderBy(obj =>
         {
             return Vector3.Distance(transform.position, obj.transform.position);
@@ -94,13 +95,17 @@ public class PlayerAttack : MonoBehaviour
 
     private void PlayerAttackAnimation()
     {
-        playerAnimationController.PlayAttackAnimation();
+        playerAnimationController.SetTrigger("Attack");
         transform.LookAt(targetTrm);
     }
 
     public void ThrowShuriken()
     {
-        if (playerInput.IsMoving) return;
+        if (playerInput.IsMoving)
+        {
+            return;
+        }
+
         Shuriken shuriken = PoolManager.GetItem<Shuriken>("Shuriken1");
 
         shuriken.ShurikenMoveInit(throwPos, targetTrm.position - transform.position, shurikenSpeed);

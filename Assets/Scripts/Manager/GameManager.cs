@@ -1,6 +1,7 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,14 +32,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
-    }
+        PoolManager.CreatePool<TurretBullet>("TurretBullet", this.gameObject, 5);
+        PoolManager.CreatePool<BulletHitGroundEffect>("BulletHitGroundEffect", this.gameObject, 5);
 
-    private void GetEnemyInStage()
-    {
-        foreach (var item in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            enemyListInStage.Add(item);
-        }
+        
     }
 
     public void AddEnemyInList(GameObject enemy)
@@ -57,5 +54,10 @@ public class GameManager : MonoBehaviour
     private void FindPlayer()
     {
         player = GameObject.FindWithTag("Player");
+    }
+
+    public void ExitGame()
+    {
+        SceneManager.LoadScene("MainLobby");
     }
 }

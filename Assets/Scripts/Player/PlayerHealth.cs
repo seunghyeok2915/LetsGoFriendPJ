@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHealth : Health
@@ -7,34 +5,62 @@ public class PlayerHealth : Health
     public PlayerAnimationController playerAnimationController;
     public UIHealthORB playerHPBar;
 
-    public override void Start()
-    {
-        base.Start();
-        playerAnimationController = GetComponent<PlayerAnimationController>();
+    public GameObject barCanvas;
+    public GameObject playerHPBarObj;
 
-        playerHPBar.SetHPBar(maxHp, currentHp);
+    private PlayerHPBar playerHPBarOnPlayer;
+
+    public PlayerHitEffect playerHitEffect;
+
+    public void Start()
+    {
+        SetHP();
+        Bind();
+        HpBarsSetting();
+    }
+
+    private void Bind()
+    {
+        playerAnimationController = GetComponent<PlayerAnimationController>();
+    }
+
+    private void HpBarsSetting()
+    {
+        //플레이어 위 HP바 생성
+        playerHPBarOnPlayer = Instantiate(playerHPBarObj, transform.position, Quaternion.identity, barCanvas.transform).GetComponent<PlayerHPBar>();
+        playerHPBarOnPlayer.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        playerHPBarOnPlayer.Init(gameObject.transform);
+
+        UpdateHPUI();
+    }
+
+    private void UpdateHPUI()
+    {
+        playerHPBar.SetHPBar(MaxHealth, CurrentHealth);
+        playerHPBarOnPlayer.SetHPBar(MaxHealth, CurrentHealth);
     }
 
     public override void OnDamage(float damage)
     {
         base.OnDamage(damage);
 
-        playerHPBar.SetHPBar(maxHp, currentHp);
+        UpdateHPUI();
+
+        playerHitEffect.OnHitEffect();
     }
 
-    protected override void Die()
+    public override void Die()
     {
         base.Die();
-        playerAnimationController.PlayDeathAnimation();
+        playerAnimationController.SetTrigger("Die");
     }
 
-    public void Revive() //부활
+    public override void Revive() //부활
     {
-        isDead = false;
+        base.Revive();
 
-        currentHp = maxHp;
-        playerHPBar.SetHPBar(maxHp, currentHp);
+        UpdateHPUI();
 
-        playerAnimationController.OnRevivePlayer();
+        playerAnimationController.SetTrigger("Revive");
     }
 }
