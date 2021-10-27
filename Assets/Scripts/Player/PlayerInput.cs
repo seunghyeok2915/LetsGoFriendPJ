@@ -6,10 +6,11 @@ public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private Joystick joystick;
     public bool IsMoving => joystick.Direction != Vector2.zero;
+    public bool canMove = true;
 
     public bool CanProcessInput()
     {
-        return true; //Cursor.lockState == CursorLockMode.Locked; // 나중에 게임이 끝났는지도 체크하는것 추가해야함.
+        return canMove; //Cursor.lockState == CursorLockMode.Locked; // 나중에 게임이 끝났는지도 체크하는것 추가해야함.
     }
 
     public Vector3 GetMoveInput()
@@ -26,5 +27,17 @@ public class PlayerInput : MonoBehaviour
         }
 
         return Vector3.zero;
+    }
+
+    public void LockInput(float time)
+    {
+        StartCoroutine(OnLockInput(time));
+    }
+
+    private IEnumerator OnLockInput(float time)
+    {
+        canMove = false;
+        yield return new WaitForSeconds(time);
+        canMove = true;
     }
 }

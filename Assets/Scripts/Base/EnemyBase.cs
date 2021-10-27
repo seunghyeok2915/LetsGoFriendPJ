@@ -111,6 +111,18 @@ public class EnemyBase : Health
         enemyHpBar.gameObject.SetActive(false);
         yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
+    }
 
+    public void AssassinateEnemy()
+    {
+        StartCoroutine(Assassinate());
+    }
+
+    private IEnumerator Assassinate()
+    {
+        const float animTime = 3f;
+        animator.SetTrigger("Assassinate");
+        yield return new WaitForSeconds(animTime);
+        Die();
     }
 }
