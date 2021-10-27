@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraMove : MonoBehaviour
 {
+    
     private Transform playerTrm;
     public Vector3 camOffSet;
 
@@ -20,4 +21,6 @@ public class CameraController : MonoBehaviour
 
         transform.position = camPos;
     }
+
+
 }
