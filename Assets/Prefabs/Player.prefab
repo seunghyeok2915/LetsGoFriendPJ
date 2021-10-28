@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 4015836148304599705}
   - component: {fileID: 4015836148304599706}
   - component: {fileID: 4015836148304599709}
+  - component: {fileID: 6755752293308746934}
   - component: {fileID: 4015836148304599711}
   - component: {fileID: 4015836148304599704}
   - component: {fileID: 4015836148304599708}
@@ -136,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 0}
+  canMove: 1
 --- !u!114 &4015836148304599710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,11 +150,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c3aeb447121ef47881fe4ef052ea14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
-  currentHp: 0
+  MaxHealth: 0
   isDead: 0
   playerAnimationController: {fileID: 0}
   playerHPBar: {fileID: 0}
+  barCanvas: {fileID: 0}
+  playerHPBarObj: {fileID: 0}
+  playerHitEffect: {fileID: 0}
 --- !u!114 &4015836148304599705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 8.3
   rotateSpeed: 100
-  rigidbody: {fileID: 0}
+  rigid: {fileID: 0}
   playerInput: {fileID: 0}
   playerHealth: {fileID: 0}
 --- !u!114 &4015836148304599706
@@ -200,13 +204,23 @@ MonoBehaviour:
   playerAnimationController: {fileID: 0}
   playerHealth: {fileID: 0}
   throwPos: {fileID: 4015836148548055165}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256
   attackDamage: 33
   attackDelay: 0.2
   attackRange: 100
+  assassinateRange: 0
   shurikenSpeed: 20
+--- !u!114 &6755752293308746934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4015836148304599703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5017ecd63b37bc743aa822f1be461889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &4015836148304599711
 Rigidbody:
   m_ObjectHideFlags: 0

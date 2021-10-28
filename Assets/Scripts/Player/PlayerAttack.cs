@@ -130,16 +130,21 @@ public class PlayerAttack : MonoBehaviour
 
     public void AssassinateEnemy()
     {
+        //뒤로이동
         Vector3 targetPos;
         targetPos = nowTarget.transform.position;
         targetPos -= nowTarget.transform.forward * 2.5f;
         targetPos.y = transform.position.y;
         transform.position = targetPos;
+
+        //뒤를 보게함
         transform.LookAt(nowTarget.transform.position);
 
         playerAnimationController.SetTrigger("Assassinate");
+
         nowTarget.GetComponent<EnemyBase>().AssassinateEnemy();
-        playerInput.LockInput(5.0f);
+
+        playerInput.LockInput(4f);
         CameraManager.Instance.UseActionCam(3f);
         
 

@@ -3,12 +3,18 @@ using UnityEngine;
 public class Enemy_Trace_01 : EnemyBase
 {
     public EnemyFOV enemyFOV;
+    public MoveAgent moveAgent;
     public override void Start()
     {
         base.Start();
         if (enemyFOV == null)
         {
             enemyFOV = GetComponent<EnemyFOV>();
+        }
+
+        if (moveAgent == null)
+        { 
+            moveAgent = GetComponent<MoveAgent>(); 
         }
     }
 
@@ -19,11 +25,20 @@ public class Enemy_Trace_01 : EnemyBase
 
     private void Update()
     {
-        if(enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer())
+        if (enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer())
         {
             print("감지됨");
             GameManager.Instance.IsCaught = true;
+            
         }
+        
+        if(GameManager.Instance.IsCaught && !isDead)
+        {
+            moveAgent.traceTarget = GameManager.Instance.GetPlayer().transform.position;
+            enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
+        }
+
+        animator.SetFloat("moveSpeed", moveAgent.speed);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,5 +62,13 @@ public class Enemy_Trace_01 : EnemyBase
     {
         totalDamage = normalDamage;
         return totalDamage;
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        moveAgent.Stop();
+        enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
+
     }
 }
