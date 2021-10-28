@@ -11,6 +11,10 @@ public class CameraMove : MonoBehaviour
     private void Start()
     {
         playerTrm = GameManager.Instance.GetPlayer().transform;
+        if(playerTrm == null)
+        {
+            playerTrm = GameObject.FindGameObjectWithTag("Player").transform;
+        }
     }
 
     private void Update()

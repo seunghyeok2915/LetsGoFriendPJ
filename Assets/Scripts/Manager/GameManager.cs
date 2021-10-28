@@ -1,4 +1,3 @@
-    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,12 +29,10 @@ public class GameManager : MonoBehaviour
     private List<GameObject> enemyListInStage = new List<GameObject>();
     private GameObject player;
     private bool isCaught = false;
-    private bool isPlaying = true;   
-    public bool IsCaught
-    {
-        get { return isCaught; }
-        set { isCaught = value; }
-    }
+    private bool isPlaying = true;
+
+    public bool IsPlaying { get => isPlaying; set => isPlaying = value; }
+    public bool IsCaught { get => isCaught; set => isCaught = value; }
 
     private void Start()
     {
@@ -46,9 +43,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(enemyListInStage.Count <= 0 && isPlaying)
+        if (enemyListInStage.Count <= 0 && IsPlaying)
         {
-            isPlaying = false;
+            IsPlaying = false;
             print("게임끝남");
             //TODO : 게임 클리어
             uiGameClearPanel.PopUp();

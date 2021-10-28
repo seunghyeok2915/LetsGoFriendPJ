@@ -25,6 +25,8 @@ public class UISkillSlotPanel : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 0.0f;
+
         for (int i = 0; i < itemCount * slot.Length; i++)
         {
             startList.Add(i);
@@ -52,6 +54,12 @@ public class UISkillSlotPanel : MonoBehaviour
 
         for (int i = 0; i < slot.Length; i++)
         {
+            slot[i].onClick.AddListener(() =>
+            {
+                Time.timeScale = 1f;
+                gameObject.SetActive(false);
+
+            });
             StartCoroutine(StartSlot(i));
         }
     }
@@ -67,7 +75,7 @@ public class UISkillSlotPanel : MonoBehaviour
             {
                 slotSkillGO[slotIndex].transform.localPosition += new Vector3(0, 300f, 0);
             }
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSecondsRealtime(0.03f);
         }
 
         for (int i = 0; i < itemCount; i++)
