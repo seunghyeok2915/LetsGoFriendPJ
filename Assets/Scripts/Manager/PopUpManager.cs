@@ -51,12 +51,9 @@ public class PopUpManager : MonoBehaviour
                 value => popupCanvasGroup.alpha = value,
                 1,
                 0.8f
-            ).OnComplete(() =>
-            {
-                popupCanvasGroup.blocksRaycasts = true;
-            });
+            );
         }
-
+        popupCanvasGroup.blocksRaycasts = true;
         popupStack.Push(popupDic[name]);
         popupDic[name].Open(data, closeCount);
     }
@@ -71,11 +68,9 @@ public class PopUpManager : MonoBehaviour
                 value => popupCanvasGroup.alpha = value,
                 0,
                 0.8f
-            ).OnComplete(() =>
-            {
-                popupCanvasGroup.interactable = false;
-                popupCanvasGroup.blocksRaycasts = false;
-            });
+            );
+            popupCanvasGroup.interactable = false;
+            popupCanvasGroup.blocksRaycasts = false;
         }
     }
 }

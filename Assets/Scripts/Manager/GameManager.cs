@@ -26,17 +26,37 @@ public class GameManager : MonoBehaviour
         _instance = default;
     }
 
+    public UIGameClearPanel uiGameClearPanel;
     private List<GameObject> enemyListInStage = new List<GameObject>();
     private GameObject player;
+    private bool isCaught = false;
+    private bool isPlaying = true;   
+    public bool IsCaught
+    {
+        get { return isCaught; }
+        set { isCaught = value; }
+    }
 
     private void Start()
     {
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
         PoolManager.CreatePool<TurretBullet>("TurretBullet", this.gameObject, 5);
         PoolManager.CreatePool<BulletHitGroundEffect>("BulletHitGroundEffect", this.gameObject, 5);
-
-        
     }
+
+    private void Update()
+    {
+        if(enemyListInStage.Count <= 0 && isPlaying)
+        {
+            isPlaying = false;
+            print("게임끝남");
+            //TODO : 게임 클리어
+            uiGameClearPanel.PopUp();
+
+        }
+    }
+
+
 
     public void AddEnemyInList(GameObject enemy)
     {
