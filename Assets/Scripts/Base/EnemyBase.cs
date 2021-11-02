@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyBase : Health
 {
+    public float exp;
     public GameObject barCanvas;
     public GameObject hpBarObj;
 
@@ -95,6 +96,7 @@ public class EnemyBase : Health
         base.Die();
         StopAllCoroutines();
 
+        GameManager.Instance.GetPlayer().GetComponent<PlayerStats>().AddExp(exp);
         StartCoroutine(DieCoroutine());
     }
 
@@ -115,6 +117,7 @@ public class EnemyBase : Health
 
     public void AssassinateEnemy()
     {
+        GetComponent<MoveAgent>().Stop();
         StartCoroutine(Assassinate());
     }
 

@@ -19,7 +19,13 @@ public class ShurikenMove : MonoBehaviour
         this.moveSpeed = moveSpeed;
     }
 
-    private void FixedUpdate()
+    public void ChangeDir(Vector3 moveDir)
+    {
+        moveDir.y = 0;
+        this.moveDir = moveDir.normalized;
+    }
+
+    public void Move()
     {
         transform.Translate(moveDir * Time.deltaTime * moveSpeed, Space.World);
         transform.Rotate(new Vector3(0, rotateSpeed, 0));

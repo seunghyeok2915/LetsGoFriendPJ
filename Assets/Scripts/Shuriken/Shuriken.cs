@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +10,11 @@ public class Shuriken : MonoBehaviour, IPoolable
     {
         shurikenMove = GetComponent<ShurikenMove>();
         shurikenAttack = GetComponent<ShurikenAttack>();
+    }
+
+    private void FixedUpdate()
+    {
+        shurikenMove.Move();
     }
 
     public void ShurikenMoveInit(Transform startPosition, Vector3 moveDir, float moveSpeed)
@@ -29,6 +33,20 @@ public class Shuriken : MonoBehaviour, IPoolable
         {
             gameObject.SetActive(false);
         }
+
+        shurikenAttack.OnAttack(other);
+
+        if (GameManager.Instance.GetPlayer().GetComponent<PlayerStats>().CanUseSkill(ESkill.PierceShot))
+        {
+            return; //끄는 처리안함
+        }
+
+        if (other.CompareTag("Enemy"))
+        { 
+
+            gameObject.SetActive(false);
+        }
+
     }
 
     public void OnPool()

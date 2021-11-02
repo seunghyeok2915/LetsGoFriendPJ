@@ -27,15 +27,18 @@ public class Enemy_Turret : EnemyBase
         while (true)
         {
             yield return new WaitForSeconds(shootDelay + Random.Range(0, shootDelayRandom));
-            shootPos = GameManager.Instance.GetPlayer().transform.position;
-            transform.LookAt(shootPos);
+            if(GameManager.Instance.IsCaught)
+            {
+                shootPos = GameManager.Instance.GetPlayer().transform.position;
+                transform.LookAt(shootPos);
 
-            animator.SetTrigger(Attack);
+                animator.SetTrigger(Attack);
 
-            yield return new WaitForSeconds(0.2f);
-            TurretBullet turretBullet = PoolManager.GetItem<TurretBullet>("TurretBullet");
+                yield return new WaitForSeconds(0.2f);
+                TurretBullet turretBullet = PoolManager.GetItem<TurretBullet>("TurretBullet");
 
-            turretBullet.SetTurretBullet(transform.position, shootPos, bulletGravity, firingAngle, normalDamage);
+                turretBullet.SetTurretBullet(transform.position, shootPos, bulletGravity, firingAngle, normalDamage);
+            }
         }
     }
 
