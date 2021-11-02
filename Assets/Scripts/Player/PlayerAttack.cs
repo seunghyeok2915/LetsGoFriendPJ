@@ -9,6 +9,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private PlayerInput playerInput; //플레이어 인풋 관리
     [SerializeField] private PlayerAnimationController playerAnimationController; //플레이어 애니메이션 관리
     [SerializeField] private PlayerHealth playerHealth; //플레이어 체력관리
+    [SerializeField] private PlayerStats playerStats;
     [SerializeField] private Transform throwPos; // 표창 나갈곳
     [Header("플레이어 세팅")]
     [SerializeField] private float attackDamage; //공격 데미지
@@ -26,22 +27,23 @@ public class PlayerAttack : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerHealth = GetComponent<PlayerHealth>();
+        playerStats = GetComponent<PlayerStats>();
     }
 
     private void Start()
     {
-        SetAnimationSpeed();
+        //SetAnimationSpeed();
     }
 
     public bool CanAssassinate()
     {
-        nowTarget = FindNearestEnemy();
+        nowTarget = Utils.FindNearestEnemy(transform, assassinateRange);
         if (nowTarget != null)
         {
-            if (Vector3.Distance(transform.position, nowTarget.transform.position) < assassinateRange)
-            {
+            //if (Vector3.Distance(transform.position, nowTarget.transform.position) < assassinateRange)
+            //{
                 return true;
-            }
+            //}
         }
         return false;
     }
@@ -75,10 +77,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!playerInput.IsMoving)
         {
-            List<GameObject> enemyList = GameManager.Instance.GetEnemyListInStage();
-            if (enemyList.Count > 0)
-            {
-                nowTarget = FindNearestEnemy();
+                nowTarget = Utils.FindNearestEnemy(transform,attackRange);
 
                 if (nowTarget != null)
                 {
@@ -88,44 +87,84 @@ public class PlayerAttack : MonoBehaviour
                         return true;
                     }
                 }
-            }
         }
 
         return false;
     }
 
-    private GameObject FindNearestEnemy() //가까운 적 찾기
-    {
-        // 탐색할 오브젝트 목록을 List 로 저장합니다.
-        List<GameObject> enemys = GameManager.Instance.GetEnemyListInStage();
-
-        GameObject neareastObject = enemys // LINQ 메소드를 이용해 가장 가까운 적을 찾습니다.
-            .OrderBy(obj =>
-        {
-            return Vector3.Distance(transform.position, obj.transform.position);
-        })
-        .FirstOrDefault(x => (transform.position - x.transform.position).sqrMagnitude < attackRange * attackRange);
-
-        return neareastObject;
-    }
-
-    private void PlayerAttackAnimation()
+    private void PlayerAttackAnimation() //공격 애니메이션 실행함 
     {
         playerAnimationController.SetTrigger("Attack");
         transform.LookAt(targetTrm);
     }
 
-    public void ThrowShuriken()
+    public void OnAttack()
     {
         if (playerInput.IsMoving)
         {
             return;
         }
+        Vector3 throwDir = targetTrm.position - transform.position;
+        bool skillUsed = false;
+
+        if (playerStats.CanUseSkill(ESkill.SideShot))
+        {
+            print("사이드샷");
+            SideShot(throwDir);
+            skillUsed = true;
+        }
+
+        if (playerStats.CanUseSkill(ESkill.SplitShot))
+        {
+            print("스플릿샷");
+            SplitShot(throwDir);
+            skillUsed = true;
+        }
+
+        if (skillUsed) return;
+
+
+        ThrowShuriken(throwDir);
+    }
+
+    private void ThrowShuriken(Vector3 throwDir,bool skillUsed = false) // 공격 표창던지기
+    {
+        if (playerStats.CanUseSkill(ESkill.TwinShot) && !skillUsed)
+        {
+            StartCoroutine(TwinShot(throwDir));
+            return;
+        }
 
         Shuriken shuriken = PoolManager.GetItem<Shuriken>("Shuriken1");
 
-        shuriken.ShurikenMoveInit(throwPos, targetTrm.position - transform.position, shurikenSpeed);
+        shuriken.ShurikenMoveInit(throwPos, throwDir, shurikenSpeed);
         shuriken.ShurikenAttackInit(attackDamage);
+    }
+
+    public void SplitShot(Vector3 throwDir)
+    {
+        ThrowShuriken(RotateVector(throwDir, 45));
+        ThrowShuriken(RotateVector(throwDir, -45));
+    }
+
+    public IEnumerator TwinShot(Vector3 throwDir)
+    { 
+        ThrowShuriken(throwDir,true);
+        yield return new WaitForSeconds(0.1f);
+        ThrowShuriken(throwDir, true);
+    }
+
+    public void SideShot(Vector3 throwDir)
+    {
+        ThrowShuriken(throwDir);
+        ThrowShuriken(RotateVector(throwDir,90));
+        ThrowShuriken(RotateVector(throwDir, -90));
+    }
+
+    public Vector3 RotateVector(Vector3 vector , float angle) //벡터 회전 함수 y 축기준으로 angle 도 회전
+    {
+        Quaternion qRotate = Quaternion.AngleAxis(angle, Vector3.up); // 해당 축 기준으로 30도 회전한 쿼터니언 값
+        return qRotate * vector;
     }
 
     public void AssassinateEnemy()
@@ -146,7 +185,6 @@ public class PlayerAttack : MonoBehaviour
 
         playerInput.LockInput(4f);
         CameraManager.Instance.UseActionCam(3f);
-        
 
     }
 }

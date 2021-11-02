@@ -96,7 +96,7 @@ public class EnemyBase : Health
         base.Die();
         StopAllCoroutines();
 
-        GameManager.Instance.GetPlayer().GetComponent<PlayerStat>().AddExp(exp);
+        GameManager.Instance.GetPlayer().GetComponent<PlayerStats>().AddExp(exp);
         StartCoroutine(DieCoroutine());
     }
 
