@@ -44,6 +44,11 @@ public abstract class Health : MonoBehaviour
         }
     }
 
+    public virtual void IncreaseMaxHp(float hp)
+    {
+        MaxHealth = MaxHealth + hp;
+    }
+
     public virtual void Heal(float healAmount)
     {
         float healthBefore = CurrentHealth;

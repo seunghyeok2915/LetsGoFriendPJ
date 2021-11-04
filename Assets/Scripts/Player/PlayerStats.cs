@@ -2,56 +2,91 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public enum ESkill : byte
+public enum ESkill : short
 {
     None = 0x0000,
-    TwinShot = 0x0001,
-    SideShot = 0x0002,
-    PierceShot = 0x0004,
+    TwinShot = 0x0001, //트윈샷 더블샷
+    SideShot = 0x0002, //사이드샷
+    PierceShot = 0x0004, //관통샷
     BounceShot = 0x0008, // 안씀
-    SplitShot = 0x0010
+    SplitShot = 0x0010, //스플릿샷
+    MoveSpeedUp = 0x0020, //이속업
+    MaxHpUp = 0x0040, //max hp 업
+    AttackDelayUp = 0x0080, //공속업
+    FireDotD = 0x0100 //파이어 도트뎀
 }
 
 public class PlayerStats : MonoBehaviour
 {
-    public UISkillSlotPanel uiSkillSlotPanel;
+    public UISkillSelectPanel skillSelectPanel;
     public UIExpBar uiExpBar;
+    public PlayerHealth playerHealth;
+    public PlayerAttack playerAttack;
+    public PlayerMove playerMove;
     public int nowLevel = 1;
 
     public float expForLevelUp;
     public float currentExp;
 
-    public byte playerSkill = 0x0000;
+    public short playerSkill = 0x0000;
+
 
     private void Start()
     {
+        playerAttack = GetComponent<PlayerAttack>();
+        playerHealth = GetComponent<PlayerHealth>();
+        playerMove = GetComponent<PlayerMove>();
+
         uiExpBar.SetLevel(nowLevel);
         uiExpBar.SetBar(expForLevelUp, currentExp);
-
-        //AddSkill(ESkill.PierceShot);
-        AddSkill(ESkill.TwinShot);
-        AddSkill(ESkill.SplitShot);
-        AddSkill(ESkill.SideShot);
-        AddSkill(ESkill.BounceShot);
     }
 
     public bool CanUseSkill(ESkill skill) //스킬이 사용가능한지
     {
-        byte skillByte = (byte)skill;
+        short skillByte = (short)skill;
 
         if ((playerSkill & skillByte) == skillByte)
         {
             return true;
         }
-        
+
         return false;
     }
 
     public void AddSkill(ESkill skill) //스킬 추가
     {
-        byte skillByte = (byte)skill;
+        short skillByte = (short)skill;
 
-        playerSkill = (byte)(playerSkill | skillByte);
+        playerSkill = (short)(playerSkill | skillByte);
+
+        switch (skill)
+        {
+            case ESkill.None:
+                break;
+            case ESkill.TwinShot:
+                break;
+            case ESkill.SideShot:
+                break;
+            case ESkill.PierceShot:
+                break;
+            case ESkill.BounceShot:
+                break;
+            case ESkill.SplitShot:
+                break;
+            case ESkill.MoveSpeedUp:
+                playerMove.IncreaseMoveSpeed(5);
+                break;
+            case ESkill.MaxHpUp:
+                playerHealth.IncreaseMaxHp(100);
+                break;
+            case ESkill.AttackDelayUp:
+                playerAttack.AttackDelayUp(0.1f);
+                break;
+            case ESkill.FireDotD:
+                break;
+            default:
+                break;
+        }
 
     }
 
@@ -73,7 +108,7 @@ public class PlayerStats : MonoBehaviour
         nowLevel++;
         currentExp = 0;
         uiExpBar.SetLevel(nowLevel);
-        uiSkillSlotPanel.gameObject.SetActive(true);
+        skillSelectPanel.gameObject.SetActive(true);
     }
 
 }

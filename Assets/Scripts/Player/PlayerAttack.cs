@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -12,11 +10,11 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private Transform throwPos; // 표창 나갈곳
     [Header("플레이어 세팅")]
-    [SerializeField] private float attackDamage; //공격 데미지
-    [SerializeField] private float attackDelay; // 몇초마다 공격할건지
-    [SerializeField] private float attackRange; // 공격 거리
-    [SerializeField] private float assassinateRange; //  거리
-    [SerializeField] private float shurikenSpeed; // 표창 속도
+    public float attackDamage; //공격 데미지
+    public float attackDelay; // 몇초마다 공격할건지
+    public float attackRange; // 공격 거리
+    public float assassinateRange; //거리
+    public float shurikenSpeed; // 표창 속도
 
     private GameObject nowTarget;
     private Transform targetTrm;
@@ -35,6 +33,10 @@ public class PlayerAttack : MonoBehaviour
         //SetAnimationSpeed();
     }
 
+    public  void AttackDelayUp(float delay)
+    {
+        attackDelay -= delay;
+    }
     public bool CanAssassinate()
     {
         nowTarget = Utils.FindNearestEnemy(transform, assassinateRange);
@@ -42,7 +44,7 @@ public class PlayerAttack : MonoBehaviour
         {
             //if (Vector3.Distance(transform.position, nowTarget.transform.position) < assassinateRange)
             //{
-                return true;
+            return true;
             //}
         }
         return false;
@@ -77,16 +79,16 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!playerInput.IsMoving)
         {
-                nowTarget = Utils.FindNearestEnemy(transform,attackRange);
+            nowTarget = Utils.FindNearestEnemy(transform, attackRange);
 
-                if (nowTarget != null)
+            if (nowTarget != null)
+            {
+                targetTrm = nowTarget.transform;
+                if (tempAttackTimer > attackDelay)
                 {
-                    targetTrm = nowTarget.transform;
-                    if (tempAttackTimer > attackDelay)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
+            }
         }
 
         return false;
@@ -118,16 +120,17 @@ public class PlayerAttack : MonoBehaviour
         {
             print("스플릿샷");
             SplitShot(throwDir);
-            skillUsed = true;
         }
 
-        if (skillUsed) return;
-
+        if (skillUsed)
+        {
+            return;
+        }
 
         ThrowShuriken(throwDir);
     }
 
-    private void ThrowShuriken(Vector3 throwDir,bool skillUsed = false) // 공격 표창던지기
+    private void ThrowShuriken(Vector3 throwDir, bool skillUsed = false) // 공격 표창던지기
     {
         if (playerStats.CanUseSkill(ESkill.TwinShot) && !skillUsed)
         {
@@ -148,8 +151,8 @@ public class PlayerAttack : MonoBehaviour
     }
 
     public IEnumerator TwinShot(Vector3 throwDir)
-    { 
-        ThrowShuriken(throwDir,true);
+    {
+        ThrowShuriken(throwDir, true);
         yield return new WaitForSeconds(0.1f);
         ThrowShuriken(throwDir, true);
     }
@@ -157,11 +160,11 @@ public class PlayerAttack : MonoBehaviour
     public void SideShot(Vector3 throwDir)
     {
         ThrowShuriken(throwDir);
-        ThrowShuriken(RotateVector(throwDir,90));
+        ThrowShuriken(RotateVector(throwDir, 90));
         ThrowShuriken(RotateVector(throwDir, -90));
     }
 
-    public Vector3 RotateVector(Vector3 vector , float angle) //벡터 회전 함수 y 축기준으로 angle 도 회전
+    public Vector3 RotateVector(Vector3 vector, float angle) //벡터 회전 함수 y 축기준으로 angle 도 회전
     {
         Quaternion qRotate = Quaternion.AngleAxis(angle, Vector3.up); // 해당 축 기준으로 30도 회전한 쿼터니언 값
         return qRotate * vector;

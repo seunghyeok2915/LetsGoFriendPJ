@@ -28,6 +28,11 @@ public class PlayerMove : MonoBehaviour
         Move();
     }
 
+    public void IncreaseMoveSpeed(float speed)
+    {
+        moveSpeed += speed;
+    }
+
     private void Move()
     {
         if (playerInput.GetMoveInput() == Vector3.zero) //인풋이 없을땐 안움직임

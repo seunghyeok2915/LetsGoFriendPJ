@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIMainLobby : MonoBehaviour
 {
@@ -8,44 +9,46 @@ public class UIMainLobby : MonoBehaviour
     public Button logoutBtn;
     public Button getDataButton;
 
+    public Button rightStageBtn;
+    public Button leftStageBtn;
+
     public Text nameText;
     public Text zemText;
 
+    public Image fadeImage;
+
     private void Start()
     {
-        startBtn.onClick.AddListener(() => SceneManager.LoadScene("GameScene"));
         logoutBtn.onClick.AddListener(NetworkManager.instance.Logout);
-        NetworkManager.instance.SendGetRequest("getuserdata", "", GetData);
-
-        getDataButton.onClick.AddListener(() =>
-        {
-            NetworkManager.instance.SendGetRequest("getuserdata", "", GetData);
-        });
     }
 
-    private void GetData(string json)
+    public void UpdateStageBtn(int maxStage,int nowStage)
     {
-        ResponseVO res = JsonUtility.FromJson<ResponseVO>(json);
-
-        Debug.Log(json);
-        if (res.result)
+        if(maxStage == nowStage)
         {
-            UserDataVO vo = JsonUtility.FromJson<UserDataVO>(res.payload);
-
-            nameText.text = vo.name;
-            zemText.text = vo.zem.ToString();
+            rightStageBtn.gameObject.SetActive(false);
         }
         else
         {
-            Debug.Log(res.payload);
+            rightStageBtn.gameObject.SetActive(true);
+            leftStageBtn.gameObject.SetActive(true);
         }
 
-
-
-        //3. 파싱한 vo에서 list를 for문을 돌면서 Instantiate 해서 contentView의 자식으로 넣어야 해
-        //  단 이작업을 하기전에 contentView의 모든 자식을 삭제해야 한다. 
-        //  Destroy 와 Instantiate를 써서 랭크가 표시되도록 한다.
-
-
+        if (nowStage == 1)
+        {
+            leftStageBtn.gameObject.SetActive(false);
+        }
+        else
+        {
+            leftStageBtn.gameObject.SetActive(true);
+        }
     }
+
+    public void UpdateZem(string name,int zem)
+    {
+        nameText.text = name;
+        zemText.text = zem.ToString();
+    }
+
+
 }

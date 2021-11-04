@@ -24,6 +24,12 @@ public class PlayerHealth : Health
         playerAnimationController = GetComponent<PlayerAnimationController>();
     }
 
+    public override void IncreaseMaxHp(float hp)
+    {
+        base.IncreaseMaxHp(hp);
+        UpdateHPUI();
+    }
+
     private void HpBarsSetting()
     {
         //플레이어 위 HP바 생성

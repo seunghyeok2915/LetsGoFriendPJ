@@ -15,6 +15,9 @@ public class EnemyBase : Health
     private SkinnedMeshRenderer[] materials;
     private EnemyHPBar enemyHpBar;
 
+    private GameObject fireFx;
+    private bool isFire;
+
     protected static readonly int Attack = Animator.StringToHash("Attack");
     protected static readonly int DieName = Animator.StringToHash("Die");
 
@@ -71,11 +74,35 @@ public class EnemyBase : Health
 
         ShowDamagedEffect(); //피격 이펙트
 
+        if(GameManager.Instance.GetPlayer().CanUseSkill(ESkill.FireDotD) && !isFire)
+        {
+            isFire = true;
+            StartCoroutine(FireDotsDamage(5f,damage));
+            //도트데미지 입어야함
+        }
+
         if (!isDead)
         {
             enemyHpBar.SetHPBar(MaxHealth, CurrentHealth); //HP바 업데이트
             enemyHpBar.gameObject.SetActive(true);
         }
+    }
+
+    private IEnumerator FireDotsDamage(float time,float damage)
+    {
+        fireFx = PoolManager.GetItem<FireEffect>("FireEffect").gameObject;
+        fireFx.transform.parent = transform;
+        fireFx.transform.localPosition = Vector3.zero;
+
+        while (time > 0)
+        {
+            OnDamage(damage / 5);
+            yield return new WaitForSeconds(1f);
+            time -= 1f;
+        }
+
+        fireFx.SetActive(false);
+        isFire = false;
     }
 
     [ContextMenu("Revive")]
@@ -96,7 +123,11 @@ public class EnemyBase : Health
         base.Die();
         StopAllCoroutines();
 
-        GameManager.Instance.GetPlayer().GetComponent<PlayerStats>().AddExp(exp);
+        if(fireFx != null)
+            fireFx.SetActive(false);
+
+        isFire = false;
+        GameManager.Instance.GetPlayer().AddExp(exp);
         StartCoroutine(DieCoroutine());
     }
 

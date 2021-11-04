@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
             _instance = this as GameManager;
         }
         FindPlayer();
+        stageManager = GetComponent<StageManager>();
     }
 
     protected virtual void OnDestroy()
@@ -27,7 +28,8 @@ public class GameManager : MonoBehaviour
 
     public UIGameClearPanel uiGameClearPanel;
     private List<GameObject> enemyListInStage = new List<GameObject>();
-    private GameObject player;
+    private PlayerStats player;
+    private StageManager stageManager;
     private bool isCaught = false;
     private bool isPlaying = true;
 
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
         PoolManager.CreatePool<TurretBullet>("TurretBullet", this.gameObject, 5);
         PoolManager.CreatePool<BulletHitGroundEffect>("BulletHitGroundEffect", this.gameObject, 5);
+        PoolManager.CreatePool<FireEffect>("FireEffect", this.gameObject, 5);
     }
 
     private void Update()
@@ -46,8 +49,8 @@ public class GameManager : MonoBehaviour
         if (enemyListInStage.Count <= 0 && IsPlaying)
         {
             IsPlaying = false;
-            print("게임끝남");
             //TODO : 게임 클리어
+            stageManager.OnClearStage();
             uiGameClearPanel.PopUp();
 
         }
@@ -65,12 +68,12 @@ public class GameManager : MonoBehaviour
         enemyListInStage.Remove(enemy);
     }
 
-    public GameObject GetPlayer() => player;
+    public PlayerStats GetPlayer() => player;
     public List<GameObject> GetEnemyListInStage() => enemyListInStage;
 
     private void FindPlayer()
     {
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
     }
 
     public void ExitGame()
