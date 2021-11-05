@@ -34,17 +34,6 @@ public class NetworkManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    private void Start()
-    {
-        if(SceneManager.GetActiveScene().name == "LoginScene")
-        {
-            if (HasToken())
-            {
-                SceneManager.LoadScene("MainLobby");
-            }
-        }
-    }
-
     public bool HasToken()
     {
         return !token.Equals("");
@@ -86,7 +75,7 @@ public class NetworkManager : MonoBehaviour
         }
         else
         {
-            callBack("{\"result\":false, \"msg\": \"error in communicaion\"}");
+            callBack("{\"result\":false, \"msg\": \"error in communication\"}");
         }
     }
 

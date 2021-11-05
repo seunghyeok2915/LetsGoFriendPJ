@@ -8,6 +8,7 @@ using DG.Tweening;
 public class UIGameClearPanel : MonoBehaviour
 {
     public Text gameText;
+    public Text clearText;
     public Button confirmButton;
 
     public CanvasGroup canvasGroup;
@@ -25,11 +26,11 @@ public class UIGameClearPanel : MonoBehaviour
         });
     }
 
-    public void PopUp()
+    public void PopUp(int stage)
     {
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
-
+        clearText.text = $"{stage} 스테이지 클리어";
         canvasGroup.DOFade(1, 1f);
     }
 

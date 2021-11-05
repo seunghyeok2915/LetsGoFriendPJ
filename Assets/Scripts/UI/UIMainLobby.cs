@@ -9,6 +9,8 @@ public class UIMainLobby : MonoBehaviour
     public Button logoutBtn;
     public Button getDataButton;
 
+    public Button rankBtn;
+
     public Button rightStageBtn;
     public Button leftStageBtn;
 

@@ -27,14 +27,20 @@ public class GameManager : MonoBehaviour
     }
 
     public UIGameClearPanel uiGameClearPanel;
+
+
     private List<GameObject> enemyListInStage = new List<GameObject>();
     private PlayerStats player;
     private StageManager stageManager;
     private bool isCaught = false;
     private bool isPlaying = true;
 
+
     public bool IsPlaying { get => isPlaying; set => isPlaying = value; }
     public bool IsCaught { get => isCaught; set => isCaught = value; }
+
+    private float playTime = 0f;
+    public float PlayTime { get => playTime; set => playTime = value; }
 
     private void Start()
     {
@@ -46,12 +52,17 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if(IsPlaying)
+        {
+            PlayTime += Time.deltaTime;
+        }
+
         if (enemyListInStage.Count <= 0 && IsPlaying)
         {
             IsPlaying = false;
             //TODO : 게임 클리어
             stageManager.OnClearStage();
-            uiGameClearPanel.PopUp();
+            uiGameClearPanel.PopUp(stageManager.nowStage);
 
         }
     }

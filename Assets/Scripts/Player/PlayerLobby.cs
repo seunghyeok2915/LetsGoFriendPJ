@@ -29,7 +29,7 @@ public class PlayerLobby : MonoBehaviour
 
         transform.eulerAngles = new Vector3(0, 90, 0);
 
-        transform.DOMoveX(transform.position.x + 34, 3)
+        transform.DOMoveX(transform.position.x + 34, 1)
             .SetEase(Ease.Linear)
             .OnComplete(() =>
             {
@@ -49,7 +49,7 @@ public class PlayerLobby : MonoBehaviour
 
         transform.eulerAngles = new Vector3(0, -90, 0);
 
-        transform.DOMoveX(transform.position.x - 34, 3)
+        transform.DOMoveX(transform.position.x - 34, 1)
             .SetEase(Ease.Linear)
             .OnComplete(() =>
             {

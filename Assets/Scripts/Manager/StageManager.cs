@@ -1,21 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
 {
     public int nowStage;
+    private PlayerHealth playerHealth;
 
     public void OnClearStage()
     {
-        StageVO vo = new StageVO(nowStage + 1);
-        string json = JsonUtility.ToJson(vo);
-        NetworkManager.instance.SendPostRequest("insertstage", json, result =>
+        print("스테이지 클리어");
+
+        if (playerHealth == null)
         {
-            //ResponseVO 형태로 result를 파싱해서
-            // 그 결과가 true라면 얼럿을 클릭시 회원가입창도 같이 닫히고
-            // false라면 얼럿 클릭시 얼럿만 닫히게
-             
+            playerHealth = GameManager.Instance.GetPlayer().GetComponent<PlayerHealth>();
+        }
+
+        float remianHpPersent = (playerHealth.CurrentHealth / playerHealth.MaxHealth) * 100;
+
+        StageVO vo = new StageVO(nowStage, remianHpPersent, GameManager.Instance.PlayTime);
+        string json = JsonUtility.ToJson(vo);
+
+        print(json);
+
+        NetworkManager.instance.SendPostRequest("updatetstage", json, result =>
+        {
             ResponseVO vo = JsonUtility.FromJson<ResponseVO>(result);
             if (vo.result)
             {

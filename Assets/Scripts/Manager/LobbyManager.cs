@@ -4,6 +4,8 @@ public class LobbyManager : MonoBehaviour
 {
     public UIMainLobby uiMainLobby;
     public PlayerLobby playerLobby;
+    public UIStarPanel starPanel;
+
     public string playerName;
     public int playerStage;
     public int playerZem;
@@ -21,6 +23,7 @@ public class LobbyManager : MonoBehaviour
                 return;
             }
             nowStage += 1;
+            OpenStar();
             uiMainLobby.UpdateStageBtn(playerStage, nowStage);
         });
 
@@ -31,6 +34,7 @@ public class LobbyManager : MonoBehaviour
                 return;
             }
             nowStage -= 1;
+            OpenStar();
             uiMainLobby.UpdateStageBtn(playerStage, nowStage);
         });
 
@@ -48,6 +52,49 @@ public class LobbyManager : MonoBehaviour
         uiMainLobby.rightStageBtn.onClick.AddListener(playerLobby.MoveRight);
         uiMainLobby.leftStageBtn.onClick.AddListener(playerLobby.MoveLeft);
         uiMainLobby.startBtn.onClick.AddListener(playerLobby.MoveBack);
+    }
+
+    public void OpenStar()
+    {
+        StageVO vo = new StageVO(nowStage, 0, 0);
+        string json = JsonUtility.ToJson(vo);
+        print("스타실행");
+        print(json);
+        NetworkManager.instance.SendPostRequest("getuserstagedata", json, result =>
+        {
+            ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
+
+            print(res.payload);
+            print(res.result);
+
+            if (res.result)
+            {
+                print(res.payload);
+                print(int.Parse(res.payload));
+
+                starPanel.Open(int.Parse(res.payload));
+            }
+            else
+            {
+                print("실패");
+            }
+        });
+        NetworkManager.instance.SendPostRequest("getstagedata", json, result =>
+        {
+            ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
+
+            print(res.payload +"1111");
+
+            if (res.result)
+            {
+                StageVO vo = JsonUtility.FromJson<StageVO>(res.payload);
+                starPanel.Open(vo);
+            }
+            else
+            {
+                print("실패");
+            }
+        });
     }
 
 
@@ -82,5 +129,7 @@ public class LobbyManager : MonoBehaviour
         uiMainLobby.UpdateStageBtn(playerStage, nowStage);
 
         playerLobby.SetPlayerPos();
+        OpenStar();
     }
+
 }
