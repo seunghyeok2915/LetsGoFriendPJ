@@ -12,8 +12,7 @@ public class UIPlayTimeTimer : MonoBehaviour
     {
         timeCnt = GameManager.Instance.PlayTime;
         string timeStr;
-        timeStr = $"{timeCnt.ToString("00.00")}√ ";
-        timeStr = timeStr.Replace(".", ":");
+        timeStr = $"{timeCnt.ToString("00:00")}√ ";
         timeText.text = "Time : " + timeStr;
     }
 }

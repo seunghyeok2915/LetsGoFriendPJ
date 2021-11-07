@@ -1,5 +1,5 @@
 using DG.Tweening;
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class PlayerLobby : MonoBehaviour
@@ -9,18 +9,21 @@ public class PlayerLobby : MonoBehaviour
 
     public void Start()
     {
-        animator = GetComponent<Animator>();
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
         lobbyManager = FindObjectOfType<LobbyManager>();
     }
 
     public void SetPlayerPos()
     {
-        transform.position = new Vector3((lobbyManager.playerStage -1) * 34 + 6.4f, transform.position.y, transform.position.z);
+        transform.position = new Vector3((lobbyManager.playerStage - 1) * 34 + 6.4f, transform.position.y, transform.position.z);
     }
 
     public void MoveRight()
     {
-        if(animator.GetBool("isMoving"))
+        if (animator.GetBool("isMoving"))
         {
             return;
         }
@@ -60,10 +63,13 @@ public class PlayerLobby : MonoBehaviour
 
     public void MoveBack()
     {
+
         if (animator.GetBool("isMoving"))
         {
             return;
         }
+
+        StartCoroutine(LoadScene($"Stage_{lobbyManager.nowStage}"));
 
         animator.SetBool("isMoving", true);
 
@@ -74,7 +80,18 @@ public class PlayerLobby : MonoBehaviour
             .OnComplete(() =>
             {
                 animator.SetBool("isMoving", false);
-                SceneManager.LoadScene($"Stage_{lobbyManager.nowStage}");
             });
     }
+
+    IEnumerator LoadScene(string sceneName)
+    {
+        AsyncOperation asyncOper = SceneManager.LoadSceneAsync(sceneName);
+
+        while (!asyncOper.isDone)
+        {
+            yield return null;
+        }
+    }
 }
+
+

@@ -60,24 +60,27 @@ public class EnemyBase : Health
         enemyHpBar.SetHPBar(MaxHealth, CurrentHealth);
     }
 
-    public void ShowDamagedEffect()
+    public void ShowDamagedEffect(float damage)
     {
         foreach (SkinnedMeshRenderer item in materials)
         {
             item.material.DOColor(Color.red, 0.2f).OnComplete(() => item.material.DOColor(Color.white, 0.2f));
         }
+
+        PopupDamage popup = PoolManager.GetItem<PopupDamage>("PopupDamage");
+        popup.SetData(damage, transform);
     }
 
     public override void OnDamage(float damage)
     {
         base.OnDamage(damage);
 
-        ShowDamagedEffect(); //피격 이펙트
+        ShowDamagedEffect(damage); //피격 이펙트
 
-        if(GameManager.Instance.GetPlayer().CanUseSkill(ESkill.FireDotD) && !isFire)
+        if (GameManager.Instance.GetPlayer().CanUseSkill(ESkill.FireDotD) && !isFire)
         {
             isFire = true;
-            StartCoroutine(FireDotsDamage(5f,damage));
+            StartCoroutine(FireDotsDamage(5f, damage));
             //도트데미지 입어야함
         }
 
@@ -88,7 +91,7 @@ public class EnemyBase : Health
         }
     }
 
-    private IEnumerator FireDotsDamage(float time,float damage)
+    private IEnumerator FireDotsDamage(float time, float damage)
     {
         fireFx = PoolManager.GetItem<FireEffect>("FireEffect").gameObject;
         fireFx.transform.parent = transform;
@@ -123,11 +126,23 @@ public class EnemyBase : Health
         base.Die();
         StopAllCoroutines();
 
-        if(fireFx != null)
+        if (fireFx != null)
+        {
             fireFx.SetActive(false);
+        }
 
         isFire = false;
-        GameManager.Instance.GetPlayer().AddExp(exp);
+
+        float cubeExp = 1f;
+        float expCnt = exp / cubeExp;
+
+        for (int i = 0; i < expCnt; i++)
+        {
+            ExpCube expCube = PoolManager.GetItem<ExpCube>("ExpCube");
+            expCube.SetData(cubeExp, transform);
+        }
+
+        //GameManager.Instance.GetPlayer().AddExp(exp);
         StartCoroutine(DieCoroutine());
     }
 

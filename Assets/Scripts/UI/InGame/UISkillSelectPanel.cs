@@ -5,14 +5,16 @@ using UnityEngine.UI;
 
 public class UISkillSelectPanel : MonoBehaviour
 {
-    public float closeDelay = 2f;
-    public bool isPressed;
+    public UIStatsPanel uiStatsPanel;
+
+    public float closeDelay = 2f; // 닫히는 시간
+    public bool isPressed; //이미 버튼을 눌렀는가
 
     public Image slotThemeImage; //주제 이미지
     public Text slotThemeName; //주제 텍스트
 
-    public Text skillDescription;
-    private string originDescription;
+    public Text skillDescription; //스킬 설명
+    private string originDescription; //원래 설명
 
     public SlotTheme[] slotThemes; //스킬 주제
 
@@ -96,6 +98,7 @@ public class UISkillSelectPanel : MonoBehaviour
         buttons[num].image.sprite = skill.skillImage;
         skillDescription.text = definition;
         GameManager.Instance.GetPlayer().GetComponent<PlayerStats>().AddSkill(skill.skillEnum);
+        uiStatsPanel.AddSkill(skill);
 
         for (int i = 0; i < buttons.Length; i++) //Register Button
         {

@@ -27,20 +27,21 @@ public class GameManager : MonoBehaviour
     }
 
     public UIGameClearPanel uiGameClearPanel;
-
+    public Canvas popupCanvas;
 
     private List<GameObject> enemyListInStage = new List<GameObject>();
     private PlayerStats player;
     private StageManager stageManager;
     private bool isCaught = false;
     private bool isPlaying = true;
+    private float playTime = 0f;
+    private int earnZem = 0;
 
 
     public bool IsPlaying { get => isPlaying; set => isPlaying = value; }
     public bool IsCaught { get => isCaught; set => isCaught = value; }
-
-    private float playTime = 0f;
     public float PlayTime { get => playTime; set => playTime = value; }
+    public int EarnZem { get => earnZem; set => earnZem = value; }
 
     private void Start()
     {
@@ -48,6 +49,8 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<TurretBullet>("TurretBullet", this.gameObject, 5);
         PoolManager.CreatePool<BulletHitGroundEffect>("BulletHitGroundEffect", this.gameObject, 5);
         PoolManager.CreatePool<FireEffect>("FireEffect", this.gameObject, 5);
+        PoolManager.CreatePool<ExpCube>("ExpCube", this.gameObject, 20);
+        PoolManager.CreatePool<PopupDamage>("PopupDamage", popupCanvas.gameObject, 10);
     }
 
     private void Update()

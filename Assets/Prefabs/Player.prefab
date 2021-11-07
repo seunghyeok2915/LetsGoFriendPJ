@@ -1,5 +1,79 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &226402201
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 226402202}
+  - component: {fileID: 226402204}
+  m_Layer: 3
+  m_Name: ActionCam
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &226402202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226402201}
+  m_LocalRotation: {x: 0, y: -0.9832549, z: 0.18223555, w: 0}
+  m_LocalPosition: {x: 0.43, y: 5.32, z: 8.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4015836148304599702}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 21, y: -180, z: 0}
+--- !u!20 &226402204
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226402201}
+  m_Enabled: 0
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 2
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 26.991467
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 479
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &4015836147446166574
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,10 +84,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4015836147446166577}
   - component: {fileID: 4015836147446166578}
-  - component: {fileID: 4015836147446166579}
   m_Layer: 3
   m_Name: PlayerCam2
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25,13 +98,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4015836147446166574}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 2.3, z: 2.72}
+  m_LocalRotation: {x: 0, y: 0.9674888, z: 0, w: 0.25291383}
+  m_LocalPosition: {x: -1.55, y: 2.3, z: 2.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4015836148304599702}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 150.7, z: 0}
 --- !u!20 &4015836147446166578
 Camera:
   m_ObjectHideFlags: 0
@@ -75,14 +148,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &4015836147446166579
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4015836147446166574}
-  m_Enabled: 1
 --- !u!1 &4015836148304599703
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +186,7 @@ Transform:
   m_Children:
   - {fileID: 3472737994329873068}
   - {fileID: 4015836147446166577}
+  - {fileID: 226402202}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -150,12 +216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c3aeb447121ef47881fe4ef052ea14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 0
+  MaxHealth: 100
   isDead: 0
   playerAnimationController: {fileID: 0}
   playerHPBar: {fileID: 0}
   barCanvas: {fileID: 0}
-  playerHPBarObj: {fileID: 0}
+  playerHPBarObj: {fileID: 3998100216869085176, guid: 8f135d216f012c54e9cf6445fd23dbaa,
+    type: 3}
   playerHitEffect: {fileID: 0}
 --- !u!114 &4015836148304599705
 MonoBehaviour:
@@ -169,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d46d7f5331632488cab04ce27371eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8.3
+  moveSpeed: 10
   rotateSpeed: 100
   rigid: {fileID: 0}
   playerInput: {fileID: 0}
@@ -203,11 +270,12 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   playerAnimationController: {fileID: 0}
   playerHealth: {fileID: 0}
+  playerStats: {fileID: 0}
   throwPos: {fileID: 4015836148548055165}
-  attackDamage: 33
-  attackDelay: 0.2
+  attackDamage: 100
+  attackDelay: 1
   attackRange: 100
-  assassinateRange: 0
+  assassinateRange: 3
   shurikenSpeed: 20
 --- !u!114 &6755752293308746934
 MonoBehaviour:
@@ -221,6 +289,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5017ecd63b37bc743aa822f1be461889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillSelectPanel: {fileID: 0}
+  uiExpBar: {fileID: 0}
+  uiEarnZem: {fileID: 0}
+  playerHealth: {fileID: 0}
+  playerAttack: {fileID: 0}
+  playerMove: {fileID: 0}
+  nowLevel: 1
+  expForLevelUp: 20
+  currentExp: 0
+  playerSkill: 0
 --- !u!54 &4015836148304599711
 Rigidbody:
   m_ObjectHideFlags: 0
