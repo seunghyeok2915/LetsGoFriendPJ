@@ -109,12 +109,15 @@ public class PlayerStats : MonoBehaviour
 
     public void LevelUp()
     {
-        // ·ê·¿ ¶ç¿ö¿©¤ÁÇÔ
-        expForLevelUp = expForLevelUp + expForLevelUp * 0.2f;
-        nowLevel++;
-        currentExp = 0;
-        uiExpBar.SetLevel(nowLevel);
-        skillSelectPanel.gameObject.SetActive(true);
+        if (GameManager.Instance.IsPlaying)
+        {
+            // ·ê·¿ ¶ç¿ö¿©¤ÁÇÔ
+            expForLevelUp = expForLevelUp + expForLevelUp * 0.2f;
+            nowLevel++;
+            currentExp = 0;
+            uiExpBar.SetLevel(nowLevel);
+            skillSelectPanel.gameObject.SetActive(true);
+        }
     }
 
 }

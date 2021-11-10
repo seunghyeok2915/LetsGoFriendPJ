@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -48,6 +49,28 @@ public class NetworkManager : MonoBehaviour
         Destroy(gameObject);
         //UIManager.instance.ShowBox1();
         // showBox1을 하면 된다.
+    }
+
+    public void UpdateZem(int zem,UnityAction unityAction = null)
+    {
+        UserDataVO vo = new UserDataVO("", zem, 0, 0);
+
+        string json = JsonUtility.ToJson(vo);
+
+        SendPostRequest("updatezem", json, result =>
+        {
+            ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
+
+            if (res.result)
+            {
+                print(res.payload);
+            }
+            else
+            {
+                print(res.payload);
+            }
+            unityAction?.Invoke();
+        });
     }
 
     public void SendGetRequest(string url, string queryString, Action<string> callBack)

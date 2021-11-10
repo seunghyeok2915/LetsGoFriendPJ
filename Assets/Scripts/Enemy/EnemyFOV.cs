@@ -60,7 +60,7 @@ public class EnemyFOV : MonoBehaviour
         bool isView = false;
         RaycastHit hit;
         Vector3 dir = (playerTr.position - transform.position).normalized;
-        if (Physics.Raycast(transform.position + new Vector3(0, 0.5f, 0), dir, out hit, layerMask))
+        if (Physics.Raycast(transform.position + new Vector3(0, 0.5f, 0), dir, out hit, viewRange,layerMask))
         {
             isView = (hit.collider.gameObject.CompareTag("Player"));
         }

@@ -8,6 +8,9 @@ public class EnemyBase : Health
     public GameObject barCanvas;
     public GameObject hpBarObj;
 
+    public bool canBePush = true; //밀릴수있는가
+    private const float pushForce = 3.0f;
+
     public float normalDamage; // 기본 데미지
     protected float totalDamage; //총합 데미지 계산
 
@@ -20,6 +23,10 @@ public class EnemyBase : Health
 
     protected static readonly int Attack = Animator.StringToHash("Attack");
     protected static readonly int DieName = Animator.StringToHash("Die");
+
+    float shakeRange;
+    float duration;
+    Vector3 shakePos;
 
     public virtual void Start()
     {
@@ -62,13 +69,43 @@ public class EnemyBase : Health
 
     public void ShowDamagedEffect(float damage)
     {
+        Shake(0.1f, 0.05f);
         foreach (SkinnedMeshRenderer item in materials)
         {
             item.material.DOColor(Color.red, 0.2f).OnComplete(() => item.material.DOColor(Color.white, 0.2f));
         }
 
+        Effect effect = PoolManager.GetItem<Effect>("CFX_Hit_C White");
+        effect.transform.position = transform.position;
+
         PopupDamage popup = PoolManager.GetItem<PopupDamage>("PopupDamage");
         popup.SetData(damage, transform);
+    }
+
+    public void Shake(float shakeRange, float duration)
+    {
+        this.shakeRange = shakeRange;
+        this.duration = duration;
+
+        shakePos = transform.position;
+        InvokeRepeating("StartShake", 0f, 0.005f);
+        Invoke("StopShake", duration);
+    }
+
+    void StartShake()
+    {
+        float cameraPosX = Random.value * shakeRange * 2 - shakeRange;
+        float cameraPosY = Random.value * shakeRange * 2 - shakeRange;
+        Vector3 cameraPos = transform.position;
+        cameraPos.x += cameraPosX;
+        cameraPos.y += cameraPosY;
+        transform.position = cameraPos;
+    }
+
+    void StopShake()
+    {
+        transform.position = shakePos;
+        CancelInvoke("StartShake");
     }
 
     public override void OnDamage(float damage)
@@ -93,7 +130,7 @@ public class EnemyBase : Health
 
     private IEnumerator FireDotsDamage(float time, float damage)
     {
-        fireFx = PoolManager.GetItem<FireEffect>("FireEffect").gameObject;
+        fireFx = PoolManager.GetItem<Effect>("CFX4 Fire").gameObject;
         fireFx.transform.parent = transform;
         fireFx.transform.localPosition = Vector3.zero;
 
@@ -125,6 +162,10 @@ public class EnemyBase : Health
     {
         base.Die();
         StopAllCoroutines();
+
+        CameraManager.Instance.Shake(0.25f,0.1f);
+        Effect effect = PoolManager.GetItem<Effect>("CFX2_EnemyDeathSkull");
+        effect.transform.position = transform.position;
 
         if (fireFx != null)
         {

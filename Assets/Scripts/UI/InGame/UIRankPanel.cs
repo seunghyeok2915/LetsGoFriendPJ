@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class UIRankPanel : MonoBehaviour
 {
-    public Button openBtn;
     public Button closeBtn;
 
     public Transform contentView;
@@ -13,10 +12,7 @@ public class UIRankPanel : MonoBehaviour
 
     public void Start()
     {
-        openBtn.onClick.AddListener(Open);
         closeBtn.onClick.AddListener(Close);
-
-        Close();
     }
 
     public void Open()

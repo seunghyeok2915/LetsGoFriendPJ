@@ -13,7 +13,7 @@ public class LoginPanelManager : MonoBehaviour
                 if (vo.result)
                 {
                     print(vo.payload);
-                    SceneManager.LoadScene("MainLobby");
+                    LoadingSceneManager.LoadScene("MainLobby");
                 }
                 else
                 {

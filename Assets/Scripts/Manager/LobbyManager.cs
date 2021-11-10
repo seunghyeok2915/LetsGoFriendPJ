@@ -5,6 +5,7 @@ public class LobbyManager : MonoBehaviour
     public UIMainLobby uiMainLobby;
     public PlayerLobby playerLobby;
     public UIStarPanel starPanel;
+    public UIOfflineIncome income;
 
     public string playerName;
     public int playerStage;
@@ -15,6 +16,20 @@ public class LobbyManager : MonoBehaviour
     private void Start()
     {
         GetData();
+
+        if (PlayerPrefs.HasKey("outUnixTime"))
+        {
+            int offEarnTime = Utils.GetUnixTime() - PlayerPrefs.GetInt("outUnixTime");
+            if (offEarnTime > 7200)
+            {
+                income.Popup(offEarnTime);
+                PlayerPrefs.SetInt("outUnixTime",Utils.GetUnixTime());
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("outUnixTime", Utils.GetUnixTime());
+        }
 
         uiMainLobby.rightStageBtn.onClick.AddListener(() =>
         {
@@ -46,7 +61,7 @@ public class LobbyManager : MonoBehaviour
             }
 
             uiMainLobby.startBtn.gameObject.SetActive(false);
-            uiMainLobby.fadeImage.DOFade(1, 4f);
+            uiMainLobby.fadeImage.DOFade(1, 2f);
         });
 
         uiMainLobby.rightStageBtn.onClick.AddListener(playerLobby.MoveRight);
@@ -83,7 +98,7 @@ public class LobbyManager : MonoBehaviour
         {
             ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
 
-            print(res.payload +"1111");
+            print(res.payload + "1111");
 
             if (res.result)
             {

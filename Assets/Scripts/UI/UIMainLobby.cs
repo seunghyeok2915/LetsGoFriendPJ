@@ -5,11 +5,15 @@ using DG.Tweening;
 
 public class UIMainLobby : MonoBehaviour
 {
+    public UISettingPanel uiSettingPanel;
+    public UIRankPanel uiRankPanel;
+
     public Button startBtn;
     public Button logoutBtn;
     public Button getDataButton;
 
     public Button rankBtn;
+    public Button settingBtn;
 
     public Button rightStageBtn;
     public Button leftStageBtn;
@@ -22,6 +26,8 @@ public class UIMainLobby : MonoBehaviour
     private void Start()
     {
         logoutBtn.onClick.AddListener(NetworkManager.instance.Logout);
+        rankBtn.onClick.AddListener(() => uiRankPanel.Open());
+        settingBtn.onClick.AddListener(() => uiSettingPanel.gameObject.SetActive(true));
     }
 
     public void UpdateStageBtn(int maxStage,int nowStage)

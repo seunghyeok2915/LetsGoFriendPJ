@@ -48,14 +48,19 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
         PoolManager.CreatePool<TurretBullet>("TurretBullet", this.gameObject, 5);
         PoolManager.CreatePool<BulletHitGroundEffect>("BulletHitGroundEffect", this.gameObject, 5);
-        PoolManager.CreatePool<FireEffect>("FireEffect", this.gameObject, 5);
+        PoolManager.CreatePool<Effect>("CFX4 Fire", this.gameObject, 5);
         PoolManager.CreatePool<ExpCube>("ExpCube", this.gameObject, 20);
-        PoolManager.CreatePool<PopupDamage>("PopupDamage", popupCanvas.gameObject, 10);
+        PoolManager.CreatePool<PopupDamage>("PopupDamage", popupCanvas.gameObject, 5);
+        PoolManager.CreatePool<Effect>("CFX2_EnemyDeathSkull", this.gameObject, 5);
+        PoolManager.CreatePool<ThrowThing>("Ob_Enemy_Throw", this.gameObject, 5);
+        PoolManager.CreatePool<Effect>("CFX_Hit_C White", this.gameObject, 5); 
+
+
     }
 
     private void Update()
     {
-        if(IsPlaying)
+        if (IsPlaying)
         {
             PlayTime += Time.deltaTime;
         }

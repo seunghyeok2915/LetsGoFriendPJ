@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIGameClearPanel : MonoBehaviour
 {
@@ -19,41 +17,21 @@ public class UIGameClearPanel : MonoBehaviour
     {
         Close();
 
-        if(canvasGroup == null)
-        canvasGroup = GetComponent<CanvasGroup>();
-    }
-
-    private void UpdateZem(int zem)
-    {
-        UserDataVO vo = new UserDataVO("",zem, 0, 0);
-
-        string json = JsonUtility.ToJson(vo);
-
-        NetworkManager.instance.SendPostRequest("updatezem", json, result =>
+        if (canvasGroup == null)
         {
-            ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
-
-            if (res.result)
-            {
-                print(res.payload);
-            }
-            else
-            {
-                print(res.payload);
-            }
-
-            SceneManager.LoadScene("MainLobby");
-        });
+            canvasGroup = GetComponent<CanvasGroup>();
+        }
     }
 
     private void OnClickAdBtn()
     {
-        UpdateZem(GameManager.Instance.EarnZem * 2);
+        NetworkManager.instance.UpdateZem(GameManager.Instance.EarnZem * 2, () => LoadingSceneManager.LoadScene("MainLobby"));
+
     }
 
     private void OnClickConfirmButton()
     {
-        UpdateZem(GameManager.Instance.EarnZem);
+        NetworkManager.instance.UpdateZem(GameManager.Instance.EarnZem, () => LoadingSceneManager.LoadScene("MainLobby"));
     }
 
     private void RegisterButtons()

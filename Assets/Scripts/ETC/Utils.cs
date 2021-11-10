@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class Utils : MonoBehaviour
 {
@@ -23,5 +24,15 @@ public class Utils : MonoBehaviour
         .FirstOrDefault(x => (trans.position - x.transform.position).sqrMagnitude < range * range);
 
         return neareastObject;
+    }
+
+    public static int GetUnixTime()
+    {
+        int unitxTime;
+        TimeSpan epochTicks = new TimeSpan(new DateTime(1970, 1, 1, 0, 0, 0).Ticks);
+        TimeSpan unixTicks = new TimeSpan(DateTime.Now.Ticks) - epochTicks;
+        unitxTime = (int)unixTicks.TotalSeconds;
+
+        return unitxTime;
     }
 }

@@ -7,6 +7,8 @@ public class PlayerLobby : MonoBehaviour
     public LobbyManager lobbyManager;
     public Animator animator;
 
+    private bool canLoadScene = false;
+
     public void Start()
     {
         if (animator == null)
@@ -37,7 +39,7 @@ public class PlayerLobby : MonoBehaviour
             .OnComplete(() =>
             {
                 animator.SetBool("isMoving", false);
-                transform.eulerAngles = new Vector3(0, -180, 0);
+                transform.eulerAngles = new Vector3(0, 0, 0);
             });
     }
 
@@ -63,7 +65,6 @@ public class PlayerLobby : MonoBehaviour
 
     public void MoveBack()
     {
-
         if (animator.GetBool("isMoving"))
         {
             return;
@@ -80,17 +81,35 @@ public class PlayerLobby : MonoBehaviour
             .OnComplete(() =>
             {
                 animator.SetBool("isMoving", false);
+                canLoadScene = true;
             });
     }
 
     IEnumerator LoadScene(string sceneName)
     {
+        yield return new WaitForSeconds(2f);
         AsyncOperation asyncOper = SceneManager.LoadSceneAsync(sceneName);
+        asyncOper.allowSceneActivation = false;
 
         while (!asyncOper.isDone)
         {
             yield return null;
+            if (canLoadScene)
+            {
+                asyncOper.allowSceneActivation = true;
+            }
         }
+
+        while (true)
+        {
+            if (canLoadScene)
+            {
+                asyncOper.allowSceneActivation = true;
+            }
+            yield return null;
+        }
+
+
     }
 }
 
