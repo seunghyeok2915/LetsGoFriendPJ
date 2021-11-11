@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
             _instance = this as GameManager;
         }
         FindPlayer();
+        stageManager = GetComponent<StageManager>();
     }
 
     protected virtual void OnDestroy()
@@ -26,29 +27,50 @@ public class GameManager : MonoBehaviour
     }
 
     public UIGameClearPanel uiGameClearPanel;
+    public Canvas popupCanvas;
+
     private List<GameObject> enemyListInStage = new List<GameObject>();
-    private GameObject player;
+    private PlayerStats player;
+    private StageManager stageManager;
     private bool isCaught = false;
     private bool isPlaying = true;
+    private float playTime = 0f;
+    private int earnZem = 0;
+
 
     public bool IsPlaying { get => isPlaying; set => isPlaying = value; }
     public bool IsCaught { get => isCaught; set => isCaught = value; }
+    public float PlayTime { get => playTime; set => playTime = value; }
+    public int EarnZem { get => earnZem; set => earnZem = value; }
 
     private void Start()
     {
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
         PoolManager.CreatePool<TurretBullet>("TurretBullet", this.gameObject, 5);
         PoolManager.CreatePool<BulletHitGroundEffect>("BulletHitGroundEffect", this.gameObject, 5);
+        PoolManager.CreatePool<Effect>("CFX4 Fire", this.gameObject, 5);
+        PoolManager.CreatePool<ExpCube>("ExpCube", this.gameObject, 20);
+        PoolManager.CreatePool<PopupDamage>("PopupDamage", popupCanvas.gameObject, 5);
+        PoolManager.CreatePool<Effect>("CFX2_EnemyDeathSkull", this.gameObject, 5);
+        PoolManager.CreatePool<ThrowThing>("Ob_Enemy_Throw", this.gameObject, 5);
+        PoolManager.CreatePool<Effect>("CFX_Hit_C White", this.gameObject, 5); 
+
+
     }
 
     private void Update()
     {
+        if (IsPlaying)
+        {
+            PlayTime += Time.deltaTime;
+        }
+
         if (enemyListInStage.Count <= 0 && IsPlaying)
         {
             IsPlaying = false;
-            print("게임끝남");
             //TODO : 게임 클리어
-            uiGameClearPanel.PopUp();
+            stageManager.OnClearStage();
+            uiGameClearPanel.PopUp(stageManager.nowStage);
 
         }
     }
@@ -65,12 +87,12 @@ public class GameManager : MonoBehaviour
         enemyListInStage.Remove(enemy);
     }
 
-    public GameObject GetPlayer() => player;
+    public PlayerStats GetPlayer() => player;
     public List<GameObject> GetEnemyListInStage() => enemyListInStage;
 
     private void FindPlayer()
     {
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
     }
 
     public void ExitGame()

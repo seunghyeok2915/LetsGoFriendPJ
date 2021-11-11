@@ -12,9 +12,9 @@ public class Enemy_Trace_01 : EnemyBase
             enemyFOV = GetComponent<EnemyFOV>();
         }
 
-        if (moveAgent == null)
-        { 
-            moveAgent = GetComponent<MoveAgent>(); 
+        if(moveAgent == null)
+        {
+            moveAgent = GetComponent<MoveAgent>();
         }
     }
 
@@ -27,9 +27,7 @@ public class Enemy_Trace_01 : EnemyBase
     {
         if (enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer())
         {
-            print("감지됨");
             GameManager.Instance.IsCaught = true;
-            
         }
         
         if(GameManager.Instance.IsCaught && !isDead)

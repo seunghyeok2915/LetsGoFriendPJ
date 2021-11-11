@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    
     private Transform playerTrm;
     public Vector3 camOffSet;
 
     private void Start()
     {
-        playerTrm = GameManager.Instance.GetPlayer().transform;
+       // playerTrm = GameManager.Instance.GetPlayer().transform;
         if(playerTrm == null)
         {
             playerTrm = GameObject.FindGameObjectWithTag("Player").transform;

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8620569600058999060}
+  - component: {fileID: 2134468704}
   m_Layer: 5
   m_Name: PlayerLevelUI
   m_TagString: Untagged
@@ -23,7 +24,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8620569600058999059}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -38,6 +39,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -191.09766}
   m_SizeDelta: {x: 0, y: 382.1951}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2134468704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8620569600058999059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78f3d87522f4194c9236c698a95f667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelText: {fileID: 8620569600858455869}
+  fillImage: {fileID: 8620569600928294103}
 --- !u!1 &8620569600495079016
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +293,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.38
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

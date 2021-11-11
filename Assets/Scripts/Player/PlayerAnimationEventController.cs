@@ -13,6 +13,6 @@ public class PlayerAnimationEventController : MonoBehaviour
 
     public void AttackAnimationEvent()
     {
-        playerAttack.ThrowShuriken();
+        playerAttack.OnAttack();
     }
 }

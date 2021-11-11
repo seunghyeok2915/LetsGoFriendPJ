@@ -33,7 +33,7 @@ public class UIAssassinateButton : MonoBehaviour
     {
         if (GameManager.Instance.IsCaught) //ÀâÇû´Ù¸é
         {
-            //assassinateButton.gameObject.SetActive(false);
+            assassinateButton.gameObject.SetActive(false);
             assassinateButton.interactable = false;
             alertImage.gameObject.SetActive(true);
             return;

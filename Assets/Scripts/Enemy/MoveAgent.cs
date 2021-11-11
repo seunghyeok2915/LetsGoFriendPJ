@@ -98,7 +98,6 @@ public class MoveAgent : MonoBehaviour
 
         if (agent.velocity.sqrMagnitude >= 0.04f && agent.remainingDistance <= 0.5f)
         {
-            print("´ÙÀ½");
             nextIndex = (++nextIndex) % wayPoints.Count;
             MoveWayPoint();
         }

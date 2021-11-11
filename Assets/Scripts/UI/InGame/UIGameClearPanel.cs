@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIGameClearPanel : MonoBehaviour
 {
-    public Text gameText;
+    public Text clearText;
+    public Text clearTime;
     public Button confirmButton;
+    public Button adButton;
+    public Text zemText;
 
     public CanvasGroup canvasGroup;
 
@@ -16,20 +17,40 @@ public class UIGameClearPanel : MonoBehaviour
     {
         Close();
 
-        if(gameObject == null)
-        canvasGroup = GetComponent<CanvasGroup>();
-
-        confirmButton.onClick.AddListener(() =>
+        if (canvasGroup == null)
         {
-            SceneManager.LoadScene("MainLobby");
-        });
+            canvasGroup = GetComponent<CanvasGroup>();
+        }
     }
 
-    public void PopUp()
+    private void OnClickAdBtn()
     {
+        NetworkManager.instance.UpdateZem(GameManager.Instance.EarnZem * 2, () => LoadingSceneManager.LoadScene("MainLobby"));
+
+    }
+
+    private void OnClickConfirmButton()
+    {
+        NetworkManager.instance.UpdateZem(GameManager.Instance.EarnZem, () => LoadingSceneManager.LoadScene("MainLobby"));
+    }
+
+    private void RegisterButtons()
+    {
+        confirmButton.onClick.RemoveAllListeners();
+        adButton.onClick.RemoveAllListeners();
+
+        confirmButton.onClick.AddListener(OnClickConfirmButton);
+        adButton.onClick.AddListener(OnClickAdBtn);
+    }
+
+    public void PopUp(int stage)
+    {
+        RegisterButtons();
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
-
+        zemText.text = GameManager.Instance.EarnZem.ToString();
+        clearText.text = $"{stage} 스테이지 클리어";
+        clearTime.text = $"클리어 시간 : {GameManager.Instance.PlayTime.ToString("00:00")}초";
         canvasGroup.DOFade(1, 1f);
     }
 
