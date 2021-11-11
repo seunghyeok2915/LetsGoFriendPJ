@@ -55,6 +55,7 @@ MonoBehaviour:
   barCanvas: {fileID: 0}
   hpBarObj: {fileID: 8782974719655469989, guid: 4b24f7538169aa34193b77b0bde8a880,
     type: 3}
+  canBePush: 1
   normalDamage: 10
   enemyFOV: {fileID: 0}
   moveAgent: {fileID: 0}
@@ -1557,6 +1558,10 @@ PrefabInstance:
     - target: {fileID: 9500000, guid: de5eab967c5239c45b75177c02c52b8a, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: de5eab967c5239c45b75177c02c52b8a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11100000, guid: de5eab967c5239c45b75177c02c52b8a, type: 3}
       propertyPath: m_Enabled
