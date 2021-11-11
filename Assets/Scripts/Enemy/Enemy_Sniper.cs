@@ -4,7 +4,6 @@ using UnityEngine;
 public class Enemy_Sniper : EnemyBase
 {
     public EnemyFOV enemyFOV;
-    public MoveAgent moveAgent;
 
     public float attackInterval = 2; //쏘고 기다리는 시간
     public float attackDelay = 1.5f; //쏘기까지 기다리는시간
@@ -83,12 +82,12 @@ public class Enemy_Sniper : EnemyBase
         //라인 렌더러 그려줘야해
         while (true)
         {
+            transform.LookAt(GameManager.Instance.GetPlayer().transform);
             DrawDangerLine();
             if (Time.time - time > attackDelay)
             {
                 break;
             }
-            transform.LookAt(GameManager.Instance.GetPlayer().transform);
             yield return null;
         }
 

@@ -46,6 +46,12 @@ public class PlayerHealth : Health
         playerHPBarOnPlayer.SetHPBar(MaxHealth, CurrentHealth);
     }
 
+    public override void Heal(float healAmount)
+    {
+        base.Heal(healAmount);
+        UpdateHPUI();
+    }
+
     public override void OnDamage(float damage)
     {
         base.OnDamage(damage);

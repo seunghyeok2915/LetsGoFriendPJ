@@ -3,7 +3,6 @@ using UnityEngine;
 public class Enemy_Trace_01 : EnemyBase
 {
     public EnemyFOV enemyFOV;
-    public MoveAgent moveAgent;
     public override void Start()
     {
         base.Start();
