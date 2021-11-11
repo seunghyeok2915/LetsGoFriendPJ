@@ -17,9 +17,11 @@ public class EnemyBase : Health
     protected Animator animator;
     private SkinnedMeshRenderer[] materials;
     private EnemyHPBar enemyHpBar;
+    protected MoveAgent moveAgent;
 
     private GameObject fireFx;
     private bool isFire;
+    private bool isIce;
 
     protected static readonly int Attack = Animator.StringToHash("Attack");
     protected static readonly int DieName = Animator.StringToHash("Die");
@@ -32,6 +34,7 @@ public class EnemyBase : Health
     {
         animator = GetComponentInChildren<Animator>();
         materials = GetComponentsInChildren<SkinnedMeshRenderer>();
+        moveAgent = GetComponent<MoveAgent>();
 
         SetHP();
         SetHpBar();
@@ -70,10 +73,14 @@ public class EnemyBase : Health
     public void ShowDamagedEffect(float damage)
     {
         Shake(0.1f, 0.05f);
-        foreach (SkinnedMeshRenderer item in materials)
+        if (!isIce)
         {
-            item.material.DOColor(Color.red, 0.2f).OnComplete(() => item.material.DOColor(Color.white, 0.2f));
+            foreach (SkinnedMeshRenderer item in materials)
+            {
+                item.material.DOColor(Color.red, 0.2f).OnComplete(() => item.material.DOColor(Color.white, 0.2f));
+            }
         }
+
 
         Effect effect = PoolManager.GetItem<Effect>("CFX_Hit_C White");
         effect.transform.position = transform.position;
@@ -121,6 +128,19 @@ public class EnemyBase : Health
             //도트데미지 입어야함
         }
 
+        if (GameManager.Instance.GetPlayer().CanUseSkill(ESkill.Ice) && !isIce)
+        {
+            isIce = true;
+            StartCoroutine(Ice(5f));
+            //도트데미지 입어야함
+        }
+
+        if (GameManager.Instance.GetPlayer().CanUseSkill(ESkill.DrainHealth))
+        {
+            //피흡 해야함
+            GameManager.Instance.GetPlayer().DrainHealth(damage);
+        }
+
         if (!isDead)
         {
             enemyHpBar.SetHPBar(MaxHealth, CurrentHealth); //HP바 업데이트
@@ -145,6 +165,28 @@ public class EnemyBase : Health
         isFire = false;
     }
 
+    private IEnumerator Ice(float time)
+    {
+        float oriSpeed = moveAgent.traceSpeed;
+        moveAgent.traceSpeed = oriSpeed / 2f;
+        while (time > 0)
+        {
+            foreach (SkinnedMeshRenderer item in materials)
+            {
+                item.material.color = Color.blue;
+            }
+            yield return new WaitForSeconds(1f);
+            time -= 1f;
+        }
+        foreach (SkinnedMeshRenderer item in materials)
+        {
+            item.material.color = Color.white;
+        }
+        moveAgent.traceSpeed = oriSpeed;
+
+        isIce = false;
+    }
+
     [ContextMenu("Revive")]
     public override void Revive()
     {
@@ -163,7 +205,7 @@ public class EnemyBase : Health
         base.Die();
         StopAllCoroutines();
 
-        CameraManager.Instance.Shake(0.25f,0.1f);
+        CameraManager.Instance.Shake(0.25f, 0.1f);
         Effect effect = PoolManager.GetItem<Effect>("CFX2_EnemyDeathSkull");
         effect.transform.position = transform.position;
 

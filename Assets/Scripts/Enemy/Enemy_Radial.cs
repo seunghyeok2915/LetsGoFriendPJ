@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Enemy_Sniper_02 : EnemyBase
+public class Enemy_Radial : EnemyBase
 {
     public EnemyFOV enemyFOV;
 
@@ -95,9 +95,18 @@ public class Enemy_Sniper_02 : EnemyBase
         }
 
         animator.SetTrigger("Attack");
-        ThrowThing throwThing = PoolManager.GetItem<ThrowThing>("Ob_Enemy_Throw");
-        throwThing.transform.position = transform.position + new Vector3(0, 0.5f, 0);
-        throwThing.SetData(throwSpeed, throwDamage, pos);
+
+        float degree = 45f;
+        for (int i = 0; i < 8; i++)
+        {
+            Vector3 rotVec = new Vector3(0, degree * i, 0);
+            ThrowThing throwThing = PoolManager.GetItem<ThrowThing>("Ob_Enemy_Throw");
+            throwThing.transform.position = transform.position + new Vector3(0, 0.5f, 0);
+
+            //var newPos = new Vector3(pos.x * Mathf.Cos(i * degree) - pos.y * Mathf.Sin(i * degree), 0, pos.x * Mathf.Sin(i * degree) - pos.y * Mathf.Cos(i * degree));
+            Vector3 newPos = Quaternion.Euler(rotVec) * pos;
+            throwThing.SetData(throwSpeed, throwDamage, newPos + transform.position);
+        }
 
         //발사
 

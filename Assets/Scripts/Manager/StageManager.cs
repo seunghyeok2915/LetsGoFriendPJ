@@ -3,12 +3,50 @@ using UnityEngine;
 public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
 {
     public int nowStage;
+
+    public Stage[] stages;
+
+    private int curStage;
+
     private PlayerHealth playerHealth;
 
-    public void OnClearStage()
+    public void Start()
     {
-        print("스테이지 클리어");
+        curStage = 0;
+        stages[curStage].Play();
+    }
 
+
+    public bool OnClearStage()
+    {
+        curStage++;
+
+        if ((curStage) == stages.Length)
+        {
+            print("전체 스테이지 클리어");
+            SaveData();
+            return true;
+        }
+        else
+        {
+            GameManager.Instance.IsPotal = true;
+            stages[curStage - 1].potal.SetEvent(() =>
+            {
+                GameManager.Instance.IsPotal = false;
+                stages[curStage].Play();
+                stages[curStage - 1].Stop();
+            });
+
+
+            print(curStage + "스테이지 클리어");
+
+            return false;
+            //포탈 열여야해
+        }
+    }
+
+    private void SaveData()
+    {
         if (playerHealth == null)
         {
             playerHealth = GameManager.Instance.GetPlayer().GetComponent<PlayerHealth>();

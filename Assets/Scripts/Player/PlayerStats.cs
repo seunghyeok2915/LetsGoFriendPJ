@@ -8,14 +8,16 @@ public enum ESkill : ushort
     TwinShot = 0x0001, //트윈샷 더블샷
     SideShot = 0x0002, //사이드샷
     PierceShot = 0x0004, //관통샷
-    BounceShot = 0x0008, // 안씀
+    DrainHealth = 0x0008, // 피흡
     SplitShot = 0x0010, //스플릿샷
     MoveSpeedUp = 0x0020, //이속업
     MaxHpUp = 0x0040, //max hp 업
     AttackDelayUp = 0x0080, //공속업
     FireDotD = 0x0100, //파이어 도트뎀
     Boomerang = 0x0200 ,// 부메랑
-    ExtraShuriken = 0x0400 //엑스트라표창
+    ExtraShuriken = 0x0400, //엑스트라표창
+    Ice = 0x0800 //아이스 표창
+
 }
 
 public class PlayerStats : MonoBehaviour
@@ -32,6 +34,7 @@ public class PlayerStats : MonoBehaviour
 
     public float expForLevelUp;
     public float currentExp;
+    public float drainHealthPersent;
 
     public ushort playerSkill = 0x0000;
 
@@ -46,6 +49,8 @@ public class PlayerStats : MonoBehaviour
 
         uiExpBar.SetLevel(nowLevel);
         uiExpBar.SetBar(expForLevelUp, currentExp);
+
+        AddSkill(ESkill.DrainHealth);
     }
 
     public bool CanUseSkill(ESkill skill) //스킬이 사용가능한지
@@ -76,8 +81,6 @@ public class PlayerStats : MonoBehaviour
                 break;
             case ESkill.PierceShot:
                 break;
-            case ESkill.BounceShot:
-                break;
             case ESkill.SplitShot:
                 break;
             case ESkill.MoveSpeedUp:
@@ -96,6 +99,10 @@ public class PlayerStats : MonoBehaviour
             case ESkill.ExtraShuriken:
                 ExtraShuriken();
                 break;
+            case ESkill.DrainHealth:
+                break;
+            case ESkill.Ice:
+                break;
             default:
                 break;
         }
@@ -106,6 +113,12 @@ public class PlayerStats : MonoBehaviour
     {
         ShurikenAround shurikenAround = Instantiate(extraShuriken,transform.position,Quaternion.identity,transform);
         shurikenAround.SetData(playerAttack.attackDamage);
+    }
+
+    public void DrainHealth(float damage)
+    {
+        playerHealth.Heal(damage * (drainHealthPersent * 0.01f)); //20퍼
+        print(damage * (drainHealthPersent * 0.01f));
     }
 
     public void AddExp(float exp)
