@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private StageManager stageManager;
     private bool isCaught = false;
     private bool isPlaying = true;
+    private bool isPotal = false;
     private float playTime = 0f;
     private int earnZem = 0;
 
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
     public bool IsCaught { get => isCaught; set => isCaught = value; }
     public float PlayTime { get => playTime; set => playTime = value; }
     public int EarnZem { get => earnZem; set => earnZem = value; }
+    public bool IsPotal { get => isPotal; set => isPotal = value; }
 
     private void Start()
     {
@@ -53,9 +55,7 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<PopupDamage>("PopupDamage", popupCanvas.gameObject, 5);
         PoolManager.CreatePool<Effect>("CFX2_EnemyDeathSkull", this.gameObject, 5);
         PoolManager.CreatePool<ThrowThing>("Ob_Enemy_Throw", this.gameObject, 5);
-        PoolManager.CreatePool<Effect>("CFX_Hit_C White", this.gameObject, 5); 
-
-
+        PoolManager.CreatePool<Effect>("CFX_Hit_C White", this.gameObject, 5);
     }
 
     private void Update()
@@ -65,13 +65,15 @@ public class GameManager : MonoBehaviour
             PlayTime += Time.deltaTime;
         }
 
-        if (enemyListInStage.Count <= 0 && IsPlaying)
+        if (enemyListInStage.Count <= 0 && IsPlaying && !IsPotal)
         {
-            IsPlaying = false;
             //TODO : 게임 클리어
-            stageManager.OnClearStage();
-            uiGameClearPanel.PopUp(stageManager.nowStage);
-
+            IsPotal = true;
+            if (stageManager.OnClearStage())
+            {
+                IsPlaying = false;
+                uiGameClearPanel.PopUp(stageManager.nowStage);
+            }
         }
     }
 

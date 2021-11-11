@@ -33,6 +33,9 @@ public class ThrowThing : MonoBehaviour
                 health.OnDamage(damage);
             }
         }
+        if(collision.gameObject.CompareTag("Wall"))
+        {
         gameObject.SetActive(false);
+        }
     }
 }
