@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public enum ESkill : short
+public enum ESkill : ushort
 {
     None = 0x0000,
     TwinShot = 0x0001, //트윈샷 더블샷
@@ -13,13 +13,15 @@ public enum ESkill : short
     MoveSpeedUp = 0x0020, //이속업
     MaxHpUp = 0x0040, //max hp 업
     AttackDelayUp = 0x0080, //공속업
-    FireDotD = 0x0100 //파이어 도트뎀
+    FireDotD = 0x0100, //파이어 도트뎀
+    Boomerang = 0x0200 ,// 부메랑
+    ExtraShuriken = 0x0400 //엑스트라표창
 }
 
 public class PlayerStats : MonoBehaviour
 {
     public UISkillSelectPanel skillSelectPanel;
-
+    
     public UIExpBar uiExpBar;
     public UIEarnZem uiEarnZem;
 
@@ -31,7 +33,9 @@ public class PlayerStats : MonoBehaviour
     public float expForLevelUp;
     public float currentExp;
 
-    public short playerSkill = 0x0000;
+    public ushort playerSkill = 0x0000;
+
+    public ShurikenAround extraShuriken;
 
 
     private void Start()
@@ -58,9 +62,9 @@ public class PlayerStats : MonoBehaviour
 
     public void AddSkill(ESkill skill) //스킬 추가
     {
-        short skillByte = (short)skill;
+        ushort skillByte = (ushort)skill;
 
-        playerSkill = (short)(playerSkill | skillByte);
+        playerSkill = (ushort)(playerSkill | skillByte);
 
         switch (skill)
         {
@@ -87,10 +91,21 @@ public class PlayerStats : MonoBehaviour
                 break;
             case ESkill.FireDotD:
                 break;
+            case ESkill.Boomerang:
+                break;
+            case ESkill.ExtraShuriken:
+                ExtraShuriken();
+                break;
             default:
                 break;
         }
 
+    }
+
+    private void ExtraShuriken()
+    {
+        ShurikenAround shurikenAround = Instantiate(extraShuriken,transform.position,Quaternion.identity,transform);
+        shurikenAround.SetData(playerAttack.attackDamage);
     }
 
     public void AddExp(float exp)
