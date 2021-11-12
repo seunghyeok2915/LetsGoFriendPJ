@@ -18,6 +18,7 @@ public class EnemyBase : Health
     private SkinnedMeshRenderer[] materials;
     private EnemyHPBar enemyHpBar;
     protected MoveAgent moveAgent;
+    private BoxCollider boxCollider;
 
     private GameObject fireFx;
     private bool isFire;
@@ -35,6 +36,7 @@ public class EnemyBase : Health
         animator = GetComponentInChildren<Animator>();
         materials = GetComponentsInChildren<SkinnedMeshRenderer>();
         moveAgent = GetComponent<MoveAgent>();
+        boxCollider = GetComponent<BoxCollider>();
 
         SetHP();
         SetHpBar();
@@ -48,6 +50,7 @@ public class EnemyBase : Health
             item.material.color = Color.white;
 
         }
+        boxCollider.enabled = true;
         enemyHpBar.SetHPBar(MaxHealth, CurrentHealth);
         enemyHpBar.gameObject.SetActive(false);
 
@@ -198,6 +201,7 @@ public class EnemyBase : Health
     {
         base.Die();
         StopAllCoroutines();
+        boxCollider.enabled = false;
 
         if (GameManager.Instance.GetPlayer().CanUseSkill(ESkill.DrainHealth))
         {
