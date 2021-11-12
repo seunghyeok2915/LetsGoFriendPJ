@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 
 public class Enemy_Bomb : EnemyBase
 {
     public EnemyFOV enemyFOV;
     public float bombDamage = 5f;//폭발대미지
     public float bombRange = 5f;
-
+    public GameObject bombRangeShow;
     private bool isAttacking;
     public override void Start()
     {
@@ -56,6 +57,7 @@ public class Enemy_Bomb : EnemyBase
         animator.SetTrigger("Attack");
         Vector3 pos = GameManager.Instance.GetPlayer().transform.position;
         transform.LookAt(pos);
+        bombRangeShow.transform.DOScale(new Vector3(5, 5, 5), 1f);
         yield return new WaitForSeconds(1f);
         Effect effect = PoolManager.GetItem<Effect>("CFX_Explosion");
         effect.transform.position = transform.position;
@@ -94,7 +96,7 @@ public class Enemy_Bomb : EnemyBase
     {
         base.Die();
         moveAgent.Stop();
+        bombRangeShow.SetActive(false);
         enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
-
     }
 }
