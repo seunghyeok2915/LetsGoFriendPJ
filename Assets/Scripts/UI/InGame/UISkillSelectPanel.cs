@@ -18,7 +18,7 @@ public class UISkillSelectPanel : MonoBehaviour
     private string originDescription; //원래 설명
 
     public SlotDeck slotDeck;
-    public List<SlotTheme> slotThemes = new List<SlotTheme>();
+    private List<SlotTheme> slotThemes = new List<SlotTheme>();
 
     public Button[] buttons; //버튼들 
 
