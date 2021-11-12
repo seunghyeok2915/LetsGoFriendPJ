@@ -40,11 +40,11 @@ public class Enemy_Radial : EnemyBase
         lineRenderer.endWidth = 0.2f;
     }
 
-    public void DrawDangerLine()
+    public void DrawDangerLine(Vector3 pos)
     {
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, transform.position + transform.forward * maxDist);
+        lineRenderer.SetPosition(1, pos * maxDist);
     }
 
     public override void StartEnemy() //적행동 시작
@@ -82,21 +82,30 @@ public class Enemy_Radial : EnemyBase
 
         Vector3 pos = GameManager.Instance.GetPlayer().transform.position;
         transform.LookAt(pos);
-        DrawDangerLine();
+        float degree = 45f;
+
 
         //라인 렌더러 그려줘야해
         while (true)
         {
+            for (int i = 0; i < 8; i++)
+            {
+                Vector3 rotVec = new Vector3(0, degree * i, 0);
+                Vector3 newPos = Quaternion.Euler(rotVec) * pos;
+                DrawDangerLine(newPos + transform.position);
+                yield return new WaitForSeconds(0.1f);
+            }
+
             if (Time.time - time > attackDelay)
             {
                 break;
             }
+
             yield return null;
         }
 
         animator.SetTrigger("Attack");
 
-        float degree = 45f;
         for (int i = 0; i < 8; i++)
         {
             Vector3 rotVec = new Vector3(0, degree * i, 0);

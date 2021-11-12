@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<Effect>("CFX2_EnemyDeathSkull", this.gameObject, 5);
         PoolManager.CreatePool<ThrowThing>("Ob_Enemy_Throw", this.gameObject, 5);
         PoolManager.CreatePool<Effect>("CFX_Hit_C White", this.gameObject, 5);
+        PoolManager.CreatePool<Effect>("CFX_Explosion", this.gameObject, 5);
     }
 
     private void Update()
