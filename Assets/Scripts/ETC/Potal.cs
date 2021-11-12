@@ -15,6 +15,7 @@ public class Potal : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             onEnter?.Invoke();
+            
         }
     }
 }

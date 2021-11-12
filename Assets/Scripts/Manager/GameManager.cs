@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using DG.Tweening;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     public UIGameClearPanel uiGameClearPanel;
     public Canvas popupCanvas;
+    public Image fadeImage;
 
     private List<GameObject> enemyListInStage = new List<GameObject>();
     private PlayerStats player;
@@ -47,6 +51,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        FadeOut();
+
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
         PoolManager.CreatePool<TurretBullet>("TurretBullet", this.gameObject, 5);
         PoolManager.CreatePool<BulletHitGroundEffect>("BulletHitGroundEffect", this.gameObject, 5);
@@ -77,6 +83,30 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    public void FadeIn()
+    {
+        fadeImage.DOFade(0f, 0.01f);
+        fadeImage.DOFade(1f, 0.5f);
+    }
+
+    public void FadeOut()
+    {
+        fadeImage.DOFade(1f, 0.01f);
+        fadeImage.DOFade(0f, 1);
+    }
+
+    public void FadeInOut(UnityAction callback)
+    {
+        fadeImage.DOFade(0f, 0.01f);
+        fadeImage.DOFade(1f, 0.5f).OnComplete(() =>
+        {
+            callback?.Invoke();
+            fadeImage.DOFade(1f, 0.01f);
+            fadeImage.DOFade(0, 1f);
+        });
+    }
+
 
 
 

@@ -32,9 +32,12 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
             GameManager.Instance.IsPotal = true;
             stages[curStage - 1].potal.SetEvent(() =>
             {
-                GameManager.Instance.IsPotal = false;
-                stages[curStage].Play();
-                stages[curStage - 1].Stop();
+                GameManager.Instance.FadeInOut(() =>
+                {
+                    stages[curStage].Play();
+                    stages[curStage - 1].Stop();
+                    GameManager.Instance.IsPotal = false;
+                });
             });
 
 
