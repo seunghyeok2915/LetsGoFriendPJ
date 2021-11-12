@@ -36,7 +36,6 @@ public class Enemy_Bomb : EnemyBase
             {
                 moveAgent.Stop();
                 StartCoroutine(AttackRoutine());
-                moveAgent.patrolSpeed = moveAgent.patrolSpeed * 2;
             }
         }
         else if (!isDead)
