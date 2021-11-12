@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public UIGameClearPanel uiGameClearPanel;
     public Canvas popupCanvas;
     public Image fadeImage;
+    public Animator clearAnim;
 
     private List<GameObject> enemyListInStage = new List<GameObject>();
     private PlayerStats player;
@@ -76,6 +77,7 @@ public class GameManager : MonoBehaviour
     {
         if (enemyListInStage.Count <= 0 && IsPlaying)
         {
+            clearAnim.SetTrigger("Clear");
             //TODO : 게임 클리어
             if (stageManager.OnClearStage())
             {

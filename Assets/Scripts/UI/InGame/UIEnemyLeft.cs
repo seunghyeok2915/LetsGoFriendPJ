@@ -13,7 +13,7 @@ public class UIEnemyLeft : MonoBehaviour
         leftEnemy = GameManager.Instance.GetEnemyListInStage().Count;
         if(leftEnemy == 0)
         {
-            leftText.text = $"클리어";
+            leftText.text = $"다음 스테이지로 이동";
         }
        else
         {
