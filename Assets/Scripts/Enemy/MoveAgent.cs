@@ -12,8 +12,8 @@ public class MoveAgent : MonoBehaviour
     public int nextIndex;
     private NavMeshAgent agent;
 
-    private readonly float patrolSpeed = 1.5f;
-    private readonly float traceSpeed = 4.0f;
+    public float patrolSpeed = 1.5f;
+    public float traceSpeed = 4.0f;
 
     private bool _patrolling;
     public bool patrolling
@@ -61,6 +61,9 @@ public class MoveAgent : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = false;
+
+        agent.enabled = false;
+        agent.enabled = true;
 
         agent.speed = patrolSpeed; //처음 패트롤 속도로
     }

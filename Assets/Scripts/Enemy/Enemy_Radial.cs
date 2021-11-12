@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Enemy_Sniper_02 : EnemyBase
+public class Enemy_Radial : EnemyBase
 {
     public EnemyFOV enemyFOV;
 
@@ -40,11 +40,11 @@ public class Enemy_Sniper_02 : EnemyBase
         lineRenderer.endWidth = 0.2f;
     }
 
-    public void DrawDangerLine()
+    public void DrawDangerLine(Vector3 pos)
     {
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, transform.position + transform.forward * maxDist);
+        lineRenderer.SetPosition(1, pos * maxDist);
     }
 
     public override void StartEnemy() //적행동 시작
@@ -82,22 +82,40 @@ public class Enemy_Sniper_02 : EnemyBase
 
         Vector3 pos = GameManager.Instance.GetPlayer().transform.position;
         transform.LookAt(pos);
-        DrawDangerLine();
+        float degree = 45f;
+
 
         //라인 렌더러 그려줘야해
         while (true)
         {
+            for (int i = 0; i < 8; i++)
+            {
+                Vector3 rotVec = new Vector3(0, degree * i, 0);
+                Vector3 newPos = Quaternion.Euler(rotVec) * pos;
+                DrawDangerLine(newPos + transform.position);
+                yield return new WaitForSeconds(0.1f);
+            }
+
             if (Time.time - time > attackDelay)
             {
                 break;
             }
+
             yield return null;
         }
 
         animator.SetTrigger("Attack");
-        ThrowThing throwThing = PoolManager.GetItem<ThrowThing>("Ob_Enemy_Throw");
-        throwThing.transform.position = transform.position + new Vector3(0, 0.5f, 0);
-        throwThing.SetData(throwSpeed, throwDamage, pos);
+
+        for (int i = 0; i < 8; i++)
+        {
+            Vector3 rotVec = new Vector3(0, degree * i, 0);
+            ThrowThing throwThing = PoolManager.GetItem<ThrowThing>("Ob_Enemy_Throw");
+            throwThing.transform.position = transform.position + new Vector3(0, 0.5f, 0);
+
+            //var newPos = new Vector3(pos.x * Mathf.Cos(i * degree) - pos.y * Mathf.Sin(i * degree), 0, pos.x * Mathf.Sin(i * degree) - pos.y * Mathf.Cos(i * degree));
+            Vector3 newPos = Quaternion.Euler(rotVec) * pos;
+            throwThing.SetData(throwSpeed, throwDamage, newPos + transform.position);
+        }
 
         //발사
 
