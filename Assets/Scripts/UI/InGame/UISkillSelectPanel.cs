@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 
 public class UISkillSelectPanel : MonoBehaviour
 {
     public UIStatsPanel uiStatsPanel;
+
+    public Image backImage;
+
 
     public float closeDelay = 2f; // 닫히는 시간
     public bool isPressed; //이미 버튼을 눌렀는가
@@ -16,6 +20,8 @@ public class UISkillSelectPanel : MonoBehaviour
 
     public Text skillDescription; //스킬 설명
     private string originDescription; //원래 설명
+
+    public HorizontalLayoutGroup chestsGroup;
 
     public SlotDeck slotDeck;
     private List<SlotTheme> slotThemes = new List<SlotTheme>();
@@ -66,6 +72,23 @@ public class UISkillSelectPanel : MonoBehaviour
     private void OnEnable()
     {
         Time.timeScale = 0.0f;
+        DOTween.defaultTimeScaleIndependent = true;
+        backImage.color = new Color(0,0,0,0);
+        backImage.DOFade(0.9f, 0.5f);
+
+        slotThemeImage.rectTransform.anchoredPosition = new Vector3(0, 400, 0);
+        slotThemeImage.rectTransform.DOLocalMove(new Vector3(0, 925, 0), 0.5f);
+        slotThemeImage.DOFade(0, 0.01f);
+        slotThemeImage.DOFade(0.9f, 0.5f);
+
+        skillDescription.rectTransform.anchoredPosition = new Vector3(0, -1365,0);
+        skillDescription.rectTransform.DOLocalMove(new Vector3(0, -747, 0), 0.7f);
+        skillDescription.DOFade(0, 0.01f);
+        skillDescription.DOFade(0.9f, 0.7f);
+
+        chestsGroup.spacing = -2000f;
+        DOTween.To(() => chestsGroup.spacing, x => chestsGroup.spacing = x, 0, 1f);
+
         if (slotThemes.Count <= 0 && isFirst)
         {
             isFirst = false;
