@@ -18,5 +18,6 @@ public class Stage : MonoBehaviour
     public void Stop()
     {
         gameObject.SetActive(true);
+
     }
 }

@@ -212,7 +212,8 @@ public class UISkillSelectPanel : MonoBehaviour
         {
             string definition = skill.skillName + "\n\n" + skill.skillDefinition;
             buttons[num].image.sprite = skill.skillImage;
-            skillDescription.text = definition;
+            DOTween.To(() => "", str => skillDescription.text = str, definition, 1.5f);
+            //skillDescription.text = definition;
             GameManager.Instance.GetPlayer().GetComponent<PlayerStats>().AddSkill(skill.skillEnum);
             uiStatsPanel.AddSkill(skill);
         }
