@@ -29,7 +29,7 @@ public class PlayerHPBar : MonoBehaviour
     public void SetHPBar(float maxHp, float currentHp)
     {
         hpBar.value = currentHp / maxHp;
-        playerHpText.text = "" + currentHp;
+        playerHpText.text = "" + Mathf.Round(currentHp);
 
         float scaleX = (5 * unitHp) / (maxHp);
 
