@@ -274,7 +274,7 @@ MonoBehaviour:
   playerStats: {fileID: 0}
   throwPos: {fileID: 4015836148548055165}
   attackDamage: 35
-  attackDelay: 1
+  attackDelay: 0.52
   attackRange: 100
   assassinateRange: 3
   shurikenSpeed: 30
@@ -297,9 +297,12 @@ MonoBehaviour:
   playerAttack: {fileID: 0}
   playerMove: {fileID: 0}
   nowLevel: 1
-  expForLevelUp: 20
+  expForLevelUp: 1
   currentExp: 0
+  drainHealthPersent: 10
   playerSkill: 0
+  extraShuriken: {fileID: 512453230533682442, guid: 882628c28c777804c969b5ef6ae0d93e,
+    type: 3}
 --- !u!54 &4015836148304599711
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -337,7 +340,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4015836148304599703}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5

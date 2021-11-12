@@ -119,7 +119,6 @@ public class EnemyBase : Health
     {
         base.OnDamage(damage);
 
-        ShowDamagedEffect(damage); //피격 이펙트
 
         if (GameManager.Instance.GetPlayer().CanUseSkill(ESkill.FireDotD) && !isFire)
         {
@@ -134,6 +133,7 @@ public class EnemyBase : Health
             StartCoroutine(Ice(5f));
             //도트데미지 입어야함
         }
+        ShowDamagedEffect(damage); //피격 이펙트
 
         if (!isDead)
         {

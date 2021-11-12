@@ -7,5 +7,5 @@ public class SlotTheme : ScriptableObject
 {
     public Sprite slotImage;
     public string slotName;
-    public SlotSkill[] slotSkills;
+    public List<SlotSkill> slotSkills;
 }
