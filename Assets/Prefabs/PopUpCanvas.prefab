@@ -2371,14 +2371,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5058824}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.84313726}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6428427b4789f0540aeaeb903f0d175c, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2401,13 +2401,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiStatsPanel: {fileID: 0}
+  backImage: {fileID: 2964414133061781535}
   closeDelay: 2
   isPressed: 0
   slotThemeImage: {fileID: 2964414133270689237}
   slotThemeName: {fileID: 2964414134130187126}
   skillDescription: {fileID: 2964414133732525727}
+  chestsGroup: {fileID: 2964414132523570009}
   slotDeck: {fileID: 11400000, guid: c84d0c73642197b49898990fe9297e32, type: 2}
-  slotThemes: []
   buttons:
   - {fileID: 2964414132702563593}
   - {fileID: 2964414132999099807}
