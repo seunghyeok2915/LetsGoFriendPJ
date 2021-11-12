@@ -135,12 +135,6 @@ public class EnemyBase : Health
             //도트데미지 입어야함
         }
 
-        if (GameManager.Instance.GetPlayer().CanUseSkill(ESkill.DrainHealth))
-        {
-            //피흡 해야함
-            GameManager.Instance.GetPlayer().DrainHealth(damage);
-        }
-
         if (!isDead)
         {
             enemyHpBar.SetHPBar(MaxHealth, CurrentHealth); //HP바 업데이트
@@ -204,6 +198,12 @@ public class EnemyBase : Health
     {
         base.Die();
         StopAllCoroutines();
+
+        if (GameManager.Instance.GetPlayer().CanUseSkill(ESkill.DrainHealth))
+        {
+            //피흡 해야함
+            GameManager.Instance.GetPlayer().DrainHealth();
+        }
 
         CameraManager.Instance.Shake(0.25f, 0.1f);
         Effect effect = PoolManager.GetItem<Effect>("CFX2_EnemyDeathSkull");

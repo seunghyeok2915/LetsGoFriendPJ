@@ -115,10 +115,9 @@ public class PlayerStats : MonoBehaviour
         shurikenAround.SetData(playerAttack.attackDamage);
     }
 
-    public void DrainHealth(float damage)
+    public void DrainHealth()
     {
-        playerHealth.Heal(damage * (drainHealthPersent * 0.01f)); //20ÆÛ
-        print(damage * (drainHealthPersent * 0.01f));
+        playerHealth.Heal(playerAttack.attackDamage * (drainHealthPersent * 0.01f));
     }
 
     public void AddExp(float exp)
