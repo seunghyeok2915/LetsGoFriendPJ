@@ -10,18 +10,20 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
 
     private PlayerHealth playerHealth;
 
+    public int CurStage { get => curStage; set => curStage = value; }
+
     public void Start()
     {
-        curStage = 0;
-        stages[curStage].Play();
+        CurStage = 0;
+        stages[CurStage].Play();
     }
 
 
     public bool OnClearStage()
     {
-        curStage++;
+        CurStage++;
 
-        if ((curStage) == stages.Length)
+        if ((CurStage) == stages.Length)
         {
             print("전체 스테이지 클리어");
             SaveData();
@@ -29,17 +31,17 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
         }
         else
         {
-            stages[curStage - 1].potal.SetEvent(() =>
+            stages[CurStage - 1].potal.SetEvent(() =>
             {
                 GameManager.Instance.FadeInOut(() =>
                 {
-                    stages[curStage].Play();
-                    stages[curStage - 1].Stop();
+                    stages[CurStage].Play();
+                    stages[CurStage - 1].Stop();
                 });
             });
 
 
-            print(curStage + "스테이지 클리어");
+            print(CurStage + "스테이지 클리어");
 
             return false;
             //포탈 열여야해

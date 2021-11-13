@@ -7,6 +7,7 @@ public class UIGameClearPanel : MonoBehaviour
 {
     public Text clearText;
     public Text clearTime;
+    public Text stageText;
     public Button confirmButton;
     public Button adButton;
     public Text zemText;
@@ -50,6 +51,7 @@ public class UIGameClearPanel : MonoBehaviour
         canvasGroup.interactable = true;
         zemText.text = GameManager.Instance.EarnZem.ToString();
         clearText.text = $"{stage} 스테이지 클리어";
+        stageText.text = GameManager.Instance.StageManager.CurStage.ToString();
         clearTime.text = $"클리어 시간 : {GameManager.Instance.PlayTime.ToString("00:00")}초";
         canvasGroup.DOFade(1, 1f);
     }
