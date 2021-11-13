@@ -9,11 +9,11 @@ using System;
 public class RecordVO
 {
     public string name;
-    public int total_score;
+    public int total_stage;
 
     public RecordVO(string name, string msg, string score)
     {
         this.name = name;
-        this.total_score = int.Parse(score);
+        this.total_stage = int.Parse(score);
     }
 }

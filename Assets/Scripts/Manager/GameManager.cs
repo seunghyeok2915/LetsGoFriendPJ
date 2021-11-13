@@ -77,14 +77,14 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         IsPlaying = false;
-        uiGameClearPanel.PopUp(StageManager.nowStage);
+        uiGameClearPanel.PopUp();
     }
 
     private bool CheckEnd()
     {
         if (enemyListInStage.Count <= 0 && IsPlaying)
         {
-            //TODO : 게임 클리어
+            //TODO : 게임 클리어 우승
             if (StageManager.OnClearStage())
             {
                 EndGame();

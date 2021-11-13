@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
 {
-    public int nowStage;
+    public int nowChapter;
 
     public Stage[] stages;
 
@@ -22,11 +22,11 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
     public bool OnClearStage()
     {
         CurStage++;
+        SaveData();
 
         if ((CurStage) == stages.Length)
         {
             print("전체 스테이지 클리어");
-            SaveData();
             return true;
         }
         else
@@ -50,14 +50,7 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
 
     private void SaveData()
     {
-        if (playerHealth == null)
-        {
-            playerHealth = GameManager.Instance.GetPlayer().GetComponent<PlayerHealth>();
-        }
-
-        float remianHpPersent = (playerHealth.CurrentHealth / playerHealth.MaxHealth) * 100;
-
-        StageVO vo = new StageVO(nowStage, remianHpPersent, GameManager.Instance.PlayTime);
+        UserChapterVO vo = new UserChapterVO(nowChapter,curStage);
         string json = JsonUtility.ToJson(vo);
 
         print(json);

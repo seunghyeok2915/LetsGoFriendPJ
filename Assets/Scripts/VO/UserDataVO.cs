@@ -5,14 +5,14 @@ public class UserDataVO
 {
     public string name;
     public int zem;
-    public int stage;
-    public int score;
+    public int chapter;
+    public int total_stage;
 
-    public UserDataVO( string name,int zem, int stage, int score)
+    public UserDataVO(string name, int zem, int chapter, int total_stage)
     {
         this.name = name;
         this.zem = zem;
-        this.stage = stage;
-        this.score = score;
+        this.chapter = chapter;
+        this.total_stage = total_stage;
     }
 }

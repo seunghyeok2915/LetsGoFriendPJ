@@ -20,7 +20,7 @@ public class PlayerLobby : MonoBehaviour
 
     public void SetPlayerPos()
     {
-        transform.position = new Vector3((lobbyManager.playerStage - 1) * 34 + 6.4f, transform.position.y, transform.position.z);
+        transform.position = new Vector3((lobbyManager.playerChapter - 1) * 34 + 6.4f, transform.position.y, transform.position.z);
     }
 
     public void MoveRight()
@@ -70,7 +70,7 @@ public class PlayerLobby : MonoBehaviour
             return;
         }
 
-        StartCoroutine(LoadScene($"Stage_{lobbyManager.nowStage}"));
+        StartCoroutine(LoadScene($"Stage_{lobbyManager.nowChapter}"));
 
         animator.SetBool("isMoving", true);
 
