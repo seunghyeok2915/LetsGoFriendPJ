@@ -27,6 +27,7 @@ public class PlayerHealth : Health
     public override void IncreaseMaxHp(float hp)
     {
         base.IncreaseMaxHp(hp);
+        Heal(hp * CurrentHealth * 0.01f);
         UpdateHPUI();
     }
 
@@ -64,6 +65,7 @@ public class PlayerHealth : Health
     public override void Die()
     {
         base.Die();
+        GameManager.Instance.EndGame();
         playerAnimationController.SetTrigger("Die");
     }
 

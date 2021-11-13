@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
             _instance = this as GameManager;
         }
         FindPlayer();
-        stageManager = GetComponent<StageManager>();
+        StageManager = GetComponent<StageManager>();
     }
 
     protected virtual void OnDestroy()
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public UIGameClearPanel uiGameClearPanel;
     public Canvas popupCanvas;
     public Image fadeImage;
+    public Animator clearAnim;
 
     private List<GameObject> enemyListInStage = new List<GameObject>();
     private PlayerStats player;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
     public bool IsCaught { get => isCaught; set => isCaught = value; }
     public float PlayTime { get => playTime; set => playTime = value; }
     public int EarnZem { get => earnZem; set => earnZem = value; }
+    public StageManager StageManager { get => stageManager; set => stageManager = value; }
 
     private void Start()
     {
@@ -72,17 +74,23 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void EndGame()
+    {
+        IsPlaying = false;
+        uiGameClearPanel.PopUp(StageManager.nowStage);
+    }
+
     private bool CheckEnd()
     {
         if (enemyListInStage.Count <= 0 && IsPlaying)
         {
             //TODO : 게임 클리어
-            if (stageManager.OnClearStage())
+            if (StageManager.OnClearStage())
             {
-                IsPlaying = false;
-                uiGameClearPanel.PopUp(stageManager.nowStage);
+                EndGame();
                 return true;
             }
+            clearAnim.SetTrigger("Clear");
         }
         return false;
     }
