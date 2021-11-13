@@ -7,6 +7,7 @@ public class UIGameClearPanel : MonoBehaviour
 {
     public Text clearText;
     public Text clearTime;
+    public Text stageText;
     public Button confirmButton;
     public Button adButton;
     public Text zemText;
@@ -43,13 +44,18 @@ public class UIGameClearPanel : MonoBehaviour
         adButton.onClick.AddListener(OnClickAdBtn);
     }
 
-    public void PopUp(int stage)
+    public void PopUp()
     {
         RegisterButtons();
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
         zemText.text = GameManager.Instance.EarnZem.ToString();
-        clearText.text = $"{stage} 스테이지 클리어";
+        //clearText.text = $"{chapter} 챕터 클리어";
+
+        int stage = GameManager.Instance.StageManager.CurStage;
+
+        stageText.text = stage.ToString();
+
         clearTime.text = $"클리어 시간 : {GameManager.Instance.PlayTime.ToString("00:00")}초";
         canvasGroup.DOFade(1, 1f);
     }

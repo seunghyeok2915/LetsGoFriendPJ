@@ -4,15 +4,15 @@ public class LobbyManager : MonoBehaviour
 {
     public UIMainLobby uiMainLobby;
     public PlayerLobby playerLobby;
-    public UIStarPanel starPanel;
+    public UIChapterInfoPanel uiChapterInfo;
     public UIOfflineIncome income;
 
     public string playerName;
-    public int playerStage;
+    public int playerChapter;
     public int playerZem;
-    public int playerScore;
+    public int playerTotal_score;
 
-    public int nowStage;
+    public int nowChapter;
     private void Start()
     {
         GetData();
@@ -37,9 +37,9 @@ public class LobbyManager : MonoBehaviour
             {
                 return;
             }
-            nowStage += 1;
+            nowChapter += 1;
             OpenStar();
-            uiMainLobby.UpdateStageBtn(playerStage, nowStage);
+            uiMainLobby.UpdateStageBtn(playerChapter, nowChapter);
         });
 
         uiMainLobby.leftStageBtn.onClick.AddListener(() =>
@@ -48,9 +48,9 @@ public class LobbyManager : MonoBehaviour
             {
                 return;
             }
-            nowStage -= 1;
+            nowChapter -= 1;
             OpenStar();
-            uiMainLobby.UpdateStageBtn(playerStage, nowStage);
+            uiMainLobby.UpdateStageBtn(playerChapter, nowChapter);
         });
 
         uiMainLobby.startBtn.onClick.AddListener(() =>
@@ -71,10 +71,11 @@ public class LobbyManager : MonoBehaviour
 
     public void OpenStar()
     {
-        StageVO vo = new StageVO(nowStage, 0, 0);
+        ChapterVO vo = new ChapterVO(nowChapter, "", 0);
         string json = JsonUtility.ToJson(vo);
         print("스타실행");
         print(json);
+
         NetworkManager.instance.SendPostRequest("getuserstagedata", json, result =>
         {
             ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
@@ -87,23 +88,25 @@ public class LobbyManager : MonoBehaviour
                 print(res.payload);
                 print(int.Parse(res.payload));
 
-                starPanel.Open(int.Parse(res.payload));
+                uiChapterInfo.Open(int.Parse(res.payload));
             }
             else
             {
                 print("실패");
             }
         });
+
         NetworkManager.instance.SendPostRequest("getstagedata", json, result =>
         {
             ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
-
-            print(res.payload + "1111");
+            print("getstagedata : " + result);
+            print(res.payload);
 
             if (res.result)
             {
-                StageVO vo = JsonUtility.FromJson<StageVO>(res.payload);
-                starPanel.Open(vo);
+                ChapterVO vo = JsonUtility.FromJson<ChapterVO>(res.payload);
+                vo.id = nowChapter;
+                uiChapterInfo.Open(vo);
             }
             else
             {
@@ -130,10 +133,10 @@ public class LobbyManager : MonoBehaviour
 
             playerName = vo.name;
             playerZem = vo.zem;
-            playerStage = vo.stage;
-            playerScore = vo.score;
+            playerChapter = vo.chapter;
+            playerTotal_score = vo.total_stage;
 
-            nowStage = playerStage;
+            nowChapter = playerChapter;
         }
         else
         {
@@ -141,7 +144,7 @@ public class LobbyManager : MonoBehaviour
         }
 
         uiMainLobby.UpdateZem(playerName, playerZem);
-        uiMainLobby.UpdateStageBtn(playerStage, nowStage);
+        uiMainLobby.UpdateStageBtn(playerChapter, nowChapter);
 
         playerLobby.SetPlayerPos();
         OpenStar();

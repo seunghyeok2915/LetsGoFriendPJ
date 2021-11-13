@@ -10,9 +10,9 @@ public class Potal : MonoBehaviour
         onEnter = callback;
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             onEnter?.Invoke();
         }

@@ -8,7 +8,6 @@ public class ExpCube : MonoBehaviour
     public Rigidbody rb;
     private PlayerStats playerStats;
     private float exp;
-    private bool canEat = false;
 
     public void Start()
     {
@@ -64,7 +63,6 @@ public class ExpCube : MonoBehaviour
             playerStats.AddExp(exp);
         }
         exp = 0;
-        canEat = false;
         gameObject.SetActive(false);
     }
 }
