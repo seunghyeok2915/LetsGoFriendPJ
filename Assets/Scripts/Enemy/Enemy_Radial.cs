@@ -14,7 +14,6 @@ public class Enemy_Radial : EnemyBase
     public float maxDist;
 
     private float attackIntervalTimer = 0;
-    private LineRenderer lineRenderer;
     private bool isAttacking;
     public override void Start()
     {
@@ -28,23 +27,6 @@ public class Enemy_Radial : EnemyBase
         {
             moveAgent = GetComponent<MoveAgent>();
         }
-
-        if (lineRenderer == null)
-        {
-            lineRenderer = GetComponent<LineRenderer>();
-        }
-
-        lineRenderer.startColor = new Color(1, 0, 0, 0.5f);
-        lineRenderer.endColor = new Color(1, 0, 0, 0.5f);
-        lineRenderer.startWidth = 0.2f;
-        lineRenderer.endWidth = 0.2f;
-    }
-
-    public void DrawDangerLine(Vector3 pos)
-    {
-        lineRenderer.enabled = true;
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, pos * maxDist);
     }
 
     public override void StartEnemy() //적행동 시작
@@ -92,7 +74,6 @@ public class Enemy_Radial : EnemyBase
             {
                 Vector3 rotVec = new Vector3(0, degree * i, 0);
                 Vector3 newPos = Quaternion.Euler(rotVec) * pos;
-                DrawDangerLine(newPos + transform.position);
                 yield return new WaitForSeconds(0.1f);
             }
 
@@ -121,7 +102,6 @@ public class Enemy_Radial : EnemyBase
 
 
         isAttacking = false;
-        lineRenderer.enabled = false;
         attackIntervalTimer = Time.time;
         yield return null;
     }
@@ -152,7 +132,6 @@ public class Enemy_Radial : EnemyBase
     public override void Die()
     {
         base.Die();
-        lineRenderer.enabled = false;
         moveAgent.Stop();
         enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
 
