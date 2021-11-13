@@ -27,6 +27,7 @@ public class EnemyFOV : MonoBehaviour
         playerTr = GameManager.Instance.GetPlayer().transform;
         playerLayer = LayerMask.NameToLayer("Player");
         circularSectorMeshRenderer = GetComponentInChildren<CircularSectorMeshRenderer>();
+        circularSectorMeshRenderer.gameObject.SetActive(false);
         //플레이어 레이어의 번호를 알아온다.
     }
 
