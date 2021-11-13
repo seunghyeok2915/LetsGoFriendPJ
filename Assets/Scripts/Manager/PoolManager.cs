@@ -27,7 +27,7 @@ public class PoolManager
             pool.Add(name, q);
             prefabDictionary.Add(name, prefab.gameObject);
         }
-        catch (ArgumentException e)
+        catch (ArgumentException)
         {
             pool.Clear();
             prefabDictionary.Clear();

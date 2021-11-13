@@ -48,6 +48,7 @@ MonoBehaviour:
   uiGameClearPanel: {fileID: 0}
   popupCanvas: {fileID: 0}
   fadeImage: {fileID: 0}
+  clearAnim: {fileID: 0}
 --- !u!114 &5865245252546968675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +75,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2846284e76debea4b86e0259b5870e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nowStage: 1
-  stages:
-  - {fileID: 0}
-  - {fileID: 0}
+  nowChapter: 1
+  stageRanges:
+  - minRange: 0
+    maxRange: 1
+    stages:
+    - {fileID: 0}
+    - {fileID: 0}

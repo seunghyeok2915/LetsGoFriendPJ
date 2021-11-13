@@ -12,7 +12,7 @@ public class RankInfo : MonoBehaviour
     public void SetData(int rank, RecordVO vo)
     {
         nameRank.text = $"{rank.ToString()}위 : {vo.name}";
-        starScore.text = $" :  {vo.total_score}개";
+        starScore.text = $"{vo.total_stage} 스테이지";
     }
 
     public void SetAnimation(float delay)

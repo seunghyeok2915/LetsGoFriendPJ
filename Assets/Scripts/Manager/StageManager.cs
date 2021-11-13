@@ -1,12 +1,39 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
+[Serializable]
+public class StageRange
+{
+    public int minRange;
+    public int maxRange;
+
+    public List<Stage> stages;
+
+    public Stage PlayRandom()
+    {
+        int randNum = Random.Range(0, stages.Count);
+        stages[randNum].Play();
+
+        Stage stage = stages[randNum];
+
+        stages.Remove(stages[randNum]);
+
+        return stage;
+    }
+}
 
 public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
 {
-    public int nowStage;
+    public int nowChapter;
 
-    public Stage[] stages;
+    public StageRange[] stageRanges;
+
+    private Stage lastStage;
 
     private int curStage;
+    private int maxStage = 0;
 
     private PlayerHealth playerHealth;
 
@@ -15,28 +42,53 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
     public void Start()
     {
         CurStage = 0;
-        stages[CurStage].Play();
+        PlayNext();
+
+
+
+        foreach (var item in stageRanges)
+        {
+            maxStage += item.stages.Count;
+        }
+    }
+
+    private void PlayNext()
+    {
+        lastStage = GetNowRange().PlayRandom();
+    }
+
+    private StageRange GetNowRange()
+    {
+        foreach (var item in stageRanges)
+        {
+            if(curStage >= item.minRange && curStage <= item.maxRange)
+            {
+                return item;
+            }
+        }
+        
+        return null;
     }
 
 
     public bool OnClearStage()
     {
         CurStage++;
+        SaveData();
 
-        if ((CurStage) == stages.Length)
+        if ((CurStage) == maxStage)
         {
             print("전체 스테이지 클리어");
-            SaveData();
             return true;
         }
         else
         {
-            stages[CurStage - 1].potal.SetEvent(() =>
+            lastStage.potal.SetEvent(() =>
             {
                 GameManager.Instance.FadeInOut(() =>
                 {
-                    stages[CurStage].Play();
-                    stages[CurStage - 1].Stop();
+                    PlayNext();
+                    lastStage.Stop();
                 });
             });
 
@@ -50,14 +102,7 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가지고있다.
 
     private void SaveData()
     {
-        if (playerHealth == null)
-        {
-            playerHealth = GameManager.Instance.GetPlayer().GetComponent<PlayerHealth>();
-        }
-
-        float remianHpPersent = (playerHealth.CurrentHealth / playerHealth.MaxHealth) * 100;
-
-        StageVO vo = new StageVO(nowStage, remianHpPersent, GameManager.Instance.PlayTime);
+        UserChapterVO vo = new UserChapterVO(nowChapter,curStage);
         string json = JsonUtility.ToJson(vo);
 
         print(json);
