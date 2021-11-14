@@ -50,6 +50,7 @@ public class Boss_01 : EnemyBase
         for (int i = 0; i < 3; i++) //3¹ø
         {
             yield return new WaitForSeconds(0.5f);
+            animator.SetTrigger("Jump");
             yield return SimulateProjectile();
 
             float degree = 45f;
@@ -105,6 +106,7 @@ public class Boss_01 : EnemyBase
     private IEnumerator ShootRandom()
     {
         animator.SetTrigger("Attack");
+        yield return new WaitForSeconds(1f);
         for (int i = 0; i < shootNum; i++)
         {
             transform.LookAt(playerTrm);
@@ -115,7 +117,7 @@ public class Boss_01 : EnemyBase
 
             ThrowThing throwThing = PoolManager.GetItem<ThrowThing>("Ob_Enemy_Throw");
             throwThing.transform.position = transform.position + new Vector3(0, 0.5f, 0);
-            throwThing.SetData(10, normalDamage, dir, true);
+            throwThing.SetData(throwSpeed, throwDamage, dir, true);
             yield return new WaitForSeconds(0.1f);
         }
         yield return null;
