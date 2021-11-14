@@ -31,6 +31,8 @@ public class Enemy_Radial : EnemyBase
 
     private void Update()
     {
+        if (isDead) return;
+
         if (enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer())
         {
             GameManager.Instance.IsCaught = true;
@@ -40,12 +42,11 @@ public class Enemy_Radial : EnemyBase
                 StartCoroutine(AttackRoutine());
             }
         }
-        else if (!isDead)
+        else
         {
-            if (!isAttacking)
+            if (!isAttacking) //따라감
             {
                 moveAgent.traceTarget = GameManager.Instance.GetPlayer().transform.position;
-                enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
             }
         }
 

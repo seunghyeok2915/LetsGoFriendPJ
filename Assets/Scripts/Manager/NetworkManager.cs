@@ -11,7 +11,7 @@ public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager instance;
 
-    public string baseUrl = "http://localhost:54000";
+    public string baseUrl = "0";
 
     private string token = "";
 

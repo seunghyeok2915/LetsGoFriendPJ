@@ -1,6 +1,6 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
-using DG.Tweening;
 
 public class Enemy_Bomb : EnemyBase
 {
@@ -23,7 +23,7 @@ public class Enemy_Bomb : EnemyBase
         {
             moveAgent = GetComponent<MoveAgent>();
         }
-        
+
         playerStats = GameManager.Instance.GetPlayer();
     }
 
@@ -34,24 +34,25 @@ public class Enemy_Bomb : EnemyBase
 
     private void Update()
     {
-        if(isDead) return;
+        if (isDead)
+        {
+            return;
+        }
 
-        if (!enemyFOV.IsTracePlayer() || !enemyFOV.IsViewPlayer())
+        if (enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer())
+        {
+            GameManager.Instance.IsCaught = true;
+            if (!isAttacking)
+            {
+                moveAgent.Stop();
+                StartCoroutine(AttackRoutine());
+            }
+        }
+        else
         {
             if (!isAttacking)
             {
-                moveAgent.traceTarget = playerStats.transform.position;
-                enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
-            }
-            else
-            {
-                GameManager.Instance.IsCaught = true;
-                
-                if (!isAttacking)
-                {
-                    moveAgent.Stop();
-                    StartCoroutine(AttackRoutine());
-                }
+                moveAgent.traceTarget = GameManager.Instance.GetPlayer().transform.position;
             }
         }
 
@@ -69,7 +70,7 @@ public class Enemy_Bomb : EnemyBase
         yield return new WaitForSeconds(1f);
         Effect effect = PoolManager.GetItem<Effect>("CFX_Explosion");
         effect.transform.position = transform.position;
-        if(Vector3.Distance(transform.position, playerStats.transform.position) < bombRange)
+        if (Vector3.Distance(transform.position, playerStats.transform.position) < bombRange)
         {
             playerStats.playerHealth.OnDamage(bombDamage);
         }

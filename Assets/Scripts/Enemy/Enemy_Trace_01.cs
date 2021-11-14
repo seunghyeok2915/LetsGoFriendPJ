@@ -32,7 +32,6 @@ public class Enemy_Trace_01 : EnemyBase
         if(GameManager.Instance.IsCaught && !isDead)
         {
             moveAgent.traceTarget = GameManager.Instance.GetPlayer().transform.position;
-            enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
         }
 
         animator.SetFloat("moveSpeed", moveAgent.speed);

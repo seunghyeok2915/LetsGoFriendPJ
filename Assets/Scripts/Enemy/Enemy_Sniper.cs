@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Enemy_Sniper : EnemyBase
 {
-    public EnemyFOV enemyFOV;
-
     public float attackInterval = 2; //쏘고 기다리는 시간
     public float attackDelay = 1.5f; //쏘기까지 기다리는시간
 
@@ -20,16 +18,22 @@ public class Enemy_Sniper : EnemyBase
     public override void Start()
     {
         base.Start();
-        if (enemyFOV == null) enemyFOV = GetComponent<EnemyFOV>();
 
-        if (moveAgent == null) moveAgent = GetComponent<MoveAgent>();
+        if (moveAgent == null)
+        {
+            moveAgent = GetComponent<MoveAgent>();
+        }
 
-        if (lineRenderer == null) lineRenderer = GetComponent<LineRenderer>();
+        if (lineRenderer == null)
+        {
+            lineRenderer = GetComponent<LineRenderer>();
+        }
 
         lineRenderer.startColor = new Color(1, 0, 0, 0.5f);
         lineRenderer.endColor = new Color(1, 0, 0, 0.5f);
         lineRenderer.startWidth = 0.2f;
         lineRenderer.endWidth = 0.2f;
+
     }
 
     public void DrawDangerLine()
@@ -46,22 +50,10 @@ public class Enemy_Sniper : EnemyBase
 
     private void Update()
     {
-        if (enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer())
+        moveAgent.Stop();
+        if (!isAttacking && Time.time - attackIntervalTimer > attackInterval)
         {
-            GameManager.Instance.IsCaught = true;
-            if (!isAttacking && Time.time - attackIntervalTimer > attackInterval)
-            {
-                moveAgent.Stop();
-                StartCoroutine(AttackRoutine());
-            }
-        }
-        else if (!isDead)
-        {
-            if (!isAttacking)
-            {
-                moveAgent.traceTarget = GameManager.Instance.GetPlayer().transform.position;
-                enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
-            }
+            StartCoroutine(AttackRoutine());
         }
 
         animator.SetFloat("moveSpeed", moveAgent.speed);
@@ -76,12 +68,16 @@ public class Enemy_Sniper : EnemyBase
         {
             transform.LookAt(GameManager.Instance.GetPlayer().transform);
             DrawDangerLine();
-            if (Time.time - time > attackDelay) break;
+            if (Time.time - time > attackDelay)
+            {
+                break;
+            }
+
             yield return null;
         }
 
         animator.SetTrigger("Attack");
-        var throwThing = PoolManager.GetItem<ThrowThing>("Ob_Enemy_Throw");
+        ThrowThing throwThing = PoolManager.GetItem<ThrowThing>("Ob_Enemy_Throw");
         throwThing.transform.position = transform.position + new Vector3(0, 0.5f, 0);
         throwThing.SetData(throwSpeed, throwDamage, GameManager.Instance.GetPlayer().transform.position);
 
@@ -98,10 +94,16 @@ public class Enemy_Sniper : EnemyBase
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (isDead) return; // 죽으면 공격안함
+            if (isDead)
+            {
+                return; // 죽으면 공격안함
+            }
 
-            var health = other.gameObject.GetComponent<Health>();
-            if (health != null) health.OnDamage(GetTotalDamage());
+            Health health = other.gameObject.GetComponent<Health>();
+            if (health != null)
+            {
+                health.OnDamage(GetTotalDamage());
+            }
         }
     }
 
@@ -116,6 +118,5 @@ public class Enemy_Sniper : EnemyBase
         base.Die();
         lineRenderer.enabled = false;
         moveAgent.Stop();
-        enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
     }
 }
