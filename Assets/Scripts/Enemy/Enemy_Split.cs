@@ -24,7 +24,7 @@ public class Enemy_Split : EnemyBase
         //transform.position += moveDir * moveSpeed * Time.deltaTime;
     }
 
-    private Vector3 GetRandomDir() // ·£´ı ¹æÇâ °¡Á®¿À±â
+    private Vector3 GetRandomDir() // ëœë¤ ë°©í–¥ ê°€ì ¸ì˜¤ê¸°
     {
         float degree = Random.Range(0f, 360f);
 
@@ -54,7 +54,7 @@ public class Enemy_Split : EnemyBase
         SetHpBar();
     }
 
-    public override void StartEnemy() //ÀûÇàµ¿ ½ÃÀÛ
+    public override void StartEnemy() //ì í–‰ë™ ì‹œì‘
     {
         base.StartEnemy();
         //StartCoroutine(ShootCoroutine());
@@ -65,8 +65,8 @@ public class Enemy_Split : EnemyBase
         
         if (other.gameObject.CompareTag("Wall"))
         {
-            Debug.Log("¹İ»ç");
-            //Æ¨±â±â
+            Debug.Log("ë°˜ì‚¬");
+            //íŠ•ê¸°ê¸°
             ContactPoint cp = other.GetContact(0);
 
             //Vector3 inNormal = Vector3.Normalize(transform.position - other.collider.transform.position);
@@ -81,7 +81,7 @@ public class Enemy_Split : EnemyBase
         {
             if (isDead)
             {
-                return; // Á×À¸¸é °ø°İ¾ÈÇÔ
+                return; // ì£½ìœ¼ë©´ ê³µê²©ì•ˆí•¨
             }
 
             Health health = other.gameObject.GetComponent<Health>();
@@ -94,14 +94,14 @@ public class Enemy_Split : EnemyBase
 
     private float GetTotalDamage()
     {
-        totalDamage = normalDamage; // µ¥¹ÌÁö °è»ê
+        totalDamage = normalDamage; // ë°ë¯¸ì§€ ê³„ì‚°
         return totalDamage;
     }
 
-    public override void Die()
+    protected override void Die()
     {
         base.Die();
 
-        //Á×À»¶§ ÀÚ½Äµé»ı¼ºÇØÁà¾ßÇÔ
+        //ì£½ì„ë•Œ ìì‹ë“¤ìƒì„±í•´ì¤˜ì•¼í•¨
     }
 }

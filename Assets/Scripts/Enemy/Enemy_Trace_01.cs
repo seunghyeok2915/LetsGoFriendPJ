@@ -61,7 +61,7 @@ public class Enemy_Trace_01 : EnemyBase
         return totalDamage;
     }
 
-    public override void Die()
+    protected override void Die()
     {
         base.Die();
         moveAgent.Stop();
