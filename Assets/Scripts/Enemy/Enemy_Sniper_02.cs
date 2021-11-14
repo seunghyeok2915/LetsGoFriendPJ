@@ -30,6 +30,7 @@ public class Enemy_Sniper_02 : EnemyBase
         lineRenderer.endColor = new Color(1, 0, 0, 0.5f);
         lineRenderer.startWidth = 0.2f;
         lineRenderer.endWidth = 0.2f;
+
     }
 
     public void DrawDangerLine()
@@ -46,22 +47,10 @@ public class Enemy_Sniper_02 : EnemyBase
 
     private void Update()
     {
-        if (enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer())
+        moveAgent.Stop();
+        if (!isAttacking && Time.time - attackIntervalTimer > attackInterval)
         {
-            GameManager.Instance.IsCaught = true;
-            if (!isAttacking && Time.time - attackIntervalTimer > attackInterval)
-            {
-                moveAgent.Stop();
-                StartCoroutine(AttackRoutine());
-            }
-        }
-        else if (!isDead)
-        {
-            if (!isAttacking)
-            {
-                moveAgent.traceTarget = GameManager.Instance.GetPlayer().transform.position;
-                enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
-            }
+            StartCoroutine(AttackRoutine());
         }
 
         animator.SetFloat("moveSpeed", moveAgent.speed);

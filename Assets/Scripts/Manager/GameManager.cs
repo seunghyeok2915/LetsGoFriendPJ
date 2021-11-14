@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> enemyListInStage = new List<GameObject>();
     private PlayerStats player;
     private StageManager stageManager;
-    private bool isCaught = false;
+    private bool isCaught = true;
     private bool isPlaying = true;
     private float playTime = 0f;
     private int earnZem = 0;

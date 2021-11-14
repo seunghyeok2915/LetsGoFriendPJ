@@ -25,6 +25,7 @@ public class EnemyFOV : MonoBehaviour
     void Start()
     {
         playerTr = GameManager.Instance.GetPlayer().transform;
+
         playerLayer = LayerMask.NameToLayer("Player");
         circularSectorMeshRenderer = GetComponentInChildren<CircularSectorMeshRenderer>();
         circularSectorMeshRenderer.gameObject.SetActive(false);
@@ -45,6 +46,10 @@ public class EnemyFOV : MonoBehaviour
             transform.position, viewRange, 1 << playerLayer);
         if (colls.Length == 1)
         {
+            if(playerTr == null)
+            {
+                playerTr = GameManager.Instance.GetPlayer().transform;
+            }
             Vector3 dir = (playerTr.position - transform.position).normalized;
 
             if (Vector3.Angle(transform.forward, dir) < viewAngle * 0.5f)
