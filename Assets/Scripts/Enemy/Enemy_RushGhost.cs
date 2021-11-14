@@ -47,9 +47,9 @@ public class Enemy_RushGhost : EnemyBase
                     isDashing = false;
                     break;
                 }
+
                 yield return new WaitForFixedUpdate();
             }
-
         }
     }
 
@@ -57,30 +57,19 @@ public class Enemy_RushGhost : EnemyBase
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (isDead)
-            {
-                return; // 죽으면 공격안함
-            }
+            if (isDead) return; // 죽으면 공격안함
 
-            Health health = other.gameObject.GetComponent<Health>();
-            if (health != null)
-            {
-                health.OnDamage(GetTotalDamage());
-            }
+            var health = other.gameObject.GetComponent<Health>();
+            if (health != null) health.OnDamage(GetTotalDamage());
         }
     }
 
     private Vector3 GetRandomDir() // 랜덤 방향 가져오기
     {
-        Vector3 randDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+        var randDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
         if (Physics.Raycast(transform.position, randDir, 2f)) //앞이 막혀있다면 반대로
-        {
             return -randDir;
-        }
-        else
-        {
-            return randDir;
-        }
+        return randDir;
     }
 
     private float GetTotalDamage()

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    public GameObject[] objects;
-
     public Transform startPos;
     public Potal potal;
 

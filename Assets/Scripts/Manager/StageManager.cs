@@ -24,7 +24,7 @@ public class StageRange
     }
 }
 
-public class StageManager : MonoBehaviour //ÇöÁ¦ ½ºÅ×ÀÌÁöÀÇ Á¤º¸¸¦ °¡Áö°íÀÖ´Ù.
+public class StageManager : MonoBehaviour //í˜„ì œ ìŠ¤í…Œì´ì§€ì˜ ì •ë³´ë¥¼ ê°€ì§€ê³ ìˆë‹¤.
 {
     public int nowChapter;
 
@@ -37,7 +37,7 @@ public class StageManager : MonoBehaviour //ÇöÁ¦ ½ºÅ×ÀÌÁöÀÇ Á¤º¸¸¦ °¡Áö°íÀÖ´Ù.
 
     private PlayerHealth playerHealth;
 
-    public int CurStage { get => curStage; set => curStage = value; }
+    public int CurStage { get => curStage; private set => curStage = value; }
 
     public void Start()
     {
@@ -78,7 +78,7 @@ public class StageManager : MonoBehaviour //ÇöÁ¦ ½ºÅ×ÀÌÁöÀÇ Á¤º¸¸¦ °¡Áö°íÀÖ´Ù.
 
         if ((CurStage) == maxStage)
         {
-            print("ÀüÃ¼ ½ºÅ×ÀÌÁö Å¬¸®¾î");
+            print("ì „ì²´ ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´");
             return true;
         }
         else
@@ -93,10 +93,10 @@ public class StageManager : MonoBehaviour //ÇöÁ¦ ½ºÅ×ÀÌÁöÀÇ Á¤º¸¸¦ °¡Áö°íÀÖ´Ù.
             });
 
 
-            print(CurStage + "½ºÅ×ÀÌÁö Å¬¸®¾î");
+            print(CurStage + "ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´");
 
             return false;
-            //Æ÷Å» ¿­¿©¾ßÇØ
+            //í¬íƒˆ ì—´ì—¬ì•¼í•´
         }
     }
 
@@ -116,7 +116,7 @@ public class StageManager : MonoBehaviour //ÇöÁ¦ ½ºÅ×ÀÌÁöÀÇ Á¤º¸¸¦ °¡Áö°íÀÖ´Ù.
             }
             else
             {
-                print("½ÇÆĞ");
+                print("ì‹¤íŒ¨");
             }
         });
     }

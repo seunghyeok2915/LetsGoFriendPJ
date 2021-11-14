@@ -7,6 +7,6 @@ public class NpcShop : NpcBase
     public override void DoAction()
     {
         //Show Panel
-        print("¿­¸²");
+        print("ì—´ë¦¼");
     }
 }

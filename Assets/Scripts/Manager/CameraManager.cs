@@ -1,27 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    private static CameraManager _instance;
-    public static CameraManager Instance => _instance;
+    public static CameraManager Instance { get; private set; }
 
     protected virtual void Awake()
     {
-        if (_instance != null)
-        {
+        if (Instance != null)
             Destroy(gameObject);
-        }
         else
-        {
-            _instance = this as CameraManager;
-        }
+            Instance = this;
     }
 
     protected virtual void OnDestroy()
     {
-        _instance = default;
+        Instance = default;
     }
 
     public Camera mainCam;
@@ -42,17 +36,17 @@ public class CameraManager : MonoBehaviour
         Invoke("StopShake", duration);
     }
 
-    void StartShake()
+    private void StartShake()
     {
         float cameraPosX = Random.value * shakeRange * 2 - shakeRange;
         float cameraPosY = Random.value * shakeRange * 2 - shakeRange;
-        Vector3 cameraPos = mainCam.transform.position;
+        var cameraPos = mainCam.transform.position;
         cameraPos.x += cameraPosX;
         cameraPos.y += cameraPosY;
         mainCam.transform.position = cameraPos;
     }
 
-    void StopShake()
+    private void StopShake()
     {
         CancelInvoke("StartShake");
     }
