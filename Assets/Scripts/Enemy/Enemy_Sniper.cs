@@ -13,26 +13,18 @@ public class Enemy_Sniper : EnemyBase
 
     public float maxDist;
 
-    private float attackIntervalTimer = 0;
+    private float attackIntervalTimer;
     private LineRenderer lineRenderer;
     private bool isAttacking;
+
     public override void Start()
     {
         base.Start();
-        if (enemyFOV == null)
-        {
-            enemyFOV = GetComponent<EnemyFOV>();
-        }
+        if (enemyFOV == null) enemyFOV = GetComponent<EnemyFOV>();
 
-        if (moveAgent == null)
-        {
-            moveAgent = GetComponent<MoveAgent>();
-        }
+        if (moveAgent == null) moveAgent = GetComponent<MoveAgent>();
 
-        if (lineRenderer == null)
-        {
-            lineRenderer = GetComponent<LineRenderer>();
-        }
+        if (lineRenderer == null) lineRenderer = GetComponent<LineRenderer>();
 
         lineRenderer.startColor = new Color(1, 0, 0, 0.5f);
         lineRenderer.endColor = new Color(1, 0, 0, 0.5f);
@@ -59,11 +51,11 @@ public class Enemy_Sniper : EnemyBase
             GameManager.Instance.IsCaught = true;
             if (!isAttacking && Time.time - attackIntervalTimer > attackInterval)
             {
-            moveAgent.Stop();
+                moveAgent.Stop();
                 StartCoroutine(AttackRoutine());
             }
         }
-        else if(!isDead)
+        else if (!isDead)
         {
             if (!isAttacking)
             {
@@ -84,18 +76,15 @@ public class Enemy_Sniper : EnemyBase
         {
             transform.LookAt(GameManager.Instance.GetPlayer().transform);
             DrawDangerLine();
-            if (Time.time - time > attackDelay)
-            {
-                break;
-            }
+            if (Time.time - time > attackDelay) break;
             yield return null;
         }
 
         animator.SetTrigger("Attack");
-        ThrowThing throwThing = PoolManager.GetItem<ThrowThing>("Ob_Enemy_Throw");
+        var throwThing = PoolManager.GetItem<ThrowThing>("Ob_Enemy_Throw");
         throwThing.transform.position = transform.position + new Vector3(0, 0.5f, 0);
-        throwThing.SetData(throwSpeed, throwDamage,GameManager.Instance.GetPlayer().transform.position);
-        
+        throwThing.SetData(throwSpeed, throwDamage, GameManager.Instance.GetPlayer().transform.position);
+
         //발사
 
 
@@ -109,16 +98,10 @@ public class Enemy_Sniper : EnemyBase
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (isDead)
-            {
-                return; // 죽으면 공격안함
-            }
+            if (isDead) return; // 죽으면 공격안함
 
-            Health health = other.gameObject.GetComponent<Health>();
-            if (health != null)
-            {
-                health.OnDamage(GetTotalDamage());
-            }
+            var health = other.gameObject.GetComponent<Health>();
+            if (health != null) health.OnDamage(GetTotalDamage());
         }
     }
 
@@ -128,12 +111,11 @@ public class Enemy_Sniper : EnemyBase
         return totalDamage;
     }
 
-    public override void Die()
+    protected override void Die()
     {
         base.Die();
         lineRenderer.enabled = false;
         moveAgent.Stop();
         enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
-
     }
 }

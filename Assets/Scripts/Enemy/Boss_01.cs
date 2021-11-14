@@ -23,7 +23,7 @@ public class Boss_01 : EnemyBase
         StartCoroutine(BossRoutine());
     }
 
-    public IEnumerator BossRoutine()
+    private IEnumerator BossRoutine()
     {
         while (true)
         {

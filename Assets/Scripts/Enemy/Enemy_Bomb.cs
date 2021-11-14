@@ -9,6 +9,8 @@ public class Enemy_Bomb : EnemyBase
     public float bombRange = 5f;
     public GameObject bombRangeShow;
     private bool isAttacking;
+
+    private PlayerStats playerStats;
     public override void Start()
     {
         base.Start();
@@ -21,6 +23,8 @@ public class Enemy_Bomb : EnemyBase
         {
             moveAgent = GetComponent<MoveAgent>();
         }
+        
+        playerStats = GameManager.Instance.GetPlayer();
     }
 
     public override void StartEnemy() //적행동 시작
@@ -30,21 +34,24 @@ public class Enemy_Bomb : EnemyBase
 
     private void Update()
     {
-        if (enemyFOV.IsTracePlayer() && enemyFOV.IsViewPlayer())
-        {
-            GameManager.Instance.IsCaught = true;
-            if (!isAttacking)
-            {
-                moveAgent.Stop();
-                StartCoroutine(AttackRoutine());
-            }
-        }
-        else if (!isDead)
+        if(isDead) return;
+
+        if (!enemyFOV.IsTracePlayer() || !enemyFOV.IsViewPlayer())
         {
             if (!isAttacking)
             {
-                moveAgent.traceTarget = GameManager.Instance.GetPlayer().transform.position;
+                moveAgent.traceTarget = playerStats.transform.position;
                 enemyFOV.circularSectorMeshRenderer.gameObject.SetActive(false);
+            }
+            else
+            {
+                GameManager.Instance.IsCaught = true;
+                
+                if (!isAttacking)
+                {
+                    moveAgent.Stop();
+                    StartCoroutine(AttackRoutine());
+                }
             }
         }
 
@@ -55,15 +62,16 @@ public class Enemy_Bomb : EnemyBase
     {
         isAttacking = true;
         animator.SetTrigger("Attack");
-        Vector3 pos = GameManager.Instance.GetPlayer().transform.position;
+
+        Vector3 pos = playerStats.transform.position;
         transform.LookAt(pos);
         bombRangeShow.transform.DOScale(new Vector3(5, 5, 5), 1f);
         yield return new WaitForSeconds(1f);
         Effect effect = PoolManager.GetItem<Effect>("CFX_Explosion");
         effect.transform.position = transform.position;
-        if(Vector3.Distance(transform.position, GameManager.Instance.GetPlayer().transform.position) < bombRange)
+        if(Vector3.Distance(transform.position, playerStats.transform.position) < bombRange)
         {
-            GameManager.Instance.GetPlayer().GetComponent<PlayerHealth>().OnDamage(bombDamage);
+            playerStats.playerHealth.OnDamage(bombDamage);
         }
         Die();
         yield return null;
@@ -92,7 +100,7 @@ public class Enemy_Bomb : EnemyBase
         return totalDamage;
     }
 
-    public override void Die()
+    protected override void Die()
     {
         base.Die();
         moveAgent.Stop();

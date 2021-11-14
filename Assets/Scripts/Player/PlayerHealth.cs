@@ -62,7 +62,7 @@ public class PlayerHealth : Health
         playerHitEffect.OnHitEffect();
     }
 
-    public override void Die()
+    protected override void Die()
     {
         base.Die();
         GameManager.Instance.EndGame();

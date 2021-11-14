@@ -8,8 +8,8 @@ public class EnemyBase : Health
     public GameObject barCanvas;
     public GameObject hpBarObj;
 
-    public float normalDamage; // ±âº» µ¥¹ÌÁö
-    protected float totalDamage; //ÃÑÇÕ µ¥¹ÌÁö °è»ê
+    public float normalDamage; // ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    protected float totalDamage; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
     protected Animator animator;
     private SkinnedMeshRenderer[] materials;
@@ -40,7 +40,7 @@ public class EnemyBase : Health
         StartEnemy();
     }
 
-    public virtual void StartEnemy() //ÀûÇàµ¿ ½ÃÀÛ
+    public virtual void StartEnemy() //ï¿½ï¿½ï¿½àµ¿ ï¿½ï¿½ï¿½ï¿½
     {
         foreach (SkinnedMeshRenderer item in materials)
         {
@@ -52,10 +52,10 @@ public class EnemyBase : Health
         enemyHpBar.gameObject.SetActive(false);
 
         gameObject.SetActive(true);
-        GameManager.Instance.AddEnemyInList(this.gameObject); //ÀÚ½ÅÀ» ¸®½ºÆ®¿¡ Ãß°¡ÇÔ
+        GameManager.Instance.AddEnemyInList(gameObject); //ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½
     }
 
-    public void SetHpBar() //HP ¹Ù »ý¼º, ÃÊ±âÈ­
+    public void SetHpBar() //HP ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ê±ï¿½È­
     {
         if (barCanvas == null)
         {
@@ -95,8 +95,8 @@ public class EnemyBase : Health
         this.duration = duration;
 
         shakePos = transform.position;
-        InvokeRepeating("StartShake", 0f, 0.005f);
-        Invoke("StopShake", duration);
+        InvokeRepeating(nameof(StartShake), 0f, 0.005f);
+        Invoke(nameof(StopShake), duration);
     }
 
     void StartShake()
@@ -112,7 +112,7 @@ public class EnemyBase : Health
     void StopShake()
     {
         transform.position = shakePos;
-        CancelInvoke("StartShake");
+        CancelInvoke(nameof(StartShake));
     }
 
     public override void OnDamage(float damage)
@@ -124,20 +124,20 @@ public class EnemyBase : Health
         {
             isFire = true;
             StartCoroutine(FireDotsDamage(5f, damage));
-            //µµÆ®µ¥¹ÌÁö ÀÔ¾î¾ßÇÔ
+            //ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½
         }
 
         if (GameManager.Instance.GetPlayer().CanUseSkill(ESkill.Ice) && !isIce)
         {
             isIce = true;
             StartCoroutine(Ice(5f));
-            //µµÆ®µ¥¹ÌÁö ÀÔ¾î¾ßÇÔ
+            //ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½
         }
-        ShowDamagedEffect(damage); //ÇÇ°Ý ÀÌÆåÆ®
+        ShowDamagedEffect(damage); //ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 
         if (!isDead)
         {
-            enemyHpBar.SetHPBar(MaxHealth, CurrentHealth); //HP¹Ù ¾÷µ¥ÀÌÆ®
+            enemyHpBar.SetHPBar(MaxHealth, CurrentHealth); //HPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
             enemyHpBar.gameObject.SetActive(true);
         }
     }
@@ -184,17 +184,15 @@ public class EnemyBase : Health
     [ContextMenu("Revive")]
     public override void Revive()
     {
-        if (!isDead)
+        if (isDead)
         {
-            return; //Á×Áö¾Ê¾Ò´Ù¸é ¸®ÅÏ
+            base.Revive();
+            animator.SetTrigger("Revive");
+            StartEnemy();
         }
-
-        base.Revive();
-        animator.SetTrigger("Revive");
-        StartEnemy();
     }
 
-    public override void Die()
+    protected override void Die()
     {
         base.Die();
         StopAllCoroutines();
@@ -202,7 +200,7 @@ public class EnemyBase : Health
 
         if (GameManager.Instance.GetPlayer().CanUseSkill(ESkill.DrainHealth))
         {
-            //ÇÇÈí ÇØ¾ßÇÔ
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½Ø¾ï¿½ï¿½ï¿½
             GameManager.Instance.GetPlayer().DrainHealth();
         }
 
