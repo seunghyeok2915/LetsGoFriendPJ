@@ -374,6 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 179834022}
+  canMove: 1
 --- !u!114 &254322587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,10 +404,12 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   playerAnimationController: {fileID: 0}
   playerHealth: {fileID: 0}
+  playerStats: {fileID: 0}
   throwPos: {fileID: 2123877756}
   attackDamage: 10
   attackDelay: 0.7
   attackRange: 100
+  assassinateRange: 0
   shurikenSpeed: 20
 --- !u!195 &254322589
 NavMeshAgent:
@@ -1238,6 +1241,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ea42311445b83447b66215c30e11ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiGameClearPanel: {fileID: 0}
+  popupCanvas: {fileID: 0}
+  fadeImage: {fileID: 0}
+  clearAnim: {fileID: 0}
 --- !u!4 &1136642693
 Transform:
   m_ObjectHideFlags: 0
@@ -2194,5 +2201,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6499800723834110353, guid: 671f91e9b5bec57428cf667b06ece5b4,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 2e2cc2de3f07bd44ab96a6fc4d95f4a1, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 671f91e9b5bec57428cf667b06ece5b4, type: 3}
