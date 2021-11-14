@@ -97,7 +97,9 @@ public class PlayerAttack : MonoBehaviour
     private void PlayerAttackAnimation() //공격 애니메이션 실행함 
     {
         playerAnimationController.SetTrigger("Attack");
-        transform.LookAt(targetTrm);
+        Vector3 lookVec = targetTrm.position;
+        lookVec.y = 0;
+        transform.LookAt(lookVec);
     }
 
     public void OnAttack()

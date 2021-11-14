@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ThrowThing : MonoBehaviour
@@ -9,13 +7,20 @@ public class ThrowThing : MonoBehaviour
 
     private Vector3 moveDir = Vector3.zero;
 
-    public void SetData(float speed,float damage,Vector3 targetPos)
+    public void SetData(float speed, float damage, Vector3 targetPos, bool isDir = false)
     {
         this.speed = speed;
         this.damage = damage;
-
-        moveDir = (targetPos - transform.position).normalized;
-        moveDir.y = 0;
+        if(!isDir)
+        {
+            moveDir = (targetPos - transform.position).normalized;
+            moveDir.y = 0;
+        }
+        else
+        {
+            moveDir = targetPos.normalized;
+            moveDir.y = 0;
+        }
     }
 
     public void FixedUpdate()
@@ -33,9 +38,9 @@ public class ThrowThing : MonoBehaviour
                 health.OnDamage(damage);
             }
         }
-        if(collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall"))
         {
-        gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }
