@@ -70,13 +70,6 @@ public class Enemy_Radial : EnemyBase
         //라인 렌더러 그려줘야해
         while (true)
         {
-            for (int i = 0; i < 8; i++)
-            {
-                Vector3 rotVec = new Vector3(0, degree * i, 0);
-                Vector3 newPos = Quaternion.Euler(rotVec) * pos;
-                yield return new WaitForSeconds(0.1f);
-            }
-
             if (Time.time - time > attackDelay)
             {
                 break;

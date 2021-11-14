@@ -8,9 +8,6 @@ public class EnemyBase : Health
     public GameObject barCanvas;
     public GameObject hpBarObj;
 
-    public bool canBePush = true; //밀릴수있는가
-    private const float pushForce = 3.0f;
-
     public float normalDamage; // 기본 데미지
     protected float totalDamage; //총합 데미지 계산
 
