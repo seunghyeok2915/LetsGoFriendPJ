@@ -23,7 +23,6 @@ public class UILoginPage : MonoBehaviour
 
             NetworkManager.instance.SendPostRequest("login", payload, res =>
             {
-                Debug.Log(res);
                 ResponseVO vo = JsonUtility.FromJson<ResponseVO>(res);
                 if (vo.result)
                 {

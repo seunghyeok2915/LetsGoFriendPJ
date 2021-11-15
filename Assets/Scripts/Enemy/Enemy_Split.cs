@@ -65,7 +65,7 @@ public class Enemy_Split : EnemyBase
         
         if (other.gameObject.CompareTag("Wall"))
         {
-            Debug.Log("반사");
+            
             //튕기기
             ContactPoint cp = other.GetContact(0);
 

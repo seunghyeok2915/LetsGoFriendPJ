@@ -18,8 +18,6 @@ public class Boss_02 : EnemyBase
     {
         base.Start();
 
-        PoolManager.CreatePool<Enemy_Bomb>("Enemy_Bomb", gameObject, spawnNum * 2);
-
         playerTrm = GameManager.Instance.GetPlayer().transform;
         StartCoroutine(BossRoutine());
 

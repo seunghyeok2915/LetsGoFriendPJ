@@ -19,7 +19,6 @@ public class UIOfflineIncome : MonoBehaviour
 
     public void Popup(int time)
     {
-        Debug.Log("111");
         gameObject.SetActive(true);
 
         seq1.Kill();
@@ -43,11 +42,10 @@ public class UIOfflineIncome : MonoBehaviour
 
     public void OnClickClaimBtn(int gold)
     {
-        Debug.Log("222");
         //SoundManager.instance.PlaySound(6);
         //GameManager.instance.Vibrate();
 
-        NetworkManager.instance.UpdateZem(gold, lobby.GetData);
+        NetworkManager.instance.UpdateZem(lobby.playerZem + gold, lobby.GetData);
         
 
         popUpPanel.transform.DOScale(new Vector3(0.1f, 0.1f, 0.1f), 0.2f).OnComplete(() => gameObject.SetActive(false));
