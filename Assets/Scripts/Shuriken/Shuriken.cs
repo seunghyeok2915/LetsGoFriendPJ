@@ -5,8 +5,9 @@ public class Shuriken : MonoBehaviour, IPoolable
     public bool isDestoryable = true;
     private ShurikenAttack shurikenAttack;
     private ShurikenMove shurikenMove;
+    private const float liveTime = 5f; //5초후면 무조건 사라진다
 
-    
+
 
     private void Awake()
     {
@@ -63,6 +64,11 @@ public class Shuriken : MonoBehaviour, IPoolable
 
     public void OnPool()
     {
+        Invoke(nameof(SetFalse), liveTime);
+    }
 
+    private void SetFalse()
+    {
+        gameObject.SetActive(false);
     }
 }

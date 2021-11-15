@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ThrowThing : MonoBehaviour
 {
+    private const float liveTime = 5f; //5초후면 무조건 사라진다
     private float speed;
     private float damage;
 
@@ -21,6 +22,13 @@ public class ThrowThing : MonoBehaviour
             moveDir = targetPos.normalized;
             moveDir.y = 0;
         }
+
+        Invoke(nameof(SetFalse),liveTime);
+    }
+
+    private void SetFalse()
+    {
+        gameObject.SetActive(false);
     }
 
     public void FixedUpdate()
