@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class UIAssassinateButton : MonoBehaviour
 {
-    public Image alertImage;
     public Button assassinateButton;
     public PlayerAttack playerAttack;
     public PlayerInput playerInput;
@@ -35,12 +34,7 @@ public class UIAssassinateButton : MonoBehaviour
         {
             assassinateButton.gameObject.SetActive(false);
             assassinateButton.interactable = false;
-            alertImage.gameObject.SetActive(true);
             return;
-        }
-        else
-        {
-            alertImage.gameObject.SetActive(false);
         }
 
         if (playerInput.canMove) //움직일수없는 상태 (암살중인 상태)라면
