@@ -4,6 +4,7 @@ using UnityEngine.Events;
 public class Potal : MonoBehaviour
 {
     public UnityAction onEnter;
+    private bool usedPotal = false;
 
     public void SetEvent(UnityAction callback)
     {
@@ -12,8 +13,9 @@ public class Potal : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !usedPotal)
         {
+            usedPotal = true;
             onEnter?.Invoke();
         }
     }
