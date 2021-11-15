@@ -97,24 +97,27 @@ public class GameManager : MonoBehaviour
 
     public void FadeIn()
     {
+        fadeImage.gameObject.SetActive(true);
         fadeImage.DOFade(0f, 0.01f);
-        fadeImage.DOFade(1f, 0.5f);
+        fadeImage.DOFade(1f, 0.5f).OnComplete(() => fadeImage.gameObject.SetActive(false));
     }
 
     public void FadeOut()
     {
+        fadeImage.gameObject.SetActive(true);
         fadeImage.DOFade(1f, 0.01f);
-        fadeImage.DOFade(0f, 1);
+        fadeImage.DOFade(0f, 1).OnComplete(() => fadeImage.gameObject.SetActive(false));
     }
 
     public void FadeInOut(UnityAction callback)
     {
+        fadeImage.gameObject.SetActive(true);
         fadeImage.DOFade(0f, 0.01f);
         fadeImage.DOFade(1f, 0.5f).OnComplete(() =>
         {
             callback?.Invoke();
             fadeImage.DOFade(1f, 0.01f);
-            fadeImage.DOFade(0, 1f);
+            fadeImage.DOFade(0, 1f).OnComplete(() => fadeImage.gameObject.SetActive(false));
         });
     }
 

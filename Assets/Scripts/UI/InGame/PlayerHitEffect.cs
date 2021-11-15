@@ -19,11 +19,13 @@ public class PlayerHitEffect : MonoBehaviour
             .Append(hitImage.DOFade(0, fadeOutTime))
             .OnStart(() => hitImage.color = new Color(1, 1, 1, 0))
             .SetAutoKill(false)
-            .Pause();
+            .Pause()
+            .OnComplete(() => gameObject.SetActive(false));
     }
 
     public void OnHitEffect()
     {
+        gameObject.SetActive(true);
         sq.Restart();
     }
 }

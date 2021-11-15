@@ -119,14 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7ce3b2390c51e41af64dae2b3b5b87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   startPos: {fileID: 1130918259434346485}
   potal: {fileID: 1130918259907049779}
 --- !u!1001 &8595697006274345719
@@ -896,6 +888,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8595697007226232057}
     m_Modifications:
+    - target: {fileID: 8696309749632292847, guid: a4ad0dc9b074a664ea9d482ec5c913f7,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8696309749632292847, guid: a4ad0dc9b074a664ea9d482ec5c913f7,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8717799859555367528, guid: a4ad0dc9b074a664ea9d482ec5c913f7,
         type: 3}
       propertyPath: m_RootOrder
