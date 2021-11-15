@@ -74,8 +74,8 @@ public class NetworkManager : MonoBehaviour
     }
 
     public void SendGetRequest(string url, string queryString, Action<string> callBack)
-    {
-        StartCoroutine(SendGet($"{baseUrl}/{url}{queryString}", callBack));
+    { 
+            StartCoroutine(SendGet($"{baseUrl}/{url}{queryString}", callBack));
     }
 
     public void SendPostRequest(string url, string payload, Action<string> callBack)

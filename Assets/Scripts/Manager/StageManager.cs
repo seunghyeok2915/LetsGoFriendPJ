@@ -46,7 +46,7 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가
 
 
 
-        foreach (var item in stageRanges)
+        foreach (StageRange item in stageRanges)
         {
             maxStage += item.stages.Count;
         }
@@ -59,14 +59,14 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가
 
     private StageRange GetNowRange()
     {
-        foreach (var item in stageRanges)
+        foreach (StageRange item in stageRanges)
         {
-            if(curStage >= item.minRange && curStage <= item.maxRange)
+            if (curStage >= item.minRange && curStage <= item.maxRange)
             {
                 return item;
             }
         }
-        
+
         return null;
     }
 
@@ -104,11 +104,15 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가
 
     private void SaveData()
     {
-        UserChapterVO vo = new UserChapterVO(nowChapter,curStage);
+        if (NetworkManager.instance == null)
+        {
+            return;
+        }
+
+        UserChapterVO vo = new UserChapterVO(nowChapter, curStage);
         string json = JsonUtility.ToJson(vo);
 
         print(json);
-
         NetworkManager.instance.SendPostRequest("updatetstage", json, result =>
         {
             ResponseVO vo = JsonUtility.FromJson<ResponseVO>(result);
@@ -121,5 +125,6 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가
                 print("실패");
             }
         });
+
     }
 }
