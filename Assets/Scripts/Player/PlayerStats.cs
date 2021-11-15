@@ -23,9 +23,8 @@ public enum ESkill : ushort
 public class PlayerStats : MonoBehaviour
 {
     public UISkillSelectPanel skillSelectPanel;
-    
+
     public UIExpBar uiExpBar;
-    public UIEarnZem uiEarnZem;
 
     public PlayerHealth playerHealth;
     public PlayerAttack playerAttack;
@@ -131,7 +130,7 @@ public class PlayerStats : MonoBehaviour
 
         uiExpBar.SetBar(expForLevelUp, currentExp);
         int zemCnt = GameManager.Instance.EarnZem += (int)exp;
-        uiEarnZem.UpdateZem(zemCnt);
+        //uiEarnZem.UpdateZem(zemCnt);
     }
 
     public void LevelUp()

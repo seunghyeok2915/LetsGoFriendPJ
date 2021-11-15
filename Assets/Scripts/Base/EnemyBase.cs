@@ -161,8 +161,15 @@ public class EnemyBase : Health
 
     private IEnumerator Ice(float time)
     {
+        if (moveAgent == null)
+        {
+            yield break;
+        }
+
         float oriSpeed = moveAgent.traceSpeed;
         moveAgent.traceSpeed = oriSpeed / 2f;
+
+
         while (time > 0)
         {
             foreach (SkinnedMeshRenderer item in materials)

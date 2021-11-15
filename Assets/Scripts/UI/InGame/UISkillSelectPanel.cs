@@ -8,8 +8,14 @@ using DG.Tweening;
 public class UISkillSelectPanel : MonoBehaviour
 {
     public UIStatsPanel uiStatsPanel;
-
     public Image backImage;
+
+    public Text closeTimeText;
+    public Button skillBuyButton;
+
+    public Button skipButton; //끔
+    public Text buyCostText;
+    public int buyCost = 1000;
 
 
     public float closeDelay = 2f; // 닫히는 시간
@@ -32,6 +38,7 @@ public class UISkillSelectPanel : MonoBehaviour
 
     private Sprite originButtonSprite;
     private bool isFirst = true;
+    private bool buyUsed = false;
 
     private void Start()
     {
@@ -69,11 +76,10 @@ public class UISkillSelectPanel : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void OnOpenAnim()
     {
-        Time.timeScale = 0.0f;
         DOTween.defaultTimeScaleIndependent = true;
-        backImage.color = new Color(0,0,0,0);
+        backImage.color = new Color(0, 0, 0, 0);
         backImage.DOFade(0.9f, 0.5f);
 
         slotThemeImage.rectTransform.anchoredPosition = new Vector3(0, 400, 0);
@@ -81,15 +87,22 @@ public class UISkillSelectPanel : MonoBehaviour
         slotThemeImage.DOFade(0, 0.01f);
         slotThemeImage.DOFade(0.9f, 0.5f);
 
-        skillDescription.rectTransform.anchoredPosition = new Vector3(0, -1365,0);
+        skillDescription.rectTransform.anchoredPosition = new Vector3(0, -1365, 0);
         skillDescription.rectTransform.DOLocalMove(new Vector3(0, -747, 0), 0.7f);
         skillDescription.DOFade(0, 0.01f);
         skillDescription.DOFade(0.9f, 0.7f);
 
         chestsGroup.spacing = -2000f;
         DOTween.To(() => chestsGroup.spacing, x => chestsGroup.spacing = x, 0, 1f);
+    }
 
-        if (slotThemes.Count <= 0 && isFirst)
+    private void OnEnable()
+    {
+        Time.timeScale = 0.0f;
+
+        OnOpenAnim();
+
+        if (slotThemes.Count <= 0 && isFirst) //처음 킨거라면
         {
             isFirst = false;
             RegisterSlotThemes();
@@ -109,7 +122,7 @@ public class UISkillSelectPanel : MonoBehaviour
 
     private void PickRandom()
     {
-        if (slotThemes.Count <= 0 && !isFirst)
+        if (slotThemes.Count <= 0 && !isFirst) //(!isFirst || buyUsed)
         {
             //다쓴것임
             Time.timeScale = 1;
@@ -133,6 +146,7 @@ public class UISkillSelectPanel : MonoBehaviour
     private void OnDisable()
     {
         Time.timeScale = 1f;
+        buyUsed = false;
         ResetPanel();
     }
 
@@ -186,6 +200,11 @@ public class UISkillSelectPanel : MonoBehaviour
 
         isPressed = false;
         skillDescription.text = originDescription;
+
+        skipButton.gameObject.SetActive(false);
+        skillBuyButton.gameObject.SetActive(false);
+
+        sequence.Kill();
     }
 
     private void RegisterButtons()
@@ -195,9 +214,38 @@ public class UISkillSelectPanel : MonoBehaviour
             int cnt = i;
             buttons[i].onClick.AddListener(() => OnButtonClick(cnt));
         }
+
+        skipButton.onClick.AddListener(Close);
+        skipButton.gameObject.SetActive(false);
+
+        buyCostText.text = buyCost.ToString();
+
+        skillBuyButton.onClick.RemoveAllListeners();
+        skillBuyButton.onClick.AddListener(OnClickBuySkillButton); //buy 스킬 버튼 이벤트 넣고 false
+        skillBuyButton.gameObject.SetActive(false);
     }
 
-    private void OnButtonClick(int num)
+    private void OnClickBuySkillButton() //구매 버튼
+    {
+
+        if(GameManager.Instance.UseEarnZem(buyCost))
+        {
+            StopAllCoroutines();
+            PickRandom();
+            OnOpenAnim();
+            ResetPanel();
+            buyUsed = true;
+        }
+    }
+
+    public void Close()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private Sequence sequence;
+
+    private void OnButtonClick(int num) //버튼 눌렀을때
     {
         if (isPressed)
         {
@@ -212,7 +260,9 @@ public class UISkillSelectPanel : MonoBehaviour
         {
             string definition = skill.skillName + "\n\n" + skill.skillDefinition;
             buttons[num].image.sprite = skill.skillImage;
-            DOTween.To(() => "", str => skillDescription.text = str, definition, 1.5f);
+
+            sequence = DOTween.Sequence();
+            sequence.Append(DOTween.To(() => "", str => skillDescription.text = str, definition, 1.5f));
             //skillDescription.text = definition;
             GameManager.Instance.GetPlayer().GetComponent<PlayerStats>().AddSkill(skill.skillEnum);
             uiStatsPanel.AddSkill(skill);
@@ -227,12 +277,27 @@ public class UISkillSelectPanel : MonoBehaviour
             }
         }
 
+        skipButton.gameObject.SetActive(true);
+        if(!buyUsed)
+        {
+            skillBuyButton.gameObject.SetActive(true);
+        }
+
         StartCoroutine(ClosePanel(closeDelay));
     }
     private IEnumerator ClosePanel(float second)
     {
-        yield return new WaitForSecondsRealtime(second);
-        gameObject.SetActive(false);
+        
+        while (true)
+        {
+            closeTimeText.text = $"게임 시작까지 {second}초";
+            if (second <= 0)
+                break;
+            second -= 1;
+            yield return new WaitForSecondsRealtime(1f);
+        }
+
+        Close();
     }
 }
 

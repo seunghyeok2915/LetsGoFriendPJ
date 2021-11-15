@@ -120,6 +120,7 @@ public class LobbyManager : MonoBehaviour
     public void GetData()
     {
         NetworkManager.instance.SendGetRequest("getuserdata", "", GetData);
+
     }
 
     private void GetData(string json)

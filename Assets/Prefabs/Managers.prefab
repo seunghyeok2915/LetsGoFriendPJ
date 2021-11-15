@@ -49,6 +49,7 @@ MonoBehaviour:
   popupCanvas: {fileID: 0}
   fadeImage: {fileID: 0}
   clearAnim: {fileID: 0}
+  uiEarnZem: {fileID: 0}
 --- !u!114 &5865245252546968675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,8 +79,9 @@ MonoBehaviour:
   nowChapter: 1
   stageRanges:
   - minRange: 0
-    maxRange: 18
+    maxRange: 19
     stages:
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}

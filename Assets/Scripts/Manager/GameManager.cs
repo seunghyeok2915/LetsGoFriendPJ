@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public Canvas popupCanvas;
     public Image fadeImage;
     public Animator clearAnim;
+    public UIEarnZem uiEarnZem;
 
     private List<GameObject> enemyListInStage = new List<GameObject>();
     private PlayerStats player;
@@ -46,12 +47,26 @@ public class GameManager : MonoBehaviour
     public bool IsPlaying { get => isPlaying; set => isPlaying = value; }
     public bool IsCaught { get => isCaught; set => isCaught = value; }
     public float PlayTime { get => playTime; set => playTime = value; }
-    public int EarnZem { get => earnZem; set => earnZem = value; }
+    public int EarnZem
+    {
+        get
+        {
+            return earnZem;
+        }
+        set
+        {
+            earnZem = value;
+            if(uiEarnZem != null)
+                uiEarnZem.UpdateZem(earnZem);
+        }
+    }
+
     public StageManager StageManager { get => stageManager; set => stageManager = value; }
 
     private void Start()
     {
         FadeOut();
+        GetZemData();
 
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
         PoolManager.CreatePool<TurretBullet>("TurretBullet", this.gameObject, 5);
@@ -63,6 +78,27 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<ThrowThing>("Ob_Enemy_Throw", this.gameObject, 5);
         PoolManager.CreatePool<Effect>("CFX_Hit_C White", this.gameObject, 5);
         PoolManager.CreatePool<Effect>("CFX_Explosion", this.gameObject, 5);
+
+
+    }
+
+    private void GetZemData()
+    {
+        NetworkManager.instance.SendGetRequest("getuserdata", "", result =>
+        {
+            ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
+
+            Debug.Log(result);
+            if (res.result)
+            {
+                UserDataVO vo = JsonUtility.FromJson<UserDataVO>(res.payload);
+                EarnZem = vo.zem;
+}
+            else
+            {
+                Debug.Log(res.payload);
+            }
+        });
     }
 
     private void Update()
@@ -72,6 +108,18 @@ public class GameManager : MonoBehaviour
             PlayTime += Time.deltaTime;
         }
 
+    }
+
+    public bool UseEarnZem(int amount)
+    {
+        if(EarnZem >= amount)
+        {
+            EarnZem -= amount;
+            NetworkManager.instance.UpdateZem(EarnZem);
+            return true;
+        }
+
+        return false;
     }
 
     public void EndGame()
