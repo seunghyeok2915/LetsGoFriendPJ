@@ -85,6 +85,7 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가
         {
             lastStage.potal.SetEvent(() =>
             {
+
                 GameManager.Instance.FadeInOut(() =>
                 {
                     lastStage.Stop();

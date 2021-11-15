@@ -127,7 +127,6 @@ public class LobbyManager : MonoBehaviour
     {
         ResponseVO res = JsonUtility.FromJson<ResponseVO>(json);
 
-        Debug.Log(json);
         if (res.result)
         {
             UserDataVO vo = JsonUtility.FromJson<UserDataVO>(res.payload);

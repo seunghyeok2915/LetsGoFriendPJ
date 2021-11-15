@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<ThrowThing>("Ob_Enemy_Throw", this.gameObject, 5);
         PoolManager.CreatePool<Effect>("CFX_Hit_C White", this.gameObject, 5);
         PoolManager.CreatePool<Effect>("CFX_Explosion", this.gameObject, 5);
+        PoolManager.CreatePool<Enemy_Bomb>("Enemy_Bomb", gameObject, 10);
 
 
     }
@@ -88,7 +89,6 @@ public class GameManager : MonoBehaviour
         {
             ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
 
-            Debug.Log(result);
             if (res.result)
             {
                 UserDataVO vo = JsonUtility.FromJson<UserDataVO>(res.payload);
