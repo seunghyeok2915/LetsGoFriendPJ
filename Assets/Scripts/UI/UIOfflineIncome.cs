@@ -45,7 +45,7 @@ public class UIOfflineIncome : MonoBehaviour
         //SoundManager.instance.PlaySound(6);
         //GameManager.instance.Vibrate();
 
-        NetworkManager.instance.UpdateZem(lobby.playerZem + gold, lobby.GetData);
+        NetworkManager.instance.AddZem(gold, lobby.GetData);
         
 
         popUpPanel.transform.DOScale(new Vector3(0.1f, 0.1f, 0.1f), 0.2f).OnComplete(() => gameObject.SetActive(false));

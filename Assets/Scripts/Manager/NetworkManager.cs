@@ -73,6 +73,28 @@ public class NetworkManager : MonoBehaviour
         });
     }
 
+    public void AddZem(int zem, UnityAction unityAction = null)
+    {
+        UserDataVO vo = new UserDataVO("", zem, 0, 0);
+
+        string json = JsonUtility.ToJson(vo);
+
+        SendPostRequest("addzem", json, result =>
+        {
+            ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
+
+            if (res.result)
+            {
+                print(res.payload);
+            }
+            else
+            {
+                print(res.payload);
+            }
+            unityAction?.Invoke();
+        });
+    }
+
     public void SendGetRequest(string url, string queryString, Action<string> callBack)
     { 
             StartCoroutine(SendGet($"{baseUrl}/{url}{queryString}", callBack));
