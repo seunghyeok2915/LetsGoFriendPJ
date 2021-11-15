@@ -26,6 +26,8 @@ public class Boss_02 : EnemyBase
             lineRenderer = GetComponent<LineRenderer>();
         }
 
+        PoolManager.CreatePool<Enemy_Bomb>("Enemy_Bomb", this.gameObject, spawnNum * 2);
+
         lineRenderer.startColor = new Color(1, 0, 0, 0.5f);
         lineRenderer.endColor = new Color(1, 0, 0, 0.5f);
         lineRenderer.startWidth = 0.2f;
@@ -66,7 +68,9 @@ public class Boss_02 : EnemyBase
             Vector3 createPos = new Vector3(x, 0, z) + transform.position;
 
             var bomb = PoolManager.GetItem<Enemy_Bomb>("Enemy_Bomb");
+            bomb.transform.parent = transform.parent;
             bomb.transform.position = createPos;
+            bomb.Revive();
 
             yield return new WaitForSeconds(0.1f);
         }

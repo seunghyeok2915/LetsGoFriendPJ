@@ -1,9 +1,9 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using DG.Tweening;
-using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -56,8 +56,10 @@ public class GameManager : MonoBehaviour
         set
         {
             earnZem = value;
-            if(uiEarnZem != null)
+            if (uiEarnZem != null)
+            {
                 uiEarnZem.UpdateZem(earnZem);
+            }
         }
     }
 
@@ -66,6 +68,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         FadeOut();
+
+
         GetZemData();
 
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
@@ -78,27 +82,29 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<ThrowThing>("Ob_Enemy_Throw", this.gameObject, 5);
         PoolManager.CreatePool<Effect>("CFX_Hit_C White", this.gameObject, 5);
         PoolManager.CreatePool<Effect>("CFX_Explosion", this.gameObject, 5);
-        PoolManager.CreatePool<Enemy_Bomb>("Enemy_Bomb", gameObject, 10);
 
 
     }
 
     private void GetZemData()
     {
-        NetworkManager.instance.SendGetRequest("getuserdata", "", result =>
+        if(NetworkManager.instance != null)
         {
-            ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
+            NetworkManager.instance.SendGetRequest("getuserdata", "", result =>
+            {
+                ResponseVO res = JsonUtility.FromJson<ResponseVO>(result);
 
-            if (res.result)
-            {
-                UserDataVO vo = JsonUtility.FromJson<UserDataVO>(res.payload);
-                EarnZem = vo.zem;
-}
-            else
-            {
-                Debug.Log(res.payload);
-            }
-        });
+                if (res.result)
+                {
+                    UserDataVO vo = JsonUtility.FromJson<UserDataVO>(res.payload);
+                    EarnZem = vo.zem;
+                }
+                else
+                {
+                    Debug.Log(res.payload);
+                }
+            });
+        }
     }
 
     private void Update()
@@ -112,7 +118,7 @@ public class GameManager : MonoBehaviour
 
     public bool UseEarnZem(int amount)
     {
-        if(EarnZem >= amount)
+        if (EarnZem >= amount)
         {
             EarnZem -= amount;
             NetworkManager.instance.UpdateZem(EarnZem);
@@ -180,6 +186,8 @@ public class GameManager : MonoBehaviour
     public void RemoveEnemyInList(GameObject enemy)
     {
         enemyListInStage.Remove(enemy);
+
+
         CheckEnd();
     }
 

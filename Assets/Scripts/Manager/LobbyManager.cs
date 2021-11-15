@@ -119,7 +119,8 @@ public class LobbyManager : MonoBehaviour
 
     public void GetData()
     {
-        NetworkManager.instance.SendGetRequest("getuserdata", "", GetData);
+        if (NetworkManager.instance != null)
+            NetworkManager.instance.SendGetRequest("getuserdata", "", GetData);
 
     }
 
