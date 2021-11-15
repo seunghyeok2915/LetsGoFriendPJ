@@ -15,6 +15,8 @@ public class UISettingPanel : MonoBehaviour
 
     public Text appVersionTxt;
 
+    public Button tutorialBtn;
+
     public Button closeBtn;
 
     private Sequence seq1;
@@ -23,6 +25,7 @@ public class UISettingPanel : MonoBehaviour
     {
         soundBtn.onClick.AddListener(OnClickSoundBtn);
         hapticBtn.onClick.AddListener(OnClickHapticBtn);
+        tutorialBtn.onClick.AddListener(OnClickTutotialBtn);
 
         closeBtn.onClick.AddListener(CallCloseFunc);
     }
@@ -45,6 +48,10 @@ public class UISettingPanel : MonoBehaviour
         appVersionTxt.text = Application.version;
     }
 
+    private void OnClickTutotialBtn()
+    {
+        LoadingSceneManager.LoadScene("TutorialGame");
+    }
     private void OnClickSoundBtn()
     {
         //SoundManager.instance.PlaySound(6);
