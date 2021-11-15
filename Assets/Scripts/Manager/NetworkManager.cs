@@ -45,7 +45,7 @@ public class NetworkManager : MonoBehaviour
         //토큰을 null로 변경하고 PlayerPrefabs에서 token을 지워주고
         token = "";
         PlayerPrefs.DeleteKey("token");
-        SceneManager.LoadScene("LoginScene");
+        LoadingSceneManager.LoadScene("LoginScene");
         Destroy(gameObject);
         //UIManager.instance.ShowBox1();
         // showBox1을 하면 된다.

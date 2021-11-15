@@ -142,6 +142,7 @@ public class LobbyManager : MonoBehaviour
         else
         {
             Debug.Log(res.payload);
+            NetworkManager.instance.Logout();
         }
 
         uiMainLobby.UpdateZem(playerName, playerZem);
