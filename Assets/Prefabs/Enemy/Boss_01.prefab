@@ -145,9 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e457016983e742419500a4d60c44b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 100
+  MaxHealth: 2500
   isDead: 0
-  exp: 0
+  exp: 10
   barCanvas: {fileID: 0}
   hpBarObj: {fileID: 8782974719655469989, guid: 4b24f7538169aa34193b77b0bde8a880,
     type: 3}
@@ -155,7 +155,7 @@ MonoBehaviour:
   firingAngle: 70
   gravity: 50
   throwSpeed: 10
-  throwDamage: 10
+  throwDamage: 50
   angle: 60
   shootNum: 10
 --- !u!65 &942526939349543264

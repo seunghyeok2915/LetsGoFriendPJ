@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6dda32f34be6045964bcf096acc552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 100
+  MaxHealth: 300
   isDead: 0
   exp: 10
   barCanvas: {fileID: 0}
@@ -159,7 +159,7 @@ MonoBehaviour:
   attackInterval: 2
   attackDelay: 1.5
   throwSpeed: 30
-  throwDamage: 30
+  throwDamage: 20
   maxDist: 20
 --- !u!114 &4075627293066803731
 MonoBehaviour:
