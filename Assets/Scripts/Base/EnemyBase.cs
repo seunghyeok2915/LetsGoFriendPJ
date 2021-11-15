@@ -222,7 +222,7 @@ public class EnemyBase : Health
 
         isFire = false;
 
-        float cubeExp = 1f;
+        float cubeExp = 5f;
         float expCnt = exp / cubeExp;
 
         for (int i = 0; i < expCnt; i++)
