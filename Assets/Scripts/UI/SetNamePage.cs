@@ -12,12 +12,12 @@ public class SetNamePage : MonoBehaviour
     {
         registerBtn.onClick.AddListener(() =>
         {
-            Regex reg = new Regex(@"^[°¡-ÆRa-zA-Z]{2,6}$");
+            Regex reg = new Regex(@"^[°¡-ÆRa-zA-Z]{2,4}$");
 
             //   @"^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$";
             if (!reg.IsMatch(nameInput.text))
             {
-                noticeText.text = "ÀÌ¸§Àº ÇÑ±Û ¶Ç´Â ¿µ¹®À¸·Î 2~6±ÛÀÚ¿©¾ß ÇÕ´Ï´Ù.";
+                noticeText.text = "ÀÌ¸§Àº ÇÑ±Û ¶Ç´Â ¿µ¹®À¸·Î 2~4±ÛÀÚ¿©¾ß ÇÕ´Ï´Ù.";
                 return;
             }
 

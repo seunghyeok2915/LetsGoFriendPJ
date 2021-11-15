@@ -3768,12 +3768,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c784a6f9da5ce84cba0be999a1f8a26, type: 3}
---- !u!224 &2015126952 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8512785474818646341, guid: 7c784a6f9da5ce84cba0be999a1f8a26,
-    type: 3}
-  m_PrefabInstance: {fileID: 2015126951}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2036025222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3784,7 +3778,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2036025224}
   - component: {fileID: 2036025223}
-  - component: {fileID: 2036025225}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -3819,23 +3812,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2036025225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2036025222}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49fd8007b2ef3da42a321c21b516bfe5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popupParent: {fileID: 2015126952}
-  registerPopupPrefab: {fileID: 5551402869746351532, guid: 84333252131a1da498041a32bd25bfe1,
-    type: 3}
-  alertPopupPrefab: {fileID: 3905784816129923580, guid: 897712e853c0bcc4b8d32203fcadce16,
-    type: 3}
 --- !u!1 &2038939527
 GameObject:
   m_ObjectHideFlags: 0
