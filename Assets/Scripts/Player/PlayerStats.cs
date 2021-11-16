@@ -30,7 +30,7 @@ public class PlayerStats : MonoBehaviour
     public PlayerMove playerMove;
     public int nowLevel = 1;
 
-    public float expForLevelUp;
+    public float[] expForLevelUp;
     public float currentExp;
     public float drainHealthPersent;
 
@@ -46,7 +46,7 @@ public class PlayerStats : MonoBehaviour
         playerMove = GetComponent<PlayerMove>();
 
         uiExpBar.SetLevel(nowLevel);
-        uiExpBar.SetBar(expForLevelUp, currentExp);
+        uiExpBar.SetBar(expForLevelUp[nowLevel - 1], currentExp);
 
         //AddSkill(ESkill.Ice);
     }
@@ -121,13 +121,13 @@ public class PlayerStats : MonoBehaviour
     public void AddExp(float exp)
     {
         currentExp += exp;
-        if (expForLevelUp <= currentExp)
+        if (expForLevelUp[nowLevel - 1] <= currentExp)
         {
             //·¹º§¾÷
             LevelUp();
         }
 
-        uiExpBar.SetBar(expForLevelUp, currentExp);
+        uiExpBar.SetBar(expForLevelUp[nowLevel - 1], currentExp);
         int zemCnt = GameManager.Instance.EarnZem += (int)exp;
         //uiEarnZem.UpdateZem(zemCnt);
     }
@@ -137,7 +137,7 @@ public class PlayerStats : MonoBehaviour
         if (GameManager.Instance.IsPlaying)
         {
             // ·ê·¿ ¶ç¿ö¿©¤ÁÇÔ
-            expForLevelUp = expForLevelUp + expForLevelUp * 0.2f;
+            //expForLevelUp = expForLevelUp + expForLevelUp * 0.2f;
             nowLevel++;
             currentExp = 0;
             uiExpBar.SetLevel(nowLevel);

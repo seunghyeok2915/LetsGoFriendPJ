@@ -50,6 +50,7 @@ MonoBehaviour:
   fadeImage: {fileID: 0}
   clearAnim: {fileID: 0}
   uiEarnZem: {fileID: 0}
+  isTutorial: 0
 --- !u!114 &5865245252546968675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +80,7 @@ MonoBehaviour:
   nowChapter: 1
   stageRanges:
   - minRange: 0
-    maxRange: 19
+    maxRange: 8
     stages:
     - {fileID: 0}
     - {fileID: 0}
@@ -90,6 +91,13 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+  - minRange: 9
+    maxRange: 9
+    stages:
+    - {fileID: 0}
+  - minRange: 10
+    maxRange: 18
+    stages:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
@@ -99,5 +107,71 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+  - minRange: 19
+    maxRange: 19
+    stages:
     - {fileID: 0}
+  - minRange: 20
+    maxRange: 28
+    stages:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - minRange: 29
+    maxRange: 29
+    stages:
+    - {fileID: 0}
+  - minRange: 30
+    maxRange: 38
+    stages:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - minRange: 39
+    maxRange: 39
+    stages:
+    - {fileID: 0}
+  - minRange: 40
+    maxRange: 48
+    stages:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - minRange: 49
+    maxRange: 49
+    stages:
+    - {fileID: 0}
+  - minRange: 50
+    maxRange: 58
+    stages:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - minRange: 59
+    maxRange: 59
+    stages:
     - {fileID: 0}

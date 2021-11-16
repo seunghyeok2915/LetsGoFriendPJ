@@ -14,6 +14,7 @@ public class StageRange
     public Stage PlayRandom()
     {
         int randNum = Random.Range(0, stages.Count);
+        Debug.Log(randNum);
         stages[randNum].Play();
 
         Stage stage = stages[randNum];
