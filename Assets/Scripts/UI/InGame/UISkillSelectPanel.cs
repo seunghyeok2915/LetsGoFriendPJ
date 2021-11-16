@@ -1,8 +1,8 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 
 public class UISkillSelectPanel : MonoBehaviour
@@ -108,7 +108,7 @@ public class UISkillSelectPanel : MonoBehaviour
             RegisterSlotThemes();
         }
 
-        if(slotThemes.Count <= 0 && !isFirst)
+        if (slotThemes.Count <= 0 && !isFirst)
         {
             //다쓴것임
             print("Theme 도없음");
@@ -168,7 +168,7 @@ public class UISkillSelectPanel : MonoBehaviour
         slotThemes[num].slotSkills.Remove(slotskill);
         print("지움" + slotskill.name);
 
-        if(slotThemes[num].slotName == "표창 능력")
+        if (slotThemes[num].slotName == "표창 능력")
         {
             print("표창능력은 한번만");
             slotThemes.Remove(slotThemes[num]);
@@ -202,7 +202,7 @@ public class UISkillSelectPanel : MonoBehaviour
         skillDescription.text = originDescription;
 
         skipButton.gameObject.SetActive(false);
-        skillBuyButton.gameObject.SetActive(false);
+        //skillBuyButton.gameObject.SetActive(false);
 
         sequence.Kill();
     }
@@ -218,17 +218,17 @@ public class UISkillSelectPanel : MonoBehaviour
         skipButton.onClick.AddListener(Close);
         skipButton.gameObject.SetActive(false);
 
-        buyCostText.text = buyCost.ToString();
+        //buyCostText.text = buyCost.ToString();
 
-        skillBuyButton.onClick.RemoveAllListeners();
-        skillBuyButton.onClick.AddListener(OnClickBuySkillButton); //buy 스킬 버튼 이벤트 넣고 false
-        skillBuyButton.gameObject.SetActive(false);
+        //skillBuyButton.onClick.RemoveAllListeners();
+        //skillBuyButton.onClick.AddListener(OnClickBuySkillButton); //buy 스킬 버튼 이벤트 넣고 false
+        //skillBuyButton.gameObject.SetActive(false);
     }
 
     private void OnClickBuySkillButton() //구매 버튼
     {
 
-        if(GameManager.Instance.UseEarnZem(buyCost))
+        if (GameManager.Instance.UseEarnZem(buyCost))
         {
             StopAllCoroutines();
             PickRandom();
@@ -278,21 +278,24 @@ public class UISkillSelectPanel : MonoBehaviour
         }
 
         skipButton.gameObject.SetActive(true);
-        if(!buyUsed)
-        {
-            skillBuyButton.gameObject.SetActive(true);
-        }
+        //if (!buyUsed)
+        //{
+        //    skillBuyButton.gameObject.SetActive(true);
+        //}
 
         StartCoroutine(ClosePanel(closeDelay));
     }
     private IEnumerator ClosePanel(float second)
     {
-        
+
         while (true)
         {
             closeTimeText.text = $"게임 시작까지 {second}초";
             if (second <= 0)
+            {
                 break;
+            }
+
             second -= 1;
             yield return new WaitForSecondsRealtime(1f);
         }
