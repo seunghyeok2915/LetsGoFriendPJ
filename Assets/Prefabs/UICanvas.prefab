@@ -370,8 +370,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -357.38, y: 0.0026016235}
+  m_SizeDelta: {x: -714.77, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &803279792
 CanvasRenderer:
@@ -441,17 +441,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1172951946}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1180443985167080580}
-  m_RootOrder: 9
+  m_Father: {fileID: 1815469155}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 553.49, y: -270.44}
-  m_SizeDelta: {x: 905.975, y: 167.35}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -286.3955, y: 0}
+  m_SizeDelta: {x: 572.791, y: 129.26}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1172951949
 CanvasRenderer:
@@ -485,16 +485,16 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 55ab14f0e6ecef64e901a55e912671d1, type: 3}
     m_FontSize: 93
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 96
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD604\uC81C \uC2A4\uD14C\uC774\uC9C0 : 10"
+  m_Text: "\uC2A4\uD14C\uC774\uC9C0 1"
 --- !u!114 &1172951950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -856,6 +856,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 803279790}
+  - {fileID: 1172951947}
   m_Father: {fileID: 1180443985167080580}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1285,7 +1286,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: X
+  m_Text: '||'
 --- !u!1 &1180443984869573901
 GameObject:
   m_ObjectHideFlags: 0
@@ -1601,7 +1602,6 @@ RectTransform:
   - {fileID: 1815469155}
   - {fileID: 1450932746}
   - {fileID: 328246095}
-  - {fileID: 1172951947}
   m_Father: {fileID: 1180443985281393141}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1658,10 +1658,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1180443985235240826}
   - component: {fileID: 1180443985235240711}
+  - component: {fileID: 5583433985246279453}
   - component: {fileID: 1180443985235240824}
   - component: {fileID: 1180443985235240825}
   m_Layer: 5
-  m_Name: ExitButton
+  m_Name: PauseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1695,6 +1696,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180443985235240827}
   m_CullTransparentMesh: 1
+--- !u!114 &5583433985246279453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180443985235240827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdedda42e90ad3b4b885bdc6baba3c63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPausePanel: {fileID: 0}
 --- !u!114 &1180443985235240824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1768,19 +1782,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1180443985235240824}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ExitGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1180443985258550777
 GameObject:
   m_ObjectHideFlags: 0
@@ -1919,7 +1921,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!114 &1180443985281393143
 MonoBehaviour:
