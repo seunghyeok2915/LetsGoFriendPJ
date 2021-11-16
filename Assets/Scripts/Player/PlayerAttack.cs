@@ -30,6 +30,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
+        attackDelay = attackDelay - (float)(0.01f * PlayerPrefs.GetInt("attackSpeedLevel"));
         //SetAnimationSpeed();
     }
 

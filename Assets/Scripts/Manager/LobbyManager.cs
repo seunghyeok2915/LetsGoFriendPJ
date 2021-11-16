@@ -78,6 +78,17 @@ public class LobbyManager : MonoBehaviour
         uiMainLobby.startBtn.onClick.AddListener(playerLobby.MoveBack);
     }
 
+    public bool CanUseZem(int amount)
+    {
+        if(playerZem >= amount)
+        {
+            playerZem -= amount;
+            NetworkManager.instance.UpdateZem(playerZem,() => uiMainLobby.UpdateZem(playerName, playerZem));
+            return true;
+        }
+        else return false;
+    }
+
     public void OpenStar()
     {
         ChapterVO vo = new ChapterVO(nowChapter, "", 0);
