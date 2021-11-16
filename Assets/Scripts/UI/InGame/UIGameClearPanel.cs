@@ -56,7 +56,7 @@ public class UIGameClearPanel : MonoBehaviour
 
         stageText.text = stage.ToString();
 
-        clearTime.text = $"클리어 시간 : {GameManager.Instance.PlayTime.ToString("00:00")}초";
+        clearTime.text = $"플레이 시간 : {GameManager.Instance.PlayTime.ToString("00:00")}초";
         canvasGroup.DOFade(1, 1f);
     }
 
