@@ -140,6 +140,11 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void StopBGM()
+    {
+        bgmAudioSourece.Stop();
+    }
+
     public void PlayBGMSound(string name)
     {
         if (bgmAudioSourece == null)

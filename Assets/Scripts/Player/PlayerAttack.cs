@@ -109,6 +109,8 @@ public class PlayerAttack : MonoBehaviour
         {
             return;
         }
+
+        SoundManager.Instance.PlayFXSound("throwshuriken");
         Vector3 throwDir = targetTrm.position - transform.position;
         bool skillUsed = false;
 

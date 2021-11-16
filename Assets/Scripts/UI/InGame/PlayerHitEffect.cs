@@ -25,6 +25,7 @@ public class PlayerHitEffect : MonoBehaviour
 
     public void OnHitEffect()
     {
+        SoundManager.Instance.PlayFXSound("onhit");
         gameObject.SetActive(true);
         sq.Restart();
     }

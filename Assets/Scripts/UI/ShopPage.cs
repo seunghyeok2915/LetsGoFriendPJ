@@ -82,6 +82,7 @@ public class ShopPage : MonoBehaviour
         attackSpeedCost = 100 + 50 * attackSpeedLevel;
         attackSpeedLevelText.text = $"LV{attackSpeedLevel + 1} 공격속도";
         attackSpeedCostText.text = attackSpeedCost.ToString();
+
     }
     private void SetMaxHpCost()
     {
@@ -95,6 +96,7 @@ public class ShopPage : MonoBehaviour
         inComeCost = 100 + 50 * inComeLevel;
         inComeLevelText.text = $"LV{inComeLevel + 1} 수익";
         inComeCostText.text = inComeCost.ToString();
+
     }
 
 
@@ -107,6 +109,10 @@ public class ShopPage : MonoBehaviour
             SetAttackSpeedCost();
             //코스트 재설정 해줘야해
         }
+        else
+        {
+            attackSpeedBtn.interactable = false;
+        }
     }
 
     private void OnClickMaxHpBtnBtn()
@@ -118,6 +124,10 @@ public class ShopPage : MonoBehaviour
             SetMaxHpCost();
             //코스트 재설정 해줘야해
         }
+        else
+        {
+            maxHpBtn.interactable=false;
+        }
     }
 
     private void OnClickInComeLevelBtn()
@@ -128,6 +138,10 @@ public class ShopPage : MonoBehaviour
             PlayerPrefs.SetInt("inComeLevel", inComeLevel);
             SetInComeCost();
             //코스트 재설정 해줘야해
+        }
+        else
+        {
+            inComeBtn.interactable = false;
         }
     }
 

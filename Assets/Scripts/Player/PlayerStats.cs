@@ -138,6 +138,7 @@ public class PlayerStats : MonoBehaviour
         {
             // ·ê·¿ ¶ç¿ö¿©¤ÁÇÔ
             //expForLevelUp = expForLevelUp + expForLevelUp * 0.2f;
+            SoundManager.Instance.PlayFXSound("levelup");
             nowLevel++;
             currentExp = 0;
             uiExpBar.SetLevel(nowLevel);

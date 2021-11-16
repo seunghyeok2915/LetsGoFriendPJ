@@ -73,6 +73,7 @@ public class EnemyBase : Health
     public void ShowDamagedEffect(float damage)
     {
         Shake(0.1f, 0.05f);
+        SoundManager.Instance.PlayFXSound("enemyhit");
         if (!isIce)
         {
             foreach (SkinnedMeshRenderer item in materials)
@@ -133,6 +134,7 @@ public class EnemyBase : Health
             StartCoroutine(Ice(5f));
             //��Ʈ������ �Ծ����
         }
+
         ShowDamagedEffect(damage); //�ǰ� ����Ʈ
 
         if (!isDead)
@@ -204,6 +206,8 @@ public class EnemyBase : Health
         base.Die();
         StopAllCoroutines();
         boxCollider.enabled = false;
+
+        SoundManager.Instance.PlayFXSound("enemydie");
 
         if (GameManager.Instance.GetPlayer().CanUseSkill(ESkill.DrainHealth))
         {
