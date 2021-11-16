@@ -18,7 +18,7 @@ public class PlayerHPBar : MonoBehaviour
 
     void Update()
     {
-        transform.position = playerTrm.position + offset; // 플레이어 따라다니는 스크립트
+        transform.position = Camera.main.WorldToScreenPoint(playerTrm.position + offset);
     }
 
     public void Init(Transform player)

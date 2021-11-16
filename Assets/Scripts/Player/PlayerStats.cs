@@ -128,7 +128,7 @@ public class PlayerStats : MonoBehaviour
         }
 
         uiExpBar.SetBar(expForLevelUp[nowLevel - 1], currentExp);
-        int zemCnt = GameManager.Instance.EarnZem += (int)exp;
+        int zemCnt = GameManager.Instance.EarnZem += (int)exp +  PlayerPrefs.GetInt("inComeLevel");
         //uiEarnZem.UpdateZem(zemCnt);
     }
 

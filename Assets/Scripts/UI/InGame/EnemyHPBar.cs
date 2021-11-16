@@ -13,7 +13,7 @@ public class EnemyHPBar : MonoBehaviour
 
     void Update()
     {
-        transform.position = targetTrm.position + offset; // 따라다니는 스크립트
+        transform.position = Camera.main.WorldToScreenPoint(targetTrm.position + offset);
     }
 
     public void Init(Transform target)
