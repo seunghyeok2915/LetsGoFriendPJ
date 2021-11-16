@@ -63,6 +63,25 @@ public class UISettingPanel : MonoBehaviour
         //SoundManager.instance.OnChangeVolume();
 
         //DataManager.SaveData();
+        int sound = 1;
+        if (PlayerPrefs.HasKey("sound"))
+        {
+            sound = PlayerPrefs.GetInt("sound");
+        }
+
+        if(sound == 0)
+        {
+            sound = 1;
+            soundTxt.text = "On";
+        }
+        else
+        {
+            sound = 0;
+            soundTxt.text = "Off";
+        }
+        PlayerPrefs.SetInt("sound", sound);
+        SoundManager.Instance.AdjustMasterVolume(sound);
+
     }
 
     private void OnClickHapticBtn()
@@ -74,6 +93,24 @@ public class UISettingPanel : MonoBehaviour
         //hapticTxt.text = GameManager.instance.haptic ? "ON" : "OFF";
 
         //DataManager.SaveData();
+
+        int haptic = 1;
+        if (PlayerPrefs.HasKey("haptic"))
+        {
+            haptic = PlayerPrefs.GetInt("haptic");
+        }
+
+        if (haptic == 0)
+        {
+            haptic = 1;
+            hapticTxt.text = "On";
+        }
+        else
+        {
+            haptic = 0;
+            hapticTxt.text = "Off";
+        }
+        PlayerPrefs.SetInt("haptic", haptic);
     }
 
     private void CallCloseFunc()

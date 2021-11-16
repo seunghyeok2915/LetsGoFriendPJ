@@ -54,6 +54,11 @@ public class SoundManager : MonoBehaviour
             bgmSoundDic.Add(audioClip.name, audioClip);
             Debug.Log(audioClip.name);
         }
+
+        masterVoulme = 1;
+        bgmVolume = 1;
+        fxVoulme = 1;
+
     }
 
     private void OnDestroy()

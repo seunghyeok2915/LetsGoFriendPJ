@@ -16,7 +16,7 @@ public class LobbyManager : MonoBehaviour
     private void Start()
     {
         GetData();
-
+        SoundManager.Instance.PlayBGMSound("MainBGM");
         if (PlayerPrefs.HasKey("outUnixTime"))
         {
             int offEarnTime = Utils.GetUnixTime() - PlayerPrefs.GetInt("outUnixTime");
