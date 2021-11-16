@@ -9,14 +9,13 @@ public class Potal : MonoBehaviour
     public void SetEvent(UnityAction callback)
     {
         onEnter = callback;
+        onEnter += () => usedPotal = true;
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !usedPotal)
         {
-        print("µé¾î¿È");
-            usedPotal = true;
             onEnter?.Invoke();
         }
     }
