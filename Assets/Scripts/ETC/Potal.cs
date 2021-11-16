@@ -15,6 +15,7 @@ public class Potal : MonoBehaviour
     {
         if (other.CompareTag("Player") && !usedPotal)
         {
+        print("µé¾î¿È");
             usedPotal = true;
             onEnter?.Invoke();
         }

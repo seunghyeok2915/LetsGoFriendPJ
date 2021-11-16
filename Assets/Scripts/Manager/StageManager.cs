@@ -41,15 +41,13 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가
 
     public void Start()
     {
-        CurStage = 0;
-        PlayNext();
-
-
-
         foreach (StageRange item in stageRanges)
         {
             maxStage += item.stages.Count;
         }
+        CurStage = 0;
+        PlayNext();
+
     }
 
     private void PlayNext()
@@ -85,7 +83,6 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가
         {
             lastStage.potal.SetEvent(() =>
             {
-
                 GameManager.Instance.FadeInOut(() =>
                 {
                     lastStage.Stop();

@@ -5,12 +5,26 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     public Transform TutorialChild;
+    public UIStatsPanel statsPanel;
+    public SlotSkill eskill;
     private int curTut = 0;
 
-    private void Update()
+    private bool isStarted;
+
+    public void Start()
+    {
+        Invoke(nameof(StartTutorial), 3f);
+    }
+
+    public void StartTutorial()
     {
         Time.timeScale = 0f;
-        if (Input.GetMouseButtonDown(0))
+        isStarted = true;
+        SetActive(0);
+    }
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && isStarted)
         {
             PrintNext();
         }
@@ -24,7 +38,7 @@ public class TutorialManager : MonoBehaviour
         if (curTut == TutorialChild.childCount)
         {
             Time.timeScale = 1;
-            gameObject.SetActive(false);
+            GameManager.Instance.CheckEnd();
         }
     }
 
@@ -33,6 +47,12 @@ public class TutorialManager : MonoBehaviour
         for (int i = 0; i < TutorialChild.childCount; i++)
         {
             TutorialChild.GetChild(i).gameObject.SetActive(i == value);
+        }
+
+        if(value == 6)
+        {
+            statsPanel.AddSkill(eskill);
+            GameManager.Instance.GetPlayer().AddSkill(ESkill.Boomerang);
         }
     }
 }

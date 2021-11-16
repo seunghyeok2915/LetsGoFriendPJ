@@ -31,6 +31,15 @@ public class LobbyManager : MonoBehaviour
             PlayerPrefs.SetInt("outUnixTime", Utils.GetUnixTime());
         }
 
+        if (!PlayerPrefs.HasKey("tutorial"))
+        {
+            PlayerPrefs.SetInt("tutorial", 1);
+            LoadingSceneManager.LoadScene("TutorialGame");
+            //튜토리얼 가야함
+        }
+
+
+
         uiMainLobby.rightStageBtn.onClick.AddListener(() =>
         {
             if (playerLobby.animator.GetBool("isMoving"))

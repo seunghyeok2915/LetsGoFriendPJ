@@ -23,7 +23,6 @@ public enum ESkill : ushort
 public class PlayerStats : MonoBehaviour
 {
     public UISkillSelectPanel skillSelectPanel;
-
     public UIExpBar uiExpBar;
 
     public PlayerHealth playerHealth;

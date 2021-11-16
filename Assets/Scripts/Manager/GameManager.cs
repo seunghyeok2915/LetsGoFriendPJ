@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     public Animator clearAnim;
     public UIEarnZem uiEarnZem;
 
+    public bool isTutorial;
+
     private List<GameObject> enemyListInStage = new List<GameObject>();
     private PlayerStats player;
     private StageManager stageManager;
@@ -68,8 +70,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         FadeOut();
-
-
         GetZemData();
 
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
 
     private void GetZemData()
     {
-        if(NetworkManager.instance != null)
+        if (NetworkManager.instance != null)
         {
             NetworkManager.instance.SendGetRequest("getuserdata", "", result =>
             {
@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
         uiGameClearPanel.PopUp();
     }
 
-    private bool CheckEnd()
+    public bool CheckEnd()
     {
         if (enemyListInStage.Count <= 0 && IsPlaying)
         {
@@ -160,7 +160,10 @@ public class GameManager : MonoBehaviour
     {
         fadeImage.gameObject.SetActive(true);
         fadeImage.DOFade(1f, 0.01f);
-        fadeImage.DOFade(0f, 1).OnComplete(() => fadeImage.gameObject.SetActive(false));
+        fadeImage.DOFade(0f, 1).OnComplete(() =>
+        {
+            fadeImage.gameObject.SetActive(false);
+        });
     }
 
     public void FadeInOut(UnityAction callback)
