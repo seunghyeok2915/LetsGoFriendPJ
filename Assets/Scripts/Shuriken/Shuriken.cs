@@ -39,6 +39,8 @@ public class Shuriken : MonoBehaviour, IPoolable
         if (other.CompareTag("Wall"))
         {
             if (!isDestoryable) return;
+
+            CancelInvoke(nameof(SetFalse));
             gameObject.SetActive(false);
         }
 
@@ -57,6 +59,8 @@ public class Shuriken : MonoBehaviour, IPoolable
         if (other.CompareTag("Enemy"))
         {
             if (!isDestoryable) return;
+
+            CancelInvoke(nameof(SetFalse));
             gameObject.SetActive(false);
         }
 

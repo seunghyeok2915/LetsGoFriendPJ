@@ -48,6 +48,7 @@ public class ThrowThing : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Wall"))
         {
+            CancelInvoke(nameof(SetFalse));
             gameObject.SetActive(false);
         }
     }
