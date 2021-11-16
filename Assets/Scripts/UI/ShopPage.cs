@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ShopPage : MonoBehaviour
 {
+    public RectTransform rectTransform;
     public LobbyManager lobbyManager;
+    public Button closeBtn;
 
     public Button attackSpeedBtn;
     public Button maxHpBtn;
@@ -27,15 +30,47 @@ public class ShopPage : MonoBehaviour
     private int maxHpLevel;
     private int inComeLevel;
 
+
+    public void OnEnable()
+    {
+        rectTransform.anchoredPosition = new Vector2(-2500, -458);
+        rectTransform.DOAnchorPosX(0, 1f);
+    }
+
     public void Start()
     {
+        closeBtn.onClick.AddListener(() => rectTransform.DOAnchorPosX(-2500, 1f).OnComplete(() => gameObject.SetActive(false)));
+
         attackSpeedBtn.onClick.AddListener(OnClickAttackSpeedBtn);
         maxHpBtn.onClick.AddListener(OnClickMaxHpBtnBtn);
         inComeBtn.onClick.AddListener(OnClickInComeLevelBtn);
 
-        attackSpeedLevel = PlayerPrefs.GetInt("attackSpeedLevel");
-        maxHpLevel = PlayerPrefs.GetInt("maxHpLevel");
-        inComeLevel = PlayerPrefs.GetInt("inComeLevel");
+        if (PlayerPrefs.HasKey("attackSpeedLevel"))
+        {
+            attackSpeedLevel = PlayerPrefs.GetInt("attackSpeedLevel");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("attackSpeedLevel", 0);
+        }
+
+        if (PlayerPrefs.HasKey("maxHpLevel"))
+        {
+            maxHpLevel = PlayerPrefs.GetInt("maxHpLevel");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("maxHpLevel", 0);
+        }
+
+        if (PlayerPrefs.HasKey("inComeLevel"))
+        {
+            inComeLevel = PlayerPrefs.GetInt("inComeLevel");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("inComeLevel", 0);
+        }
 
         SetAttackSpeedCost();
         SetMaxHpCost();

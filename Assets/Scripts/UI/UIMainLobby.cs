@@ -7,10 +7,13 @@ public class UIMainLobby : MonoBehaviour
 {
     public UISettingPanel uiSettingPanel;
     public UIRankPanel uiRankPanel;
+    public ShopPage shopPage;
 
     public Button startBtn;
     public Button logoutBtn;
     public Button getDataButton;
+
+    public Button shopBtn;
 
     public Button rankBtn;
     public Button settingBtn;
@@ -28,6 +31,7 @@ public class UIMainLobby : MonoBehaviour
         logoutBtn.onClick.AddListener(NetworkManager.instance.Logout);
         rankBtn.onClick.AddListener(() => uiRankPanel.Open());
         settingBtn.onClick.AddListener(() => uiSettingPanel.gameObject.SetActive(true));
+        shopBtn.onClick.AddListener(() => shopPage.gameObject.SetActive(true));
     }
 
     public void UpdateStageBtn(int maxStage,int nowStage)
