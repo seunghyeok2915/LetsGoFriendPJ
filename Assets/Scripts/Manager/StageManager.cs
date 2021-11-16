@@ -30,7 +30,7 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가
     public int nowChapter;
 
     public StageRange[] stageRanges;
-
+    public UICurrentStage uiCurrentStage;
     private Stage lastStage;
 
     private int curStage;
@@ -54,6 +54,7 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가
     private void PlayNext()
     {
         lastStage = GetNowRange().PlayRandom();
+        uiCurrentStage.UpdateText(curStage);
     }
 
     private StageRange GetNowRange()
