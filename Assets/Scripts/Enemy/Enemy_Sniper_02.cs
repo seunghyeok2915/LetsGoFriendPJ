@@ -36,8 +36,8 @@ public class Enemy_Sniper_02 : EnemyBase
     public void DrawDangerLine()
     {
         lineRenderer.enabled = true;
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, transform.position + transform.forward * maxDist);
+        lineRenderer.SetPosition(0, transform.position + new Vector3(0, 0.5f, 0));
+        lineRenderer.SetPosition(1, transform.position + new Vector3(0, 0.5f, 0) + transform.forward * maxDist);
     }
 
     public override void StartEnemy() //적행동 시작

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,7 +48,7 @@ public class SoundManager : MonoBehaviour
         }
         DontDestroyOnLoad(this);
 
-        foreach (var audioClip in Resources.LoadAll<AudioClip>("Sound/BGM")) // Resource 폴더에있는 사운드들 담아두기
+        foreach (AudioClip audioClip in Resources.LoadAll<AudioClip>("Sound/BGM")) // Resource 폴더에있는 사운드들 담아두기
         {
             bgmSoundDic.Add(audioClip.name, audioClip);
             Debug.Log(audioClip.name);
@@ -131,7 +130,7 @@ public class SoundManager : MonoBehaviour
     public void AdjustFxVoulme(float newVolume)
     {
         fxVoulme = newVolume;
-        foreach (var fxAudioSource in fxAudioSourceList)
+        foreach (AudioSource fxAudioSource in fxAudioSourceList)
         {
             if (fxAudioSource != null)
             {
@@ -142,7 +141,10 @@ public class SoundManager : MonoBehaviour
 
     public void StopBGM()
     {
-        bgmAudioSourece.Stop();
+        if (bgmAudioSourece != null)
+        {
+            bgmAudioSourece.Stop();
+        }
     }
 
     public void PlayBGMSound(string name)
@@ -158,7 +160,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayFXSound(string name)
     {
-        foreach (var fxAudioSource in fxAudioSourceList)
+        foreach (AudioSource fxAudioSource in fxAudioSourceList)
         {
             if (!fxAudioSource.isPlaying)
             {
