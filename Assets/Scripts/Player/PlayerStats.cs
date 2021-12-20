@@ -47,8 +47,6 @@ public class PlayerStats : MonoBehaviour
 
         uiExpBar.SetLevel(nowLevel);
         uiExpBar.SetBar(expForLevelUp[nowLevel - 1], currentExp);
-
-        //AddSkill(ESkill.Ice);
     }
 
     public bool CanUseSkill(ESkill skill) //스킬이 사용가능한지

@@ -84,7 +84,6 @@ public class Boss_02 : EnemyBase
         while (true)
         {
             transform.LookAt(GameManager.Instance.GetPlayer().transform);
-            DrawDangerLine();
             if (Time.time - time > attackDelay)
             {
                 break;
@@ -108,7 +107,7 @@ public class Boss_02 : EnemyBase
     private void DrawDangerLine()
     {
         lineRenderer.enabled = true;
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, transform.position + transform.forward * maxDist);
+        lineRenderer.SetPosition(0, transform.position + new Vector3(0, 0.5f, 0));
+        lineRenderer.SetPosition(1, transform.position + new Vector3(0, 0.5f, 0)     + transform.forward * maxDist);
     }
 }

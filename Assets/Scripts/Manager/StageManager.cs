@@ -51,6 +51,14 @@ public class StageManager : MonoBehaviour //현제 스테이지의 정보를 가
 
     }
 
+    public void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            curStage = 37;
+        }
+    }
+
     private void PlayNext()
     {
         lastStage = GetNowRange().PlayRandom();
