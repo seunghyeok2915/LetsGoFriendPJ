@@ -14,7 +14,7 @@ public class PlayerHealth : Health
 
     public void Start()
     {
-        MaxHealth = 100 + 5 * PlayerPrefs.GetInt("maxHpLevel");
+        MaxHealth = 100 + 10 * PlayerPrefs.GetInt("maxHpLevel");
         SetHP();
         Bind();
         HpBarsSetting();

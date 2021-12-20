@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
         FadeOut();
         GetZemData();
 
+        SoundManager.Instance.StopBGM();
+
         PoolManager.CreatePool<Shuriken>("Shuriken1", this.gameObject, 5);
         PoolManager.CreatePool<TurretBullet>("TurretBullet", this.gameObject, 5);
         PoolManager.CreatePool<BulletHitGroundEffect>("BulletHitGroundEffect", this.gameObject, 5);
@@ -139,6 +141,7 @@ public class GameManager : MonoBehaviour
         if (enemyListInStage.Count <= 0 && IsPlaying)
         {
             //TODO : 게임 클리어 우승
+            SoundManager.Instance.PlayFXSound("clear");
             if (StageManager.OnClearStage())
             {
                 EndGame();

@@ -7,7 +7,7 @@ public class ShurikenMove : MonoBehaviour
     private float moveSpeed;
     private float rotateSpeed = 500f;
 
-    private float boomerangDist = 20f;
+    private float boomerangDist = 50f;
     private bool boomerangMode = false;
 
     private Vector3 startPos;

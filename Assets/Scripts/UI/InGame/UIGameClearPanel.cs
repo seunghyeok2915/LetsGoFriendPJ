@@ -47,6 +47,7 @@ public class UIGameClearPanel : MonoBehaviour
     public void PopUp()
     {
         RegisterButtons();
+        SoundManager.Instance.PlayFXSound("onend");
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
         zemText.text = GameManager.Instance.EarnZem.ToString();

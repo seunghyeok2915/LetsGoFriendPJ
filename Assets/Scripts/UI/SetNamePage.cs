@@ -51,6 +51,8 @@ public class SetNamePage : MonoBehaviour
                 else
                 {
                     //회원가입 실패
+                    print(vo.payload);
+                    print(vo.msg);
                     noticeText.text = "회원가입 실패";
                 }
             });

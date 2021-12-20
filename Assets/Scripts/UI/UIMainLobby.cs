@@ -28,6 +28,7 @@ public class UIMainLobby : MonoBehaviour
 
     private void Start()
     {
+        startBtn.onClick.AddListener(() => SoundManager.Instance.PlayFXSound("start"));
         logoutBtn.onClick.AddListener(NetworkManager.instance.Logout);
         rankBtn.onClick.AddListener(() => uiRankPanel.Open());
         settingBtn.onClick.AddListener(() => uiSettingPanel.gameObject.SetActive(true));
